@@ -1,0 +1,70 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    tools:context=".PharmaciesActivity" >
+
+    <LinearLayout 
+		android:id="@+id/header"
+	    android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" >
+	
+	<TextView
+		android:id="@+id/txtHeader"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:gravity="center_vertical"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentBottom="true"
+		android:textStyle="bold"
+		android:textSize="22dp"
+		android:textColor="#FFFFFF"
+		android:padding="10dp"
+		android:background="#336699"
+		android:text="Hitta apotek för läkemedel" />
+	</LinearLayout>
+    
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10px"
+        android:text="Namn på apotek" />
+    
+    <AutoCompleteTextView 
+        android:id="@+id/txtPharmacies"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:textSize="16sp"
+        android:hint="Sök apotek" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btnBack"
+            android:layout_alignBottom="@+id/btnBack"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:text="Nästa" 
+            android:onClick="onClickNext"/>
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="50dp"
+            android:text="Tillbaka"
+            android:onClick="onClickBack" />
+
+    </RelativeLayout>
+
+</LinearLayout>
