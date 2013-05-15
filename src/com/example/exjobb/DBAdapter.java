@@ -1,79 +1,168 @@
 package com.example.exjobb;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DBAdapter {
-	public static final String DATABASE_NAME = "mydb";
-	public static final int DATABASE_VERSION = 1;
-	
-	private static final String CREATE_TABLE_DRUGS = "create table drugs (_id integer primary key autoincrement, "
-			+ DrugsDBAdapter.DRUG_NAME + " TEXT,"
-			+ DrugsDBAdapter.TYPE + " TEXT,"
-			+ DrugsDBAdapter.POTENCY + " TEXT,"
-			+ DrugsDBAdapter.SIZE + " TEXT,"
-			+ DrugsDBAdapter.PREFERENTIAL_PRICE + " TEXT,"
-			+ DrugsDBAdapter.PRESCRIPTION_ONLY + " TEXT" + ");";
-	
-	/**private static final String CREATE_TABLE_PHARMACIES = "create table pharmacies (_id integer primary key autoincrement, "
-			+ PharmaciesDBAdapter.CHAIN_NAME + " TEXT,"
-			+ PharmaciesDBAdapter.PHARMACY_NAME + " TEXT,"
-			+ PharmaciesDBAdapter.ADDRESS + " TEXT,"
-			+ PharmaciesDBAdapter.POSTAL_CODE + " INTEGER,"
-			+ PharmaciesDBAdapter.POSTAL_AREA + " TEXT,"
-			+ PharmaciesDBAdapter.LATITUDE + " TEXT,"
-			+ PharmaciesDBAdapter.LONGITUDE + " TEXT,"
-			+ PharmaciesDBAdapter.PHONE_NBR + " TEXT,"
-			+ PharmaciesDBAdapter.OPENING_HOURS_WD + " TEXT,"
-			+ PharmaciesDBAdapter.CLOSING_HOURS_WD + " TEXT,"
-			+ PharmaciesDBAdapter.OPENING_HOURS_SAT + " TEXT,"
-			+ PharmaciesDBAdapter.CLOSING_HOURS_SAT + " TEXT,"
-			+ PharmaciesDBAdapter.OPENING_HOURS_SUN + " TEXT,"
-			+ PharmaciesDBAdapter.CLOSING_HOURS_SUN + " TEXT" + ");";
-	
-	private static final String CREATE_TABLE_STOCK = "create table stock "
-			+ StockDBAdapter.DRUG_ID + "(INTEGER,"
-			+ StockDBAdapter.PHARMACY_ID + " INTEGER,"
-			+ StockDBAdapter.NUMBER + " INTEGER,"
-			+ StockDBAdapter.PRICE + " INTEGER" + ");";**/
-	
-	private final Context context;
-	private DatabaseHelper DBHelper;
-	private SQLiteDatabase db;
-	
-	public DBAdapter(Context ctx) {
-		this.context = ctx;
-		this.DBHelper = new DatabaseHelper(this.context);
-	}
-	
-	public static class DatabaseHelper extends SQLiteOpenHelper {
-		DatabaseHelper(Context context) {
-			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		}
+    /*static final String KEY_ROWID = "_id";
+    static final String KEY_NAME = "name";
+    static final String KEY_EMAIL = "email";*/
+	static final String KEY_ROWID = "_id";
+	static final String KEY_DRUGNAME = "drug_name";
+	static final String KEY_TYPE = "type";
+	static final String KEY_POTENCY = "potency";
+	static final String KEY_SIZE = "size";
+	static final String KEY_PREFERENTIALPRICE = "preferential_price";
+	static final String KEY_PRESCRIPTIONONLY = "prescription_only";
+    static final String TAG = "DBAdapter";
 
-		@Override
-		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(CREATE_TABLE_DRUGS);
-			//db.execSQL(CREATE_TABLE_PHARMACIES);
-			//db.execSQL(CREATE_TABLE_STOCK);
-		}
+    static final String DATABASE_NAME = "MyDB";
+    //static final String DATABASE_TABLE = "contacts";
+    static final String DATABASE_TABLE = "drugs";
+    static final int DATABASE_VERSION = 2;
 
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// TODO Auto-generated method stub
-		}
-		
-	}
-	
-	public DBAdapter open() throws SQLException {
-		this.db = this.DBHelper.getWritableDatabase();
-		return this;
-	}
-	
-	public void close() {
-		this.DBHelper.close();
-	}
-		
+    /*static final String DATABASE_CREATE =
+        "create table contacts (_id integer primary key autoincrement, "
+        + "name text not null, email text not null);";*/
+
+    static final String DATABASE_CREATE =
+    		"create table drugs (_id integer primary key autoincrement, "
+    		+ "drug_name text not null, type text not null, potency text not null, size text not null, preferential_price text not null, prescription_only text not null);";
+    
+    final Context context;
+
+    DatabaseHelper DBHelper;
+    SQLiteDatabase db;
+    
+    public DBAdapter(Context ctx) {
+        this.context = ctx;
+        DBHelper = new DatabaseHelper(context);
+    }
+
+    private static class DatabaseHelper extends SQLiteOpenHelper {
+        DatabaseHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            try {
+                db.execSQL(DATABASE_CREATE);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
+                    + newVersion + ", which will destroy all old data");
+            //db.execSQL("DROP TABLE IF EXISTS contacts");
+            db.execSQL("DROP TABLE IF EXISTS drugs");
+            onCreate(db);
+        }
+    }
+
+    //---opens the database---
+    public DBAdapter open() throws SQLException {
+        db = DBHelper.getWritableDatabase();
+        return this;
+    }
+
+    //---closes the database---
+    public void close() {
+        DBHelper.close();
+    }
+
+    //---insert a contact into the database---
+    /*public long insertContact(String name, String email) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_NAME, name);
+        initialValues.put(KEY_EMAIL, email);
+        return db.insert(DATABASE_TABLE, null, initialValues);
+    }
+
+    //---deletes a particular contact---
+    public boolean deleteContact(long rowId) {
+        return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
+    //---retrieves all the contacts---
+    public Cursor getAllContacts() {
+        return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
+                KEY_EMAIL}, null, null, null, null, null);
+    }
+
+    //---retrieves a particular contact---
+    public Cursor getContact(long rowId) throws SQLException {
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
+                KEY_NAME, KEY_EMAIL}, KEY_ROWID + "=" + rowId, null,
+                null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }*/
+    
+    public Cursor getAllDrugs() {
+        return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_DRUGNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY}, null, null, null, null, null);
+    }
+    
+    public String[] getAllDrugNames() {
+    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_DRUGNAME}, null, null, "drug_name", null, null);
+    	String[] drugs = new String[c.getCount()];
+    	
+    	int i = 0;
+    	if (c.moveToFirst()) {
+            do {
+                //DisplayContact(c);
+            	drugs[i] = c.getString(0);
+            	i++;
+            } while (c.moveToNext());
+        }
+    	
+    	return drugs;
+    }
+    
+    public String[] getAllTypes(String drugName) {
+    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_TYPE}, KEY_DRUGNAME + "=" + drugName, null, null, null, null, null);
+    	String[] types = new String[c.getCount()];
+    	
+    	int i = 0;
+    	if (c.moveToFirst()) {
+            do {
+                //DisplayContact(c);
+            	types[i] = c.getString(0);
+            	i++;
+            } while (c.moveToNext());
+        }
+    	
+    	return types;
+    }
+
+    //---retrieves a particular contact---
+    public Cursor getDrug(long rowId) throws SQLException {
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_DRUGNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY}, KEY_ROWID + "=" + rowId, null,
+                null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
+    }
+
+    //---updates a contact---
+    /*public boolean updateContact(long rowId, String name, String email) {
+        ContentValues args = new ContentValues();
+        args.put(KEY_NAME, name);
+        args.put(KEY_EMAIL, email);
+        return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }*/
+
 }

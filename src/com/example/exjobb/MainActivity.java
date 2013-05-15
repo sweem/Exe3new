@@ -27,31 +27,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-		DBAdapter db = new DBAdapter(this);
-		try {
-			String destPath = "/data/data/" + getPackageName() + "/databases";
-			File f = new File(destPath);
-			if (!f.exists()) {
-				Toast.makeText(getBaseContext(), "File doesn't exist in DBAdapter!", Toast.LENGTH_LONG).show();
-				f.mkdirs();
-				f.createNewFile();
-				CopyDB(getBaseContext().getAssets().open("mydb"), new FileOutputStream(destPath + "/MyDB2"));
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		db.open();
-		Toast.makeText(getBaseContext(), "DBOpen!", Toast.LENGTH_LONG).show();
-		/**Cursor c = db.getDrugss();
-		if (c.moveToFirst()){
-			do {
-				DisplayDrug(c);
-			} while (c.moveToNext());
-		}**/
-		db.close();
-		
 		Choice choices[] = new Choice[] {
 				new Choice(R.drawable.tablett_ikon, "Hitta läkemedel"), 
 				new Choice(R.drawable.recept_ikon, "Mina recept"), 
