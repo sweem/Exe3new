@@ -145,6 +145,38 @@ public class DBAdapter {
     	
     	return types;
     }
+    
+    public String[] getAllPotencys(String drugName, String type) {
+    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_POTENCY}, KEY_DRUGNAME + "=?" + KEY_TYPE + "=?", new String[] {drugName, type}, KEY_POTENCY, null, null);
+    	String[] potency = new String[c.getCount()];
+    	
+    	int i = 0;
+    	if (c.moveToFirst()) {
+            do {
+                //DisplayContact(c);
+            	potency[i] = c.getString(0);
+            	i++;
+            } while (c.moveToNext());
+        }
+    	
+    	return potency;
+    }
+    
+    public String[] getAllSizes(String drugName, String type, String potency) {
+    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_SIZE}, KEY_DRUGNAME + "=?" + KEY_TYPE + "=?" + KEY_POTENCY + "=?", new String[] {drugName, type, potency}, KEY_SIZE, null, null);
+    	String[] size = new String[c.getCount()];
+    	
+    	int i = 0;
+    	if (c.moveToFirst()) {
+            do {
+                //DisplayContact(c);
+            	size[i] = c.getString(0);
+            	i++;
+            } while (c.moveToNext());
+        }
+    	
+    	return size;
+    }
 
     //---retrieves a particular contact---
     public Cursor getDrug(long rowId) throws SQLException {
