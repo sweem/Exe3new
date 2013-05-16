@@ -31,6 +31,8 @@ public class DrugsActivity extends Activity {
 	String[] nbr;
 	String choosenDrug;
 	DBAdapter db;
+	int currSel;
+	ArrayAdapter<String> adapter2;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,28 +84,30 @@ public class DrugsActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				choosenDrug = (String)arg0.getItemAtPosition(arg2);
+				choosenDrug = (String) arg0.getItemAtPosition(arg2);
 				//int index = (Integer)arg0.getItemAtPosition(arg2);
-				Toast.makeText(getBaseContext(), "You've selected item: " + choosenDrug, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), "You've clicked item: " + choosenDrug, Toast.LENGTH_SHORT).show();
+				
 			}
 		});
 		
-		
-		
 		types = getResources().getStringArray(R.array.type_array);
-		//types = db.getAllTypes(choosenDrug);
+		//types = new String[0];
 		Spinner sp1 = (Spinner) findViewById(R.id.spiType);
-		ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
-		adapter2.
+		final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
 		sp1.setAdapter(adapter2);
+		currSel = -1;
 		sp1.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				int index = arg0.getSelectedItemPosition();
-				Toast.makeText(getBaseContext(), "You've selected item: " + types[index], Toast.LENGTH_SHORT).show();
-				
+				if(currSel != -1) {
+					int index = arg0.getSelectedItemPosition();
+					Toast.makeText(getBaseContext(), "You've selected item: " + types[index], Toast.LENGTH_SHORT).show();
+					//types = db.getAllTypes(choosenDrug);	
+				}
+				currSel++;
 			}
 
 			@Override
