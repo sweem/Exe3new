@@ -115,7 +115,7 @@ public class DBAdapter {
     }
     
     public String[] getAllDrugNames() {
-    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_DRUGNAME}, null, null, "drug_name", null, null);
+    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_DRUGNAME}, null, null, KEY_DRUGNAME, null, null);
     	String[] drugs = new String[c.getCount()];
     	
     	int i = 0;
@@ -131,7 +131,7 @@ public class DBAdapter {
     }
     
     public String[] getAllTypes(String drugName) {
-    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_TYPE}, KEY_DRUGNAME + "=" + drugName, null, null, null, null, null);
+    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_TYPE}, KEY_DRUGNAME + "=?", new String[] {drugName}, KEY_TYPE, null, null);
     	String[] types = new String[c.getCount()];
     	
     	int i = 0;
