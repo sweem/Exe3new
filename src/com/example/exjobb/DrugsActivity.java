@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -25,14 +26,16 @@ import android.widget.Toast;
 
 public class DrugsActivity extends Activity {
 	String[] drugs;
+	ArrayList<String> drugs2;
 	String[] types;
+	private ArrayList<String> types2;
 	String[] volumes;
 	String[] potency;
 	String[] nbr;
 	String choosenDrug;
 	DBAdapter db;
 	int currSel;
-	ArrayAdapter<String> adapter2;
+	ArrayAdapter<String> adapter2; //Onödigt?
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +77,13 @@ public class DrugsActivity extends Activity {
         db.close();*/
 		
 		//drugs = getResources().getStringArray(R.array.drugs_array);
-        drugs = db.getAllDrugNames();
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drugs);
+        //drugs = db.getAllDrugNames();
+        drugs2 = db.getAllDrugNames(); //new ArrayList<String>();
+		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drugs2);
 		AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.txtDrugs);		
 		textView.setThreshold(2);
 		textView.setAdapter(adapter);
-		textView.setOnItemClickListener(new OnItemClickListener() {
+		/*textView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -87,15 +91,40 @@ public class DrugsActivity extends Activity {
 				choosenDrug = (String) arg0.getItemAtPosition(arg2);
 				//int index = (Integer)arg0.getItemAtPosition(arg2);
 				Toast.makeText(getBaseContext(), "You've clicked item: " + choosenDrug, Toast.LENGTH_SHORT).show();
+				adapter.clear();
+				
+			}
+		});*/
+		
+		//types = getResources().getStringArray(R.array.type_array);
+		types2 = new ArrayList<String>();
+		//types2.add("Tablett");
+		//types2.add("Kräm");
+		Spinner sp1 = (Spinner) findViewById(R.id.spiType);
+		final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types2);
+		sp1.setAdapter(adapter2);
+		adapter2.setNotifyOnChange(true);
+				
+		textView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				choosenDrug = (String) arg0.getItemAtPosition(arg2);
+				//types2 = db.getAllTypes("Alvedon");
+				//adapter2.add("Test test");
+				adapter2.add("Kräm");
+				//ArrayList<String> tmp = new ArrayList<String>();
+				//types2 = db.getAllTypes("Alvedon");
+				/*for(int i = 0; i < types2.size(); i++) {
+					adapter2.add(types2.get(i));
+				}*/
+				//int index = (Integer)arg0.getItemAtPosition(arg2);
+				Toast.makeText(getBaseContext(), "You've clicked item: " + choosenDrug, Toast.LENGTH_SHORT).show();
 				
 			}
 		});
 		
-		types = getResources().getStringArray(R.array.type_array);
-		//types = new String[0];
-		Spinner sp1 = (Spinner) findViewById(R.id.spiType);
-		final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
-		sp1.setAdapter(adapter2);
 		currSel = -1;
 		sp1.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -104,7 +133,7 @@ public class DrugsActivity extends Activity {
 					int arg2, long arg3) {
 				if(currSel != -1) {
 					int index = arg0.getSelectedItemPosition();
-					Toast.makeText(getBaseContext(), "You've selected item: " + types[index], Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "You've selected item: " + types2.get(index), Toast.LENGTH_SHORT).show();
 					//types = db.getAllTypes(choosenDrug);	
 				}
 				currSel++;
@@ -115,8 +144,6 @@ public class DrugsActivity extends Activity {
 				// TODO Auto-generated method stub
 			}
 		});
-		
-		db.close();
 		
 		potency = getResources().getStringArray(R.array.potency_array);
 		Spinner sp2 = (Spinner) findViewById(R.id.spiPot);
@@ -158,6 +185,22 @@ public class DrugsActivity extends Activity {
 			}
 		});
 		
+		sp2.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				int index = arg0.getSelectedItemPosition();
+				//Toast.makeText(getBaseContext(), "You've selected item: " + potency[index], Toast.LENGTH_SHORT).show();
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
 		nbr = getResources().getStringArray(R.array.nbr_array);
 		Spinner sp3 = (Spinner) findViewById(R.id.spiNbr);
 		//ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(this, R.array.nbr_array, R.layout.spinner_item_row);
@@ -178,6 +221,8 @@ public class DrugsActivity extends Activity {
 				// TODO Auto-generated method stub
 			}
 		});
+		
+		db.close();
 	}
 
     public void CopyDB(InputStream inputStream, 
