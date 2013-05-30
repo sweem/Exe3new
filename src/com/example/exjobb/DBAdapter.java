@@ -1,5 +1,7 @@
 package com.example.exjobb;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -114,15 +116,17 @@ public class DBAdapter {
         return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_DRUGNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY}, null, null, null, null, null);
     }
     
-    public String[] getAllDrugNames() {
+    public ArrayList<String> getAllDrugNames() {
     	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_DRUGNAME}, null, null, KEY_DRUGNAME, null, null);
-    	String[] drugs = new String[c.getCount()];
+    	//String[] drugs = new String[c.getCount()];
+    	ArrayList<String> drugs = new ArrayList<String>();
     	
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
                 //DisplayContact(c);
-            	drugs[i] = c.getString(0);
+            	//drugs[i] = c.getString(0);
+            	drugs.add(i, c.getString(0));
             	i++;
             } while (c.moveToNext());
         }
@@ -130,15 +134,17 @@ public class DBAdapter {
     	return drugs;
     }
     
-    public String[] getAllTypes(String drugName) {
+    public ArrayList<String> getAllTypes(String drugName) {
     	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_TYPE}, KEY_DRUGNAME + "=?", new String[] {drugName}, KEY_TYPE, null, null);
-    	String[] types = new String[c.getCount()];
+    	ArrayList<String> types = new ArrayList<String>();
+    	//String[] types = new String[c.getCount()];
     	
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
                 //DisplayContact(c);
-            	types[i] = c.getString(0);
+            	//types[i] = c.getString(0);
+            	types.add(i, c.getString(0));
             	i++;
             } while (c.moveToNext());
         }
