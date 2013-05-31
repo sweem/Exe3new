@@ -118,18 +118,17 @@ public class DBAdapter {
     
     public ArrayList<String> getAllDrugNames() {
     	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_DRUGNAME}, null, null, KEY_DRUGNAME, null, null);
-    	//String[] drugs = new String[c.getCount()];
     	ArrayList<String> drugs = new ArrayList<String>();
     	
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
-                //DisplayContact(c);
-            	//drugs[i] = c.getString(0);
             	drugs.add(i, c.getString(0));
             	i++;
             } while (c.moveToNext());
         }
+    	
+    	c.close();
     	
     	return drugs;
     }
@@ -137,53 +136,62 @@ public class DBAdapter {
     public ArrayList<String> getAllTypes(String drugName) {
     	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_TYPE}, KEY_DRUGNAME + "=?", new String[] {drugName}, KEY_TYPE, null, null);
     	ArrayList<String> types = new ArrayList<String>();
-    	//String[] types = new String[c.getCount()];
     	
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
-                //DisplayContact(c);
-            	//types[i] = c.getString(0);
             	types.add(i, c.getString(0));
             	i++;
             } while (c.moveToNext());
         }
     	
+    	c.close();
+    	
     	return types;
     }
     
-    public String[] getAllPotencys(String drugName, String type) {
-    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_POTENCY}, KEY_DRUGNAME + "=?" + KEY_TYPE + "=?", new String[] {drugName, type}, KEY_POTENCY, null, null);
-    	String[] potency = new String[c.getCount()];
+    public ArrayList<String> getAllStrengths(String drugName, String type) {
+    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_POTENCY}, KEY_DRUGNAME + "=? and " + KEY_TYPE + "=?", new String[] {drugName, type}, KEY_POTENCY, null, null);
+    	ArrayList<String> strengths = new ArrayList<String>();
+    	//String[] potency = new String[c.getCount()];
     	
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
                 //DisplayContact(c);
-            	potency[i] = c.getString(0);
+            	strengths.add(i, c.getString(0));
             	i++;
             } while (c.moveToNext());
         }
     	
-    	return potency;
+    	c.close();
+    	
+    	return strengths;
     }
     
-    public String[] getAllSizes(String drugName, String type, String potency) {
-    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_SIZE}, KEY_DRUGNAME + "=?" + KEY_TYPE + "=?" + KEY_POTENCY + "=?", new String[] {drugName, type, potency}, KEY_SIZE, null, null);
-    	String[] size = new String[c.getCount()];
+    public ArrayList<String> getAllSizes(String drugName, String type, String potency) {
+    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_SIZE}, KEY_DRUGNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=?", new String[] {drugName, type, potency}, KEY_SIZE, null, null);
+    	ArrayList<String> sizes = new ArrayList<String>();
+    	//String[] size = new String[c.getCount()];
     	
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
                 //DisplayContact(c);
-            	size[i] = c.getString(0);
+            	sizes.add(c.getString(0));
             	i++;
             } while (c.moveToNext());
         }
     	
-    	return size;
+    	return sizes;
     }
 
+    public int getDrugRowId(String drugName, String type, String potency, String size) {
+    	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_ROWID}, KEY_DRUGNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
+    			
+    	return c.getInt(0);
+    }
+    
     //---retrieves a particular contact---
     public Cursor getDrug(long rowId) throws SQLException {
         Cursor mCursor =
@@ -194,7 +202,7 @@ public class DBAdapter {
         }
         return mCursor;
     }
-
+    
     //---updates a contact---
     /*public boolean updateContact(long rowId, String name, String email) {
         ContentValues args = new ContentValues();
