@@ -186,10 +186,17 @@ public class DBAdapter {
     	return sizes;
     }
 
-    public int getDrugRowId(String drugName, String type, String potency, String size) {
+    public String getDrugRowId(String drugName, String type, String potency, String size) {
     	Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_ROWID}, KEY_DRUGNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
-    			
-    	return c.getInt(0);
+    	String id = null;
+    	
+    	if(c.moveToFirst()) {
+    		do {
+    			id = c.getString(0);
+    		} while(c.moveToNext());
+    	}
+    	
+    	return id;
     }
     
     //---retrieves a particular contact---
