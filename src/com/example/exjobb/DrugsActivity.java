@@ -25,17 +25,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class DrugsActivity extends Activity {
-	String[] drugs;
-	ArrayList<String> drugs2;
-	String[] types;
-	private ArrayList<String> types2;
-	String[] volumes;
-	String[] potency;
-	String[] nbr;
-	String choosenDrug;
+	ArrayList<String> drugs;
+	ArrayList<String> types;
+	ArrayList<String> strengths;
+	ArrayList<String> volumes;
+	ArrayList<Integer> nbr;
+	String choosenDru, choosenTyp, choosenStr, choosenVol;
+	int choosenNbr, choosenDrugId;
 	DBAdapter db;
-	int currSel;
-	ArrayAdapter<String> adapter2; //Onödigt?
+	int currSelT, currSelS, currSelV, currSelN;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,81 +60,93 @@ public class DrugsActivity extends Activity {
             e.printStackTrace();
         }
        
-        //---get all contacts---
         db.open();
-        //Cursor c = db.getAllContacts();
-        //Cursor c = db.getAllDrugs();
-        //Cursor c = db.getAllDrugNames();
-        //Toast.makeText(getBaseContext(), "antal rader " + c.getCount(), Toast.LENGTH_LONG).show();
-        /*if (c.moveToFirst()) {
-            do {
-                //DisplayContact(c);
-            	DisplayDrug(c);
-            } while (c.moveToNext());
-        }
-        db.close();*/
+        
+        drugs = db.getAllDrugNames(); //new ArrayList<String>();
+		final ArrayAdapter<String> druAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drugs);
+		AutoCompleteTextView druTV = (AutoCompleteTextView) findViewById(R.id.txtDrugs);		
+		druTV.setThreshold(2);
+		druTV.setAdapter(druAdapter);
 		
-		//drugs = getResources().getStringArray(R.array.drugs_array);
-        //drugs = db.getAllDrugNames();
-        drugs2 = db.getAllDrugNames(); //new ArrayList<String>();
-		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drugs2);
-		AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.txtDrugs);		
-		textView.setThreshold(2);
-		textView.setAdapter(adapter);
-		/*textView.setOnItemClickListener(new OnItemClickListener() {
+		types = new ArrayList<String>();
+		Spinner typSpinner = (Spinner) findViewById(R.id.spiType);
+		final ArrayAdapter<String> typAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
+		typSpinner.setAdapter(typAdapter);
+		typAdapter.setNotifyOnChange(true);
+		currSelT = -1;
+		
+		strengths = new ArrayList<String>(); //getResources().getStringArray(R.array.potency_array);
+		Spinner strSpinner = (Spinner) findViewById(R.id.spiPot);
+		final ArrayAdapter<String> strAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strengths);
+		strSpinner.setAdapter(strAdapter);
+		strAdapter.setNotifyOnChange(true);
+		currSelS = -1;
+		
+		volumes = new ArrayList<String>(); //getResources().getStringArray(R.array.volumes_array);
+		Spinner volSpinner = (Spinner) findViewById(R.id.spiVol);
+		final ArrayAdapter<String> volAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, volumes);
+		volSpinner.setAdapter(volAdapter);
+		volAdapter.setNotifyOnChange(true);
+		currSelV = -1;
+		
+		nbr = new ArrayList<Integer>(); //getResources().getStringArray(R.array.nbr_array);
+		Spinner nbrSpinner = (Spinner) findViewById(R.id.spiNbr);
+		final ArrayAdapter<Integer> nbrAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, nbr);
+		nbrSpinner.setAdapter(nbrAdapter);
+		nbrAdapter.setNotifyOnChange(true);
+		currSelN = -1;
+	
+		druTV.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				choosenDrug = (String) arg0.getItemAtPosition(arg2);
-				//int index = (Integer)arg0.getItemAtPosition(arg2);
-				Toast.makeText(getBaseContext(), "You've clicked item: " + choosenDrug, Toast.LENGTH_SHORT).show();
-				adapter.clear();
+				db.open();
+				choosenDru = (String) arg0.getItemAtPosition(arg2);
+				types = db.getAllTypes(choosenDru);
 				
-			}
-		});*/
-		
-		//types = getResources().getStringArray(R.array.type_array);
-		types2 = new ArrayList<String>();
-		//types2.add("Tablett");
-		//types2.add("Kräm");
-		Spinner sp1 = (Spinner) findViewById(R.id.spiType);
-		final ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types2);
-		sp1.setAdapter(adapter2);
-		adapter2.setNotifyOnChange(true);
+				//if(typesA.getCount() > 0) {
+				//Toast.makeText(getBaseContext(), "TypesA has " + typesA.getCount() + " objects. Emptying typesA.", Toast.LENGTH_SHORT).show();
+				typAdapter.clear();
+				//}
 				
-		textView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				choosenDrug = (String) arg0.getItemAtPosition(arg2);
-				//types2 = db.getAllTypes("Alvedon");
-				//adapter2.add("Test test");
-				adapter2.add("Kräm");
-				//ArrayList<String> tmp = new ArrayList<String>();
-				//types2 = db.getAllTypes("Alvedon");
-				/*for(int i = 0; i < types2.size(); i++) {
-					adapter2.add(types2.get(i));
-				}*/
-				//int index = (Integer)arg0.getItemAtPosition(arg2);
-				Toast.makeText(getBaseContext(), "You've clicked item: " + choosenDrug, Toast.LENGTH_SHORT).show();
+				//if(strengthsA.getCount() > 0) {
+				//Toast.makeText(getBaseContext(), "StrengthsA has " + strengthsA.getCount() + " objects. Emptying strengthsA.", Toast.LENGTH_SHORT).show();
+				strAdapter.clear();
+				//}
 				
+				//Toast.makeText(getBaseContext(), "VolumesA has " + volumesA.getCount() + " objects. Emptying volumesA.", Toast.LENGTH_SHORT).show();
+				volAdapter.clear();
+				
+				typAdapter.addAll(types);
+				
+				//Toast.makeText(getBaseContext(), "You've clicked item: " + choosenDrug, Toast.LENGTH_SHORT).show();
+				db.close();
 			}
 		});
-		
-		currSel = -1;
-		sp1.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+		typSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				if(currSel != -1) {
+				db.open();
+				Toast.makeText(getBaseContext(), "CurrSelT is " + currSelT, Toast.LENGTH_SHORT).show();
+				if(currSelT != -1 || typAdapter.getCount() == 1) {
+					Toast.makeText(getBaseContext(), "CurrSelT is " + currSelT, Toast.LENGTH_SHORT).show();
 					int index = arg0.getSelectedItemPosition();
-					Toast.makeText(getBaseContext(), "You've selected item: " + types2.get(index), Toast.LENGTH_SHORT).show();
-					//types = db.getAllTypes(choosenDrug);	
+					choosenTyp = types.get(index);
+					strengths = db.getAllStrengths(choosenDru, choosenTyp);
+					
+					//if(strengthsA.getCount() > 0)
+					strAdapter.clear();
+					
+					strAdapter.addAll(strengths);
+					
+					Toast.makeText(getBaseContext(), "You've choosen type: " + choosenTyp + " for the drug: " + choosenDru, Toast.LENGTH_SHORT).show();
 				}
-				currSel++;
+				currSelT++;
+				db.close();
 			}
 
 			@Override
@@ -145,18 +155,26 @@ public class DrugsActivity extends Activity {
 			}
 		});
 		
-		potency = getResources().getStringArray(R.array.potency_array);
-		Spinner sp2 = (Spinner) findViewById(R.id.spiPot);
-		ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, potency);
-		sp2.setAdapter(adapter3);
-		sp2.setOnItemSelectedListener(new OnItemSelectedListener() {
+		strSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				int index = arg0.getSelectedItemPosition();
-				//Toast.makeText(getBaseContext(), "You've selected item: " + potency[index], Toast.LENGTH_SHORT).show();
-				
+				db.open();
+				Toast.makeText(getBaseContext(), "CurrSelS is " + currSelS, Toast.LENGTH_SHORT).show();
+				if(currSelS != -1 || strAdapter.getCount() == 1) {
+					//Toast.makeText(getBaseContext(), "CurrSelS != -1", Toast.LENGTH_SHORT).show();
+					int index = arg0.getSelectedItemPosition();
+					choosenStr = strengths.get(index);
+					volumes = db.getAllSizes(choosenDru, choosenTyp, choosenStr);
+					
+					volAdapter.clear();
+					
+					volAdapter.addAll(volumes);
+					Toast.makeText(getBaseContext(), "You've choosen strength: " + choosenStr + " for the drug " + choosenDru + " with type " + choosenTyp, Toast.LENGTH_LONG).show();
+				}
+				currSelS++;
+				db.close();
 			}
 
 			@Override
@@ -165,18 +183,26 @@ public class DrugsActivity extends Activity {
 			}
 		});
 		
-		volumes = getResources().getStringArray(R.array.volumes_array);
-		Spinner sp4 = (Spinner) findViewById(R.id.spiVol);
-		ArrayAdapter<String> adapter5 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, volumes);
-		sp4.setAdapter(adapter5);
-		sp4.setOnItemSelectedListener(new OnItemSelectedListener() {
+		volSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				int index = arg0.getSelectedItemPosition();
-				//Toast.makeText(getBaseContext(), "You've selected item: " + volumes[index], Toast.LENGTH_SHORT).show();
-				
+				db.open();
+				Toast.makeText(getBaseContext(), "CurrSelV is " + currSelV, Toast.LENGTH_SHORT).show();
+				if(currSelV != -1 || volAdapter.getCount() == 1) {
+					Toast.makeText(getBaseContext(), "CurrSelV != -1", Toast.LENGTH_SHORT).show();
+					int index = arg0.getSelectedItemPosition();
+					choosenVol = volumes.get(index);
+					nbr = fillArrayWithNbrs();
+					
+					nbrAdapter.clear();
+					
+					nbrAdapter.addAll(nbr);
+					//Toast.makeText(getBaseContext(), "You've selected item: " + volumes[index], Toast.LENGTH_SHORT).show();
+				}
+				currSelV++;
+				db.close();
 			}
 
 			@Override
@@ -185,35 +211,22 @@ public class DrugsActivity extends Activity {
 			}
 		});
 		
-		sp2.setOnItemSelectedListener(new OnItemSelectedListener() {
+		nbrSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				int index = arg0.getSelectedItemPosition();
-				//Toast.makeText(getBaseContext(), "You've selected item: " + potency[index], Toast.LENGTH_SHORT).show();
-				
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-			}
-		});
-		
-		nbr = getResources().getStringArray(R.array.nbr_array);
-		Spinner sp3 = (Spinner) findViewById(R.id.spiNbr);
-		//ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(this, R.array.nbr_array, R.layout.spinner_item_row);
-		ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nbr);
-		sp3.setAdapter(adapter4);
-		sp3.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				int index = arg0.getSelectedItemPosition();
-				//Toast.makeText(getBaseContext(), "You've selected item: " + nbr[index], Toast.LENGTH_SHORT).show();
-				
+				db.open();
+				Toast.makeText(getBaseContext(), "CurrSelN is " + currSelN, Toast.LENGTH_SHORT).show();
+				if(currSelN != -1) {
+					int index = arg0.getSelectedItemPosition();
+					choosenNbr = nbr.get(index);
+					choosenDrugId = db.getDrugRowId(choosenDru, choosenTyp, choosenStr, choosenVol);
+					
+					Toast.makeText(getBaseContext(), "You've selected rowid: " + choosenDrugId, Toast.LENGTH_SHORT).show();
+				}
+				currSelN++;
+				db.close();
 			}
 
 			@Override
@@ -225,7 +238,16 @@ public class DrugsActivity extends Activity {
 		db.close();
 	}
 
-    public void CopyDB(InputStream inputStream, 
+    protected ArrayList<Integer> fillArrayWithNbrs() {
+		ArrayList<Integer> tmp = new ArrayList<Integer>();
+		
+		for(int i = 0; i < 5; i++) {
+			tmp.add(i+1);
+		}
+		return tmp;
+	}
+
+	public void CopyDB(InputStream inputStream, 
     OutputStream outputStream) throws IOException {
         //---copy 1K bytes at a time---
         byte[] buffer = new byte[1024];
@@ -236,28 +258,9 @@ public class DrugsActivity extends Activity {
         inputStream.close();
         outputStream.close();
     }
-
-    /*public void DisplayContact(Cursor c) {
-        Toast.makeText(this,
-        		"id: " + c.getString(0) + "\n" +
-                "Name: " + c.getString(1) + "\n" +
-                "Email:  " + c.getString(2),
-                Toast.LENGTH_LONG).show();
-    }*/
     
     public void DisplayDrug(Cursor c) {
-        /*Toast.makeText(this,
-        		"Id: " + c.getString(0) + "\n" +
-                "Drug_name: " + c.getString(1) + "\n" +
-                "Type: " + c.getString(2) + "\n" +
-                "Potency: " + c.getString(3) + "\n" +
-                "Size: " + c.getShort(4) + "\n" +
-                "Preferential price: " + c.getString(5) + "\n" +
-                "Prescription only: " + c.getString(6),
-                Toast.LENGTH_LONG).show();*/
-        Toast.makeText(this,
-                "Drug_name: " + c.getString(0),
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Drug_name: " + c.getString(0), Toast.LENGTH_LONG).show();
     }
 	
 	public void onClickNext(View view) {
