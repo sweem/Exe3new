@@ -5,15 +5,40 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 public class PharmaciesActivity extends Activity {
-
+	double dist;
+	//double latA, lonA, latB, lonB;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pharmacies);
+		
+		dist = getDistFrom(55.70624, 13.19186, 55.711543, 13.209518);
+		
+		Toast.makeText(getBaseContext(), "Distance between two points: " + dist + "km.", Toast.LENGTH_LONG).show();
+		
 	}
 	
+	/* Haversine formula*/
+	private static double getDistFrom(double lat1, double lon1, double lat2, double lon2) {
+		double earthRad = 6371;
+		double dLat = Math.toRadians(lat2-lat1);
+		double dLon = Math.toRadians(lon2-lon1);
+		
+		double sindLat = Math.sin(dLat/2);
+		double sindLon = Math.sin(dLon/2);
+		
+		double a = Math.pow(sindLat, 2) + Math.pow(sindLon, 2) * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		double retDist = earthRad * c;  
+		
+		return retDist;
+	}
+
 	public void onClickNext(View view) {
 		startActivity(new Intent(this, MainActivity.class));
 		finish();
