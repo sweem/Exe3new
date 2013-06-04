@@ -132,7 +132,7 @@ public class DrugsActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				db.open();
-				//Toast.makeText(getBaseContext(), "CurrSelT is " + currSelT, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), "CurrSelT is " + currSelT, Toast.LENGTH_SHORT).show();
 				if(currSelT != -1 || typAdapter.getCount() == 1) {
 					//Toast.makeText(getBaseContext(), "CurrSelT is " + currSelT, Toast.LENGTH_SHORT).show();
 					int index = arg0.getSelectedItemPosition();
@@ -141,8 +141,11 @@ public class DrugsActivity extends Activity {
 					
 					//if(strengthsA.getCount() > 0)
 					strAdapter.clear();
+					volAdapter.clear();
+					nbrAdapter.clear();
 					
 					strAdapter.addAll(strengths);
+					Toast.makeText(getBaseContext(), "CurrSelS is " + currSelS, Toast.LENGTH_SHORT).show();
 					
 					//Toast.makeText(getBaseContext(), "You've choosen type: " + choosenTyp + " for the drug: " + choosenDru, Toast.LENGTH_SHORT).show();
 				}
@@ -162,7 +165,7 @@ public class DrugsActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				db.open();
-				//Toast.makeText(getBaseContext(), "CurrSelS is " + currSelS, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), "CurrSelS is " + currSelS, Toast.LENGTH_SHORT).show();
 				if(currSelS != -1 || strAdapter.getCount() == 1) {
 					//Toast.makeText(getBaseContext(), "CurrSelS != -1", Toast.LENGTH_SHORT).show();
 					int index = arg0.getSelectedItemPosition();
@@ -170,6 +173,7 @@ public class DrugsActivity extends Activity {
 					volumes = db.getAllSizes(choosenDru, choosenTyp, choosenStr);
 					
 					volAdapter.clear();
+					nbrAdapter.clear();
 					
 					volAdapter.addAll(volumes);
 					//Toast.makeText(getBaseContext(), "You've choosen strength: " + choosenStr + " for the drug " + choosenDru + " with type " + choosenTyp, Toast.LENGTH_LONG).show();
@@ -190,7 +194,7 @@ public class DrugsActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				db.open();
-				//Toast.makeText(getBaseContext(), "CurrSelV is " + currSelV, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getBaseContext(), "CurrSelV is " + currSelV, Toast.LENGTH_SHORT).show();
 				if(currSelV != -1 || volAdapter.getCount() == 1) {
 					//Toast.makeText(getBaseContext(), "CurrSelV != -1", Toast.LENGTH_SHORT).show();
 					int index = arg0.getSelectedItemPosition();
@@ -218,14 +222,14 @@ public class DrugsActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				db.open();
-				Toast.makeText(getBaseContext(), "CurrSelN is " + currSelN, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getBaseContext(), "CurrSelN is " + currSelN, Toast.LENGTH_SHORT).show();
 				if(currSelN != -1) {
-					Toast.makeText(getBaseContext(), "CurrSelN is " + currSelN, Toast.LENGTH_SHORT).show();
+					//Toast.makeText(getBaseContext(), "CurrSelN is " + currSelN, Toast.LENGTH_SHORT).show();
 					int index = arg0.getSelectedItemPosition();
 					choosenNbr = nbr.get(index);
 					choosenDrugId = db.getDrugRowId(choosenDru, choosenTyp, choosenStr, choosenVol);
 					
-					Toast.makeText(getBaseContext(), "You've selected rowid: " + choosenDrugId, Toast.LENGTH_SHORT).show();
+					//Toast.makeText(getBaseContext(), "You've selected rowid: " + choosenDrugId, Toast.LENGTH_SHORT).show();
 				}
 				currSelN++;
 				db.close();
@@ -261,9 +265,9 @@ public class DrugsActivity extends Activity {
         outputStream.close();
     }
     
-    public void DisplayDrug(Cursor c) {
+    /*public void DisplayDrug(Cursor c) {
         Toast.makeText(this, "Drug_name: " + c.getString(0), Toast.LENGTH_LONG).show();
-    }
+    }*/
 	
 	public void onClickNext(View view) {
 		startActivity(new Intent(this, PharmaciesActivity.class));
