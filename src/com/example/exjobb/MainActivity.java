@@ -60,17 +60,6 @@ public class MainActivity extends Activity {
 		});
 	}
 	
-	public void CopyDB(InputStream inputStream, FileOutputStream outputStream) throws IOException {
-		Toast.makeText(getBaseContext(), "File copied in DBAdapter!", Toast.LENGTH_LONG).show();
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.close();
-	}
-
 	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
