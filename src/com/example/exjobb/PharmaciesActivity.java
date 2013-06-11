@@ -5,17 +5,55 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class PharmaciesActivity extends Activity {
 	double dist;
+	private ListView lstView;
 	//double latA, lonA, latB, lonB;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.pharmacies);
+		setContentView(R.layout.pharmacies2);
+		
+		Choice choices[] = new Choice[] {
+				new Choice(R.drawable.apotek_ikon, "Apotek Svanen", "1,60 km", "08:00-18:00"), 
+				new Choice(R.drawable.apotek_ikon, "Apotek Norringen", "1,70 km", "10:00-19:00"), 
+				new Choice(R.drawable.apotek_ikon, "Apotek Lund", "2,30 km", "08:00-20:00")
+				};
+		
+		
+		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, choices);
+		
+		lstView = (ListView) findViewById(R.id.lstView);
+		View header = (View) getLayoutInflater().inflate(R.layout.lstview_header_row2, null);
+		View footer = (View) getLayoutInflater().inflate(R.layout.lstview_footer_row, null);
+		
+		lstView.addHeaderView(header);
+		//lstView.addFooterView(footer);
+		lstView.setAdapter(adapter);
+		
+		lstView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+				Toast.makeText(getBaseContext(), "Has pos " + pos, Toast.LENGTH_LONG).show();
+				
+				/*switch(pos) {
+				case 1: Toast.makeText(getBaseContext(), "You clicked on a item with pos " + pos ".", Toast.LENGTH_SHORT).show();
+						finish();
+						break;
+				case 2: startActivity(new Intent(MainActivity.this, LoginActivity.class));
+						finish();
+						break;
+				case 3: break;
+				}*/
+			}
+		});
 		
 		dist = getDistFrom(55.70624, 13.19186, 55.711543, 13.209518);
 		
