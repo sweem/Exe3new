@@ -8,14 +8,13 @@
         android:id="@+id/imgIcon"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="15dp"        
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginRight="5dp"        
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
     
     <TextView
         android:id="@+id/txtTitle"
@@ -25,25 +24,25 @@
         android:textStyle="bold"
         android:text="Apotek hjärtat" 
         android:textSize="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginTop="5dp" />
     
     <TextView 
         android:id="@+id/txtDist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/imgIcon"
         android:layout_below="@+id/txtTitle"
         android:textStyle="bold"
         android:text="1,60 km" 
         android:textSize="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginTop="5dp" />
     
     <TextView 
         android:id="@+id/txtOpen"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/txtDist"
         android:layout_below="@+id/txtTitle"
         android:gravity="right"
@@ -52,7 +51,6 @@
         android:textSize="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp" 
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="5dp" />
     
 </RelativeLayout>
