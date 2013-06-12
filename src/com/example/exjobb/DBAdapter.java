@@ -1,6 +1,8 @@
 package com.example.exjobb;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,7 +26,7 @@ public class DBAdapter {
 	static final String KEY_PRESCRIPTIONONLY = "prescription_only";
 	
 	static final String KEY_CHNAME = "chain_name";
-	static final String KEY_PHAME = "pharmacy_name";
+	static final String KEY_PHNAME = "pharmacy_name";
 	static final String KEY_ADDRESS = "address";
 	static final String KEY_PCODE = "postal_code";
 	static final String KEY_PAREA = "postal_area";
@@ -36,6 +38,11 @@ public class DBAdapter {
 	static final String KEY_CLHSUN = "closing_hours_sun";
 	static final String KEY_LAT = "latitude";
 	static final String KEY_LON = "longitude";
+	
+	static final String KEY_DID = "drug_id";
+	static final String KEY_PID = "pharmacy_id";
+	static final String KEY_NBR = "number";
+	static final String KEY_PRICE = "price";
 	
     static final String TAG = "DBAdapter";
 
@@ -214,6 +221,50 @@ public class DBAdapter {
     	
     	return sizes;
     }
+    
+    /*public ArrayList<String> getAllPharmaciesWithDrugId(String dID) {
+    	/*Calendar cal = Calendar.getInstance();
+    	int day = cal.get(Calendar.DAY_OF_WEEK);
+    	
+    	if(day == 1) { //Sunday
+    		Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_LAT, KEY_LON}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
+    	} else if(day == 7) { //Saturday
+    		Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_LAT, KEY_LON}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
+    	} else { //Weekday
+    		Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_LAT, KEY_LON}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
+    	}
+    	String[] selArr = getAllPharmacyIdWithDrugId(dID);
+    	
+    	Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME}, KEY_ROWID + "=?", selArr, null, null, null);
+    	ArrayList<String> pharmacies = new ArrayList<String>();
+    	
+    	int i = 0;
+    	if (c.moveToFirst()) {
+            do {
+                //DisplayContact(c);
+            	pharmacies.add(c.getString(1));
+            	i++;
+            } while (c.moveToNext());
+        }
+    	
+    	return pharmacies;
+    }*/
+    
+    public String[] getAllPharmacyIdWithDrugId (String dID) {
+    	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID}, KEY_DID + "=?", new String[] {dID}, null, null, null);
+    	String[] phids = new String[c.getCount()];
+    	//ArrayList<String> phids = new ArrayList<String>();
+    	
+    	int i = 0;
+    	if (c.moveToFirst()) {
+            do {
+            	phids[i] = c.getString(0);
+            	i++;
+            } while (c.moveToNext());
+        }
+    	
+    	return phids;
+    }
 
     public String getDrugRowId(String drugName, String type, String potency, String size) {
     	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
@@ -228,7 +279,7 @@ public class DBAdapter {
     	return id;
     }
     
-    //---retrieves a particular contact---
+    /*//---retrieves a particular contact---
     public Cursor getDrug(long rowId) throws SQLException {
         Cursor mCursor =
                 db.query(true, DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY}, KEY_ROWID + "=" + rowId, null,
@@ -237,7 +288,7 @@ public class DBAdapter {
             mCursor.moveToFirst();
         }
         return mCursor;
-    }
+    }*/
     
     //---updates a contact---
     /*public boolean updateContact(long rowId, String name, String email) {
