@@ -222,7 +222,7 @@ public class DBAdapter {
     	return sizes;
     }
     
-    /*public ArrayList<String> getAllPharmaciesWithDrugId(String dID) {
+    public ArrayList<Pharmacy> getAllPharmaciesWithDrugId(String dID) {
     	/*Calendar cal = Calendar.getInstance();
     	int day = cal.get(Calendar.DAY_OF_WEEK);
     	
@@ -232,33 +232,45 @@ public class DBAdapter {
     		Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_LAT, KEY_LON}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
     	} else { //Weekday
     		Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_LAT, KEY_LON}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
-    	}
-    	String[] selArr = getAllPharmacyIdWithDrugId(dID);
+    	}*/
     	
-    	Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME}, KEY_ROWID + "=?", selArr, null, null, null);
-    	ArrayList<String> pharmacies = new ArrayList<String>();
+    	ArrayList<String> pIDs = getAllPharmacyIdWithDrugId(dID);
+    	StringBuffer queryIN = new StringBuffer(" in(");
+    	for(int i = 0; i < pIDs.size()-1; i++) {
+    		queryIN.append(pIDs.get(i) + ",");
+    	}
+    	
+    	queryIN.append(pIDs.get(pIDs.size()-1));
+    	queryIN.append(")");
+    	
+    	//Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME}, KEY_ROWID + "IN(?,?)", new String[] {"2", "5"}, null, null, null);
+    	//Cursor c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + " in(?,?)", new String[] {"2", "5"});
+    	//Cursor c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + " in(2,5)", null);
+    	Cursor c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + " " + queryIN, null);
+    	ArrayList<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
     	
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
                 //DisplayContact(c);
-            	pharmacies.add(c.getString(1));
+            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14));
+            	pharmacies.add(ph);
             	i++;
             } while (c.moveToNext());
         }
     	
     	return pharmacies;
-    }*/
+    }
     
-    public String[] getAllPharmacyIdWithDrugId (String dID) {
+    public ArrayList<String> getAllPharmacyIdWithDrugId (String dID) {
     	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID}, KEY_DID + "=?", new String[] {dID}, null, null, null);
-    	String[] phids = new String[c.getCount()];
-    	//ArrayList<String> phids = new ArrayList<String>();
+    	//String[] phids = new String[c.getCount()];
+    	ArrayList<String> phids = new ArrayList<String>();
     	
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
-            	phids[i] = c.getString(0);
+            	phids.add(c.getString(0));
             	i++;
             } while (c.moveToNext());
         }
