@@ -1,5 +1,7 @@
 package com.example.exjobb;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,9 +14,10 @@ import android.widget.TextView;
 public class PharmacyArrayAdapter extends ArrayAdapter<Choice> {
 	Context context;
 	int iconId;
-	Choice choices[] = null;
+	//Choice choices[] = null;
+	ArrayList<Choice> choices;
 	
-	public PharmacyArrayAdapter(Context context, int iconId, Choice[] choices) {
+	public PharmacyArrayAdapter(Context context, int iconId, ArrayList<Choice> choices) {
 		super(context, iconId, choices);
 		this.context = context;
 		this.iconId = iconId;
@@ -42,7 +45,8 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Choice> {
 			holder = (PharmacyChoiceHolder) rowView.getTag();
 		}
 		
-		Choice choice = choices[pos];
+		//Choice choice = choices[pos];
+		Choice choice = choices.get(pos);
 		holder.imgIcon.setImageResource(choice.icon);
 		holder.txtTitle.setText(choice.title);
 		holder.txtDist.setText(choice.distance);
