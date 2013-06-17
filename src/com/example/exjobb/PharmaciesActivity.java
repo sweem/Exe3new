@@ -54,23 +54,26 @@ public class PharmaciesActivity extends Activity {
         }
        
         db.open();
-        //ArrayList<String> arr = db.getAllPharmaciesWithDrugId("2");
-        //String[] arr = db.getAllPharmacyIdWithDrugId("2");
-        //Toast.makeText(getBaseContext(), "Arr has size " + arr.size(), Toast.LENGTH_SHORT).show();
-        /*for(int i = 0; i < arr.size(); i++) {
-        	Toast.makeText(getBaseContext(), "Pharmacy " + arr.get(i) + " with drug 1 in stock. ", Toast.LENGTH_SHORT).show();
-        }*/
+        ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId("9");
+        ArrayList<String> arr2 = db.getAllPharmacyIdWithDrugId("9");
+        Toast.makeText(getBaseContext(), "Arr has size " + arr.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "Arr2 has size " + arr2.size(), Toast.LENGTH_SHORT).show();
+        for(int i = 0; i < arr.size(); i++) {
+        	Toast.makeText(getBaseContext(), "Pharmacy " + arr.get(i).id + " with drug 9 in stock. ", Toast.LENGTH_SHORT).show();
+        }
         
         db.close();
 		
-		Choice choices[] = new Choice[] {
-				new Choice(R.drawable.apotek_ikon, "Apotek Svanen", "1,60 km", "08:00-18:00"), 
-				new Choice(R.drawable.apotek_ikon, "Apotek Norringen", "1,70 km", "10:00-19:00"), 
-				new Choice(R.drawable.apotek_ikon, "Apotek Lund", "2,30 km", "08:00-20:00")
-				};
+		ArrayList<Choice> arrChoices = new ArrayList<Choice>();
+		for(int i = 0; i < arr.size(); i++) {
+			arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, "1,60 krm", arr.get(i).opHWD + "-" + arr.get(i).clHWD));
+		}
 		
+		//arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Svanen", "1,60 km", "08:00-18:00"));
+		//arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Norringen", "1,70 km", "10:00-19:00"));
+		//arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Lund", "2,30 km", "08:00-20:00"));
 		
-		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, choices);
+		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, arrChoices);
 		
 		lstView = (ListView) findViewById(R.id.lstView);
 		View header = (View) getLayoutInflater().inflate(R.layout.lstview_header_row2, null);
