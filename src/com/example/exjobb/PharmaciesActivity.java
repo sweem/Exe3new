@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -54,24 +55,40 @@ public class PharmaciesActivity extends Activity {
         }
        
         db.open();
-        ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId("9");
-        ArrayList<String> arr2 = db.getAllPharmacyIdWithDrugId("9");
-        Toast.makeText(getBaseContext(), "Arr has size " + arr.size(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getBaseContext(), "Arr2 has size " + arr2.size(), Toast.LENGTH_SHORT).show();
+        Calendar cal = Calendar.getInstance();
+        ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId("17");
+        Toast.makeText(getBaseContext(), "Arr has size " + arr.size(), Toast.LENGTH_LONG).show();
+        int dayInWeek = cal.get(Calendar.DAY_OF_WEEK);
+        String day;
+        StringBuffer time = new StringBuffer();
+        time.append(cal.HOUR_OF_DAY);
+        time.append(":");
+        time.append(cal.MINUTE);
+        if (dayInWeek == 1) {
+        	day = "Sunday";
+        }
+        else if(dayInWeek == 7) {
+        	day = "Saturday";
+        }
+        else {
+        	day = "Weekday";
+        }
+        Toast.makeText(getBaseContext(), day, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), time.toString(), Toast.LENGTH_LONG).show();
         for(int i = 0; i < arr.size(); i++) {
-        	Toast.makeText(getBaseContext(), "Pharmacy " + arr.get(i).id + " with drug 9 in stock. ", Toast.LENGTH_SHORT).show();
+        	Toast.makeText(getBaseContext(), "Pharmacy " + arr.get(i).id + " with drug 17 in stock. ", Toast.LENGTH_LONG).show();
         }
         
         db.close();
 		
 		ArrayList<Choice> arrChoices = new ArrayList<Choice>();
 		for(int i = 0; i < arr.size(); i++) {
-			arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, "1,60 krm", arr.get(i).opHWD + "-" + arr.get(i).clHWD));
+			arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, "1,60 km", arr.get(i).opHWD + "-" + arr.get(i).clHWD));
 		}
 		
-		//arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Svanen", "1,60 km", "08:00-18:00"));
-		//arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Norringen", "1,70 km", "10:00-19:00"));
-		//arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Lund", "2,30 km", "08:00-20:00"));
+		/*arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Svanen", "1,60 km", "08:00-18:00"));
+		arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Norringen", "1,70 km", "10:00-19:00"));
+		arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Lund", "2,30 km", "08:00-20:00"));*/
 		
 		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, arrChoices);
 		
