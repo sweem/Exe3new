@@ -223,16 +223,14 @@ public class DBAdapter {
     }
     
     public ArrayList<Pharmacy> getAllPharmaciesWithDrugId(String dID) {
-    	/*Calendar cal = Calendar.getInstance();
+    	Cursor c;
+    	Calendar cal = Calendar.getInstance();
     	int day = cal.get(Calendar.DAY_OF_WEEK);
     	
-    	if(day == 1) { //Sunday
-    		Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_LAT, KEY_LON}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
-    	} else if(day == 7) { //Saturday
-    		Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_LAT, KEY_LON}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
-    	} else { //Weekday
-    		Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_LAT, KEY_LON}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
-    	}*/
+    	StringBuffer time = new StringBuffer();
+    	time.append(cal.HOUR_OF_DAY + ":");
+    	time.append(cal.MINUTE + ":");
+    	time.append(cal.MILLISECOND);
     	
     	ArrayList<String> pIDs = getAllPharmacyIdWithDrugId(dID);
     	StringBuffer queryIN = new StringBuffer(" in(");
@@ -243,10 +241,18 @@ public class DBAdapter {
     	queryIN.append(pIDs.get(pIDs.size()-1));
     	queryIN.append(")");
     	
+    	if(day == 1) { //Sunday
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSUN + "!=?", new String[] {"Closed"});
+    	} else if(day == 7) { //Saturday
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSAT + "!=?", new String[] {"Closed"});
+    	} else { //Weekday
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHWD + "!=?", new String[] {"Closed"});
+    	}
+    	
     	//Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME}, KEY_ROWID + "IN(?,?)", new String[] {"2", "5"}, null, null, null);
     	//Cursor c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + " in(?,?)", new String[] {"2", "5"});
     	//Cursor c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + " in(2,5)", null);
-    	Cursor c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + " " + queryIN, null);
+    	//Cursor c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSUN + "!=?", new String[] {"Closed"});
     	ArrayList<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
     	
     	int i = 0;
