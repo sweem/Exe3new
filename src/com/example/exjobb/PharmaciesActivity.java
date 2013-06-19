@@ -26,6 +26,8 @@ public class PharmaciesActivity extends Activity {
 	double dist;
 	private ListView lstView;
 	DBAdapter db;
+	String choosenDrugID;
+	int nbrOfDrug;
 	//double latA, lonA, latB, lonB;
 	
 	
@@ -33,6 +35,10 @@ public class PharmaciesActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pharmacies2);
+		
+		Bundle b = getIntent().getExtras();
+		choosenDrugID = b.getString("drugID");
+		nbrOfDrug = b.getInt("nbrOfDrug");
 		
 		db = new DBAdapter(this);
         try {
@@ -54,16 +60,11 @@ public class PharmaciesActivity extends Activity {
             e.printStackTrace();
         }
        
-        db.open();
-        Calendar cal = Calendar.getInstance();
-        ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId("17");
-        Toast.makeText(getBaseContext(), "Arr has size " + arr.size(), Toast.LENGTH_LONG).show();
-        int dayInWeek = cal.get(Calendar.DAY_OF_WEEK);
+        db.open();      
+        ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug);
+        //Toast.makeText(getBaseContext(), "Arr has size " + arr.size(), Toast.LENGTH_LONG).show();
+        int dayInWeek = db.getCurrentDay();
         String day;
-        StringBuffer time = new StringBuffer();
-        time.append(cal.HOUR_OF_DAY);
-        time.append(":");
-        time.append(cal.MINUTE);
         if (dayInWeek == 1) {
         	day = "Sunday";
         }
@@ -73,17 +74,24 @@ public class PharmaciesActivity extends Activity {
         else {
         	day = "Weekday";
         }
-        Toast.makeText(getBaseContext(), day, Toast.LENGTH_LONG).show();
-        Toast.makeText(getBaseContext(), time.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "It's " + day + " that is day in week " + dayInWeek + " and the time is " + db.getCurrentTime(), Toast.LENGTH_LONG).show();
         for(int i = 0; i < arr.size(); i++) {
-        	Toast.makeText(getBaseContext(), "Pharmacy " + arr.get(i).id + " with drug 17 in stock. ", Toast.LENGTH_LONG).show();
+        	Toast.makeText(getBaseContext(), "Pharmacy " + arr.get(i).id + " with drug " + choosenDrugID + " in stock. ", Toast.LENGTH_LONG).show();
         }
         
         db.close();
 		
 		ArrayList<Choice> arrChoices = new ArrayList<Choice>();
 		for(int i = 0; i < arr.size(); i++) {
-			arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, "1,60 km", arr.get(i).opHWD + "-" + arr.get(i).clHWD));
+	        if (dayInWeek == 1) {
+	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, "1,60 km", arr.get(i).opHSUN + "-" + arr.get(i).clHSUN));
+	        }
+	        else if(dayInWeek == 7) {
+	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, "1,60 km", arr.get(i).opHSAT + "-" + arr.get(i).opHSAT));
+	        }
+	        else {
+	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, "1,60 km", arr.get(i).opHWD + "-" + arr.get(i).clHWD));
+	        }
 		}
 		
 		/*arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Svanen", "1,60 km", "08:00-18:00"));
