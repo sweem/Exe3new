@@ -32,7 +32,7 @@ public class DrugsActivity extends Activity {
 	ArrayList<Integer> nbr;
 	String choosenDru, choosenTyp, choosenStr, choosenVol;
 	int choosenNbr;
-	String choosenDrugId;
+	String choosenDrugID;
 	DBAdapter db;
 	int currSelT, currSelS, currSelV, currSelN;
 	
@@ -227,7 +227,7 @@ public class DrugsActivity extends Activity {
 					//Toast.makeText(getBaseContext(), "CurrSelN is " + currSelN, Toast.LENGTH_SHORT).show();
 					int index = arg0.getSelectedItemPosition();
 					choosenNbr = nbr.get(index);
-					choosenDrugId = db.getDrugRowId(choosenDru, choosenTyp, choosenStr, choosenVol);
+					choosenDrugID = db.getDrugRowId(choosenDru, choosenTyp, choosenStr, choosenVol);
 					
 					//Toast.makeText(getBaseContext(), "You've selected rowid: " + choosenDrugId, Toast.LENGTH_SHORT).show();
 				}
@@ -270,7 +270,11 @@ public class DrugsActivity extends Activity {
     }*/
 	
 	public void onClickNext(View view) {
-		startActivity(new Intent(this, PharmaciesActivity.class));
+		Intent i = new Intent(this, PharmaciesActivity.class);
+		i.putExtra("drugID", choosenDrugID);
+		i.putExtra("nbrOfDrug", choosenNbr);
+		//startActivity(new Intent(this, PharmaciesActivity.class));
+		startActivity(i);
 		finish();
 	}
 	
