@@ -116,38 +116,7 @@ public class DBAdapter {
     public void close() {
         DBHelper.close();
     }
-
-    //---insert a contact into the database---
-    /*public long insertContact(String name, String email) {
-        ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_NAME, name);
-        initialValues.put(KEY_EMAIL, email);
-        return db.insert(DATABASE_TABLE, null, initialValues);
-    }
-
-    //---deletes a particular contact---
-    public boolean deleteContact(long rowId) {
-        return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
-    }
-
-    //---retrieves all the contacts---
-    public Cursor getAllContacts() {
-        return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
-                KEY_EMAIL}, null, null, null, null, null);
-    }
-
-    //---retrieves a particular contact---
-    public Cursor getContact(long rowId) throws SQLException {
-        Cursor mCursor =
-                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                KEY_NAME, KEY_EMAIL}, KEY_ROWID + "=" + rowId, null,
-                null, null, null, null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
-    }*/
-    
+   
     public Cursor getAllDrugs() {
         return db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY}, null, null, null, null, null);
     }
@@ -194,7 +163,6 @@ public class DBAdapter {
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
-                //DisplayContact(c);
             	strengths.add(i, c.getString(0));
             	i++;
             } while (c.moveToNext());
@@ -213,7 +181,6 @@ public class DBAdapter {
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
-                //DisplayContact(c);
             	sizes.add(c.getString(0));
             	i++;
             } while (c.moveToNext());
@@ -222,17 +189,13 @@ public class DBAdapter {
     	return sizes;
     }
     
-    public ArrayList<Pharmacy> getAllPharmaciesWithDrugId(String dID) {
+    public ArrayList<Pharmacy> getAllPharmaciesWithDrugId(String dID, int nbr) {
     	Cursor c;
-    	Calendar cal = Calendar.getInstance();
-    	int day = cal.get(Calendar.DAY_OF_WEEK);
-    	
-    	StringBuffer time = new StringBuffer();
-    	time.append(cal.HOUR_OF_DAY + ":");
-    	time.append(cal.MINUTE + ":");
-    	time.append(cal.MILLISECOND);
-    	
-    	ArrayList<String> pIDs = getAllPharmacyIdWithDrugId(dID);
+    	int curDay = getCurrentDay();
+    	String curTime = getCurrentTime();
+    	  	
+    	ArrayList<String> pIDs = getAllPharmacyIdWithDrugId(dID, nbr);
+    	/*if(pIDs.size() == 0) //Drug couldn't be found - Out of stock or too few items in stock */
     	StringBuffer queryIN = new StringBuffer(" in(");
     	for(int i = 0; i < pIDs.size()-1; i++) {
     		queryIN.append(pIDs.get(i) + ",");
@@ -241,24 +204,23 @@ public class DBAdapter {
     	queryIN.append(pIDs.get(pIDs.size()-1));
     	queryIN.append(")");
     	
-    	if(day == 1) { //Sunday
-    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSUN + "!=?", new String[] {"Closed"});
-    	} else if(day == 7) { //Saturday
-    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSAT + "!=?", new String[] {"Closed"});
+    	if(curDay == 1) { //Sunday
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSUN + "!=? and (" + KEY_OPHSUN + "<=? and " + KEY_CLHSUN + ">?)", new String[] {"Closed", curTime, curTime});
+    		/*if(c.getCount() == 0) //Pharmacy closed*/
+    	} else if(curDay == 7) { //Saturday
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSAT + "!=? and (" + KEY_OPHSAT + "<=? and " + KEY_CLHSAT + ">?)", new String[] {"Closed", curTime, curTime});
+    		/*if(c.getCount() == 0) //Pharmacy closed*/
     	} else { //Weekday
-    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHWD + "!=?", new String[] {"Closed"});
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHWD + "!=? and (" + KEY_OPHWD + "<=? and " + KEY_CLHWD + ">?)", new String[] {"Closed", curTime, curTime});
+    		/*if(c.getCount() == 0) //Pharmacy closed*/
     	}
     	
-    	//Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME}, KEY_ROWID + "IN(?,?)", new String[] {"2", "5"}, null, null, null);
-    	//Cursor c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + " in(?,?)", new String[] {"2", "5"});
-    	//Cursor c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + " in(2,5)", null);
-    	//Cursor c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSUN + "!=?", new String[] {"Closed"});
     	ArrayList<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
     	
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
-                //DisplayContact(c);
+            	//double distToPharmacy = getDistFrom()
             	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14));
             	pharmacies.add(ph);
             	i++;
@@ -268,8 +230,8 @@ public class DBAdapter {
     	return pharmacies;
     }
     
-    public ArrayList<String> getAllPharmacyIdWithDrugId (String dID) {
-    	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID}, KEY_DID + "=?", new String[] {dID}, null, null, null);
+    public ArrayList<String> getAllPharmacyIdWithDrugId (String dID, int nbr) {
+    	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, null);
     	//String[] phids = new String[c.getCount()];
     	ArrayList<String> phids = new ArrayList<String>();
     	
@@ -296,6 +258,53 @@ public class DBAdapter {
     	
     	return id;
     }
+    
+    public String getCurrentTime() {
+    	Calendar cal = Calendar.getInstance();
+    	/*cal.set(Calendar.HOUR_OF_DAY, 10); //Change current time
+    	cal.set(Calendar.MINUTE, 0);
+    	cal.set(Calendar.SECOND, 0);
+    	cal.set(Calendar.MILLISECOND, 0);*/
+    	
+    	StringBuffer currentTime = new StringBuffer();
+    	int hour = cal.get(Calendar.HOUR_OF_DAY);
+    	int min = cal.get(Calendar.MINUTE);
+    	int sec = cal.get(Calendar.SECOND);
+    	
+    	if(hour <= 9)
+    		currentTime.append("0");
+    	currentTime.append(hour + ":");
+    	if(min <= 9)
+    		currentTime.append("0");
+    	currentTime.append(min + ":");
+    	if(sec <= 9)
+    		currentTime.append("0");
+    	currentTime.append(sec);
+    	
+		return currentTime.toString();
+    }
+    
+    public int getCurrentDay() {
+    	Calendar cal = Calendar.getInstance();
+        /*cal.set(Calendar.DAY_OF_WEEK, 4); //Change current day*/
+    	return cal.get(Calendar.DAY_OF_WEEK);
+    }
+    
+	/* Haversine formula*/
+	private static double getDistFrom(double lat1, double lon1, double lat2, double lon2) {
+		double earthRad = 6371;
+		double dLat = Math.toRadians(lat2-lat1);
+		double dLon = Math.toRadians(lon2-lon1);
+		
+		double sindLat = Math.sin(dLat/2);
+		double sindLon = Math.sin(dLon/2);
+		
+		double a = Math.pow(sindLat, 2) + Math.pow(sindLon, 2) * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		double retDist = earthRad * c;  
+		
+		return retDist;
+	}
     
     /*//---retrieves a particular contact---
     public Cursor getDrug(long rowId) throws SQLException {
