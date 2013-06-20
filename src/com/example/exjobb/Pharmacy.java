@@ -16,8 +16,9 @@ public class Pharmacy {
 	public String clHSUN;
 	public String lat;
 	public String lon;
+	public float distToPh;
 	
-	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude) {
+	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude, float distToPharmacy) {
 		super();
 		this.id = rID;
 		this.chName = chainName;
@@ -34,5 +35,6 @@ public class Pharmacy {
 		this.clHSUN = closingHoursSUN;
 		this.lat = latitude;
 		this.lon = longitude;
+		this.distToPh = distToPharmacy;
 	}
 }
