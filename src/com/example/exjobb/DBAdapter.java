@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Location;
+import android.location.LocationManager;
 import android.util.Log;
 
 public class DBAdapter {
@@ -189,8 +191,9 @@ public class DBAdapter {
     	return sizes;
     }
     
-    public ArrayList<Pharmacy> getAllPharmaciesWithDrugId(String dID, int nbr) {
+    public ArrayList<Pharmacy> getAllPharmaciesWithDrugId(String dID, int nbr, Location loc) {
     	Cursor c;
+    	
     	int curDay = getCurrentDay();
     	String curTime = getCurrentTime();
     	  	
@@ -221,7 +224,15 @@ public class DBAdapter {
     	if (c.moveToFirst()) {
             do {
             	//double distToPharmacy = getDistFrom()
-            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14));
+            	Location locPh = new Location(loc);
+            	/*String msg = "Lat: " + locPh.getLatitude() + " and lon: " + locPh.getLongitude();
+            	Log.e("DBAdapters location", msg);*/
+            	locPh.setLatitude(Double.parseDouble(c.getString(13)));
+            	locPh.setLongitude(Double.parseDouble(c.getString(14)));
+            	/*String msg2 = "Pharmacy" + i + " has lat " + locPh.getLatitude() + " and lon " + locPh.getLongitude();
+            	Log.e("Pharmacies locations", msg2);*/
+            	float dist = loc.distanceTo(locPh);
+            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), dist);
             	pharmacies.add(ph);
             	i++;
             } while (c.moveToNext());
@@ -304,6 +315,11 @@ public class DBAdapter {
 		double retDist = earthRad * c;  
 		
 		return retDist;
+	}
+	
+	private double geoPointToDouble(String point) {
+		double dPoint = Double.parseDouble(point);
+		return dPoint;
 	}
     
     /*//---retrieves a particular contact---
