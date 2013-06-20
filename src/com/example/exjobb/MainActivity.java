@@ -5,12 +5,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import com.google.android.maps.GeoPoint;
 
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +27,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	private ListView lstView;
+	//GeoPoint p;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +79,15 @@ public class MainActivity extends Activity {
 		Toast.makeText(this, "You've selected " + item.title, Toast.LENGTH_SHORT).show();
 	}*/
 	
-	
+	/*public void onResume() {
+		super.onResume();
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+		
+		lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
+	}
+
+	public void onPause() {
+		lm.removeUpdates(ll);
+	}*/
 
 }
