@@ -8,13 +8,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +31,11 @@ public class PharmaciesActivity extends Activity {
 	DBAdapter db;
 	String choosenDrugID;
 	int nbrOfDrug;
+	
+	LocationManager lm;
+	LocationListener ll;
+	double latitude;
+	double longitude;
 	//double latA, lonA, latB, lonB;
 	
 	
@@ -35,6 +43,11 @@ public class PharmaciesActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pharmacies2);
+		
+		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		ll = new MyLocationListener();
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+		lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
 		
 		Bundle b = getIntent().getExtras();
 		choosenDrugID = b.getString("drugID");
@@ -60,11 +73,14 @@ public class PharmaciesActivity extends Activity {
             e.printStackTrace();
         }
        
-        db.open();      
-        ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug);
-        //Toast.makeText(getBaseContext(), "Arr has size " + arr.size(), Toast.LENGTH_LONG).show();
+        db.open();
+        Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        Toast.makeText(getBaseContext(), "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude(), Toast.LENGTH_LONG).show();
+        ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc);
+        Toast.makeText(getBaseContext(), "You've choosen " + nbrOfDrug + " of a drug with id " + choosenDrugID, Toast.LENGTH_LONG).show();
         int dayInWeek = db.getCurrentDay();
         String day;
+        
         if (dayInWeek == 1) {
         	day = "Sunday";
         }
@@ -76,7 +92,7 @@ public class PharmaciesActivity extends Activity {
         }
         Toast.makeText(getBaseContext(), "It's " + day + " that is day in week " + dayInWeek + " and the time is " + db.getCurrentTime(), Toast.LENGTH_LONG).show();
         for(int i = 0; i < arr.size(); i++) {
-        	Toast.makeText(getBaseContext(), "Pharmacy " + arr.get(i).id + " with drug " + choosenDrugID + " in stock. ", Toast.LENGTH_LONG).show();
+        	Toast.makeText(getBaseContext(), "Pharmacy " + arr.get(i).id + " has drug in stock. ", Toast.LENGTH_LONG).show();
         }
         
         db.close();
@@ -84,13 +100,13 @@ public class PharmaciesActivity extends Activity {
 		ArrayList<Choice> arrChoices = new ArrayList<Choice>();
 		for(int i = 0; i < arr.size(); i++) {
 	        if (dayInWeek == 1) {
-	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, "1,60 km", arr.get(i).opHSUN + "-" + arr.get(i).clHSUN));
+	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, Float.toString(arr.get(i).distToPh) + " m", arr.get(i).opHSUN + "-" + arr.get(i).clHSUN));
 	        }
 	        else if(dayInWeek == 7) {
-	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, "1,60 km", arr.get(i).opHSAT + "-" + arr.get(i).opHSAT));
+	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, Float.toString(arr.get(i).distToPh) + " m", arr.get(i).opHSAT + "-" + arr.get(i).opHSAT));
 	        }
 	        else {
-	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, "1,60 km", arr.get(i).opHWD + "-" + arr.get(i).clHWD));
+	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, Float.toString(arr.get(i).distToPh) + " m", arr.get(i).opHWD + "-" + arr.get(i).clHWD));
 	        }
 		}
 		
@@ -125,9 +141,8 @@ public class PharmaciesActivity extends Activity {
 			}
 		});
 		
-		dist = getDistFrom(55.70624, 13.19186, 55.711543, 13.209518);
-		
-		Toast.makeText(getBaseContext(), "Distance between two points: " + dist + "km.", Toast.LENGTH_LONG).show();
+		/*dist = getDistFrom(55.70624, 13.19186, 55.711543, 13.209518);
+		Toast.makeText(getBaseContext(), "Distance between two points: " + dist + "km.", Toast.LENGTH_LONG).show();*/
 		
 	}
 	
@@ -144,7 +159,7 @@ public class PharmaciesActivity extends Activity {
 	}
 	
 	/* Haversine formula*/
-	private static double getDistFrom(double lat1, double lon1, double lat2, double lon2) {
+	/*private static double getDistFrom(double lat1, double lon1, double lat2, double lon2) {
 		double earthRad = 6371;
 		double dLat = Math.toRadians(lat2-lat1);
 		double dLon = Math.toRadians(lon2-lon1);
@@ -157,6 +172,40 @@ public class PharmaciesActivity extends Activity {
 		double retDist = earthRad * c;  
 		
 		return retDist;
+	}*/
+	
+	private class MyLocationListener implements LocationListener {
+
+		@Override
+		public void onLocationChanged(Location loc) {
+			if(loc != null) {
+				latitude = loc.getLatitude();
+				longitude = loc.getLongitude();
+				Toast.makeText(getBaseContext(), "Location changed. Lat is now " + loc.getLatitude() + " and lon is " + loc.getLongitude() + ".", Toast.LENGTH_LONG).show();
+				String myLocation = "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude() + ".";
+				//p = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc.getLongitude() * 1E6));
+				Log.e("My current location", myLocation);
+			}
+			
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// TODO Auto-generated method stub
+			
+		}	
 	}
 
 	public void onClickNext(View view) {
