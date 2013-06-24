@@ -91,23 +91,15 @@ public class PharmaciesActivity extends Activity {
         	day = "Weekday";
         }
         Toast.makeText(getBaseContext(), "It's " + day + " that is day in week " + dayInWeek + " and the time is " + db.getCurrentTime(), Toast.LENGTH_LONG).show();
-        for(int i = 0; i < arr.size(); i++) {
+        /*for(int i = 0; i < arr.size(); i++) {
         	Toast.makeText(getBaseContext(), "Pharmacy " + arr.get(i).id + " has drug in stock. ", Toast.LENGTH_LONG).show();
-        }
+        }*/
         
         db.close();
 		
 		ArrayList<Choice> arrChoices = new ArrayList<Choice>();
 		for(int i = 0; i < arr.size(); i++) {
-	        if (dayInWeek == 1) {
-	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, Float.toString(arr.get(i).distToPh) + " m", arr.get(i).opHSUN + "-" + arr.get(i).clHSUN));
-	        }
-	        else if(dayInWeek == 7) {
-	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, Float.toString(arr.get(i).distToPh) + " m", arr.get(i).opHSAT + "-" + arr.get(i).opHSAT));
-	        }
-	        else {
-	        	arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, Float.toString(arr.get(i).distToPh) + " m", arr.get(i).opHWD + "-" + arr.get(i).clHWD));
-	        }
+	        arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, arr.get(i).getDistance(), arr.get(i).getOpeningHours()));
 		}
 		
 		/*arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Svanen", "1,60 km", "08:00-18:00"));
