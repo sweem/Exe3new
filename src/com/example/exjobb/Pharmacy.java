@@ -1,5 +1,7 @@
 package com.example.exjobb;
 
+import java.util.Calendar;
+
 public class Pharmacy {
 	public String id;
 	public String chName;
@@ -36,5 +38,49 @@ public class Pharmacy {
 		this.lat = latitude;
 		this.lon = longitude;
 		this.distToPh = distToPharmacy;
+	}
+	
+	public String getDistance() {
+		StringBuffer sb = new StringBuffer();
+		int iDist = Math.round(distToPh);
+		double dDist;
+		if (iDist < 1000) {
+			dDist = ((double) iDist)/(10);
+			iDist = (int) Math.round(dDist);
+			int retDist = iDist*10;
+			sb.append(retDist);
+			sb.append(" m");
+		}
+		else {
+			dDist = ((double) iDist)/(100);
+			iDist = (int) Math.round(dDist);
+			double retDist = ((double) iDist)/(10);
+			sb.append(retDist);
+			sb.append(" km");
+		}
+		return sb.toString();
+	}
+	
+	public String getOpeningHours() {
+		StringBuffer sb = new StringBuffer();
+		Calendar cal = Calendar.getInstance();
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		
+		if(dayOfWeek == 1) {//Sunday
+			sb.append(opHSUN);
+			sb.append("-");
+			sb.append(clHSUN);
+		}
+		else if(dayOfWeek == 7) {//Saturday
+			sb.append(opHSAT);
+			sb.append("-");
+			sb.append(clHSAT);
+		}
+		else {//Weekday
+			sb.append(opHWD);
+			sb.append("-");
+			sb.append(clHWD);
+		}
+		return sb.toString();
 	}
 }
