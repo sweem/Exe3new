@@ -75,7 +75,7 @@ public class PharmaciesActivity extends Activity {
        
         db.open();
         Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        Toast.makeText(getBaseContext(), "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getBaseContext(), "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude(), Toast.LENGTH_LONG).show();
         ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc);
         Toast.makeText(getBaseContext(), "You've choosen " + nbrOfDrug + " of a drug with id " + choosenDrugID, Toast.LENGTH_LONG).show();
         int dayInWeek = db.getCurrentDay();
@@ -97,18 +97,15 @@ public class PharmaciesActivity extends Activity {
         
         db.close();
 		
-		ArrayList<Choice> arrChoices = new ArrayList<Choice>();
+		/*ArrayList<Choice> arrChoices = new ArrayList<Choice>();
 		for(int i = 0; i < arr.size(); i++) {
 	        arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, arr.get(i).getDistance(), arr.get(i).getOpeningHours()));
 		}
 		
-		/*arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Svanen", "1,60 km", "08:00-18:00"));
-		arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Norringen", "1,70 km", "10:00-19:00"));
-		arrChoices.add(new Choice(R.drawable.apotek_ikon, "Apotek Lund", "2,30 km", "08:00-20:00"));*/
-		
-		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, arrChoices);
-		
-		lstView = (ListView) findViewById(R.id.lstView);
+		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, arrChoices);*/
+        
+		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, arr);
+        lstView = (ListView) findViewById(R.id.lstView);
 		View header = (View) getLayoutInflater().inflate(R.layout.lstview_header_row2, null);
 		View footer = (View) getLayoutInflater().inflate(R.layout.lstview_footer_row, null);
 		
@@ -119,14 +116,18 @@ public class PharmaciesActivity extends Activity {
 		lstView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-				Toast.makeText(getBaseContext(), "Has pos " + pos, Toast.LENGTH_LONG).show();
+				//Toast.makeText(getBaseContext(), "Has pos " + pos, Toast.LENGTH_LONG).show();
+				Toast.makeText(getBaseContext(), "You clicked on a item with pos " + pos + ".", Toast.LENGTH_SHORT).show();
+				Intent i = new Intent(PharmaciesActivity.this, DetailsActivity.class);
+				i.putExtra("id", pos-1);
+				startActivity(i);
 				
 				/*switch(pos) {
 				case 1: Toast.makeText(getBaseContext(), "You clicked on a item with pos " + pos ".", Toast.LENGTH_SHORT).show();
-						finish();
+						//finish();
 						break;
 				case 2: startActivity(new Intent(MainActivity.this, LoginActivity.class));
-						finish();
+						//finish();
 						break;
 				case 3: break;
 				}*/
@@ -137,6 +138,10 @@ public class PharmaciesActivity extends Activity {
 		Toast.makeText(getBaseContext(), "Distance between two points: " + dist + "km.", Toast.LENGTH_LONG).show();*/
 		
 	}
+	
+	/*public void onBackPressed() {
+		startActivity(new Intent(PharmaciesActivity.this, DrugsActivity.class));
+	}*/
 	
 	public void CopyDB(InputStream inputStream, 
 		    OutputStream outputStream) throws IOException {
@@ -173,7 +178,7 @@ public class PharmaciesActivity extends Activity {
 			if(loc != null) {
 				latitude = loc.getLatitude();
 				longitude = loc.getLongitude();
-				Toast.makeText(getBaseContext(), "Location changed. Lat is now " + loc.getLatitude() + " and lon is " + loc.getLongitude() + ".", Toast.LENGTH_LONG).show();
+				//Toast.makeText(getBaseContext(), "Location changed. Lat is now " + loc.getLatitude() + " and lon is " + loc.getLongitude() + ".", Toast.LENGTH_LONG).show();
 				String myLocation = "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude() + ".";
 				//p = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc.getLongitude() * 1E6));
 				Log.e("My current location", myLocation);
@@ -202,12 +207,12 @@ public class PharmaciesActivity extends Activity {
 
 	public void onClickNext(View view) {
 		startActivity(new Intent(this, MainActivity.class));
-		finish();
+		//finish();
 	}
 	
 	public void onClickBack(View view) {
 		startActivity(new Intent(this, DrugsActivity.class));
-		finish();
+		//finish();
 	}
 
 	@Override
