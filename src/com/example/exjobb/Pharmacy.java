@@ -19,6 +19,7 @@ public class Pharmacy {
 	public String lat;
 	public String lon;
 	public float distToPh;
+	public int iconId;
 	
 	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude, float distToPharmacy) {
 		super();
@@ -82,5 +83,43 @@ public class Pharmacy {
 			sb.append(clHWD);
 		}
 		return sb.toString();
+	}
+	
+	public String getPharmacyName() {
+		return phName;
+	}
+	
+	public void setIcon() {
+		if(chName.equals("Apoteket")) {
+			iconId = R.drawable.apoteket_ikon;
+		}
+		else if(chName.equals("Apotek Hjärtat")) {
+			iconId = R.drawable.apotekhjartat_ikon;
+		}
+		else if(chName.equals("Apoteksgruppen")) {
+			iconId = R.drawable.apoteksg_ikon;
+		}
+		else if(chName.equals("Cura apoteket")) {
+			iconId = R.drawable.curaa_ikon;
+		}
+		else if(chName.equals("Lloyds Apotek")) {
+			iconId = R.drawable.lloydsa_ikon;
+		}
+		else if(chName.equals("Kronans droghandel")) {
+			iconId = R.drawable.kronansd_ikon;
+		}
+		else if(chName.equals("Medstop")) {
+			iconId = R.drawable.medstop_ikon;
+		}
+		else if(chName.equals("Vårdapoteket")) {
+			iconId = R.drawable.varda_ikon;
+		}
+		else {
+			iconId = R.drawable.apotek_ikon;
+		}
+	}
+	
+	public int getIcon() {
+		return iconId;
 	}
 }
