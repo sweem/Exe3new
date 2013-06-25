@@ -17,5 +17,5 @@
         android:padding="10dp"
         android:background="#336699"
         android:text="Hitta din medicin" />
-
+    
 </LinearLayout>
