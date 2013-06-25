@@ -233,6 +233,7 @@ public class DBAdapter {
             	Log.e("Pharmacies locations", msg2);*/
             	float dist = loc.distanceTo(locPh);
             	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), dist);
+            	ph.setIcon();
             	pharmacies.add(ph);
             	i++;
             } while (c.moveToNext());
