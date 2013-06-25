@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -56,15 +57,18 @@ public class MainActivity extends Activity {
 				
 				switch(pos) {
 				case 1: startActivity(new Intent(MainActivity.this, DrugsActivity.class));
-						finish();
+						//finish();
 						break;
 				case 2: startActivity(new Intent(MainActivity.this, LoginActivity.class));
-						finish();
+						//finish();
 						break;
 				case 3: break;
 				}
 			}
 		});
+		
+		//TextView  tv = (TextView) findViewById(R.id.txtHeader);
+		//tv.setText("hehe");
 	}
 	
 	/*@Override
