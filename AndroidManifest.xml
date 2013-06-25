@@ -7,6 +7,7 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="17" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -51,6 +52,10 @@
         <activity
             android:name="com.example.exjobb.PharmaciesActivity"
             android:label="@string/title_activity_pharmacies" >
+        </activity>
+        <activity
+            android:name="com.example.exjobb.DetailsActivity"
+            android:label="@string/title_activity_details" >
         </activity>
     </application>
 
