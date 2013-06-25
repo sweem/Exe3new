@@ -36,5 +36,6 @@
 
     <string name="title_activity_dbadapter">DBAdapter</string>
     <string name="title_activity_pharmacies">PharmaciesActivity</string>
+    <string name="title_activity_details">DetailsActivity</string>
 
 </resources>
