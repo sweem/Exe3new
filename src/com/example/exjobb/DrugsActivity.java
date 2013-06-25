@@ -282,12 +282,12 @@ public class DrugsActivity extends Activity {
 		i.putExtra("nbrOfDrug", choosenNbr);
 		//startActivity(new Intent(this, PharmaciesActivity.class));
 		startActivity(i);
-		finish();
+		//finish();
 	}
 	
 	public void onClickBack(View view) {
 		startActivity(new Intent(this, MainActivity.class));
-		finish();
+		//finish();
 	}
 	
 	/*@Override
