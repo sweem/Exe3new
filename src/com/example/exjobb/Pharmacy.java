@@ -62,6 +62,10 @@ public class Pharmacy {
 		return sb.toString();
 	}
 	
+	public void setDistance(float dist) {
+		distToPh = dist;
+	}
+	
 	public String getOpeningHours() {
 		StringBuffer sb = new StringBuffer();
 		Calendar cal = Calendar.getInstance();
