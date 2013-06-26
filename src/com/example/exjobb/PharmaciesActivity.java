@@ -76,7 +76,7 @@ public class PharmaciesActivity extends Activity {
         db.open();
         Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         //Toast.makeText(getBaseContext(), "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude(), Toast.LENGTH_LONG).show();
-        ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc);
+        final ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc);
         Toast.makeText(getBaseContext(), "You've choosen " + nbrOfDrug + " of a drug with id " + choosenDrugID, Toast.LENGTH_LONG).show();
         int dayInWeek = db.getCurrentDay();
         String day;
@@ -118,8 +118,24 @@ public class PharmaciesActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 				//Toast.makeText(getBaseContext(), "Has pos " + pos, Toast.LENGTH_LONG).show();
 				Toast.makeText(getBaseContext(), "You clicked on a item with pos " + pos + ".", Toast.LENGTH_SHORT).show();
+				Pharmacy ph = arr.get(pos-1);
 				Intent i = new Intent(PharmaciesActivity.this, DetailsActivity.class);
-				i.putExtra("id", pos-1);
+				i.putExtra("id", ph.id);
+				i.putExtra("chName", ph.chName);
+				i.putExtra("phName", ph.phName);
+				i.putExtra("addr", ph.addr);
+				i.putExtra("pCode", ph.pCode);
+				i.putExtra("pArea", ph.pArea);
+				i.putExtra("pNbr", ph.pNbr);
+				i.putExtra("opHWD", ph.opHWD);
+				i.putExtra("clHWD", ph.clHWD);
+				i.putExtra("opHSAT", ph.opHSAT);
+				i.putExtra("clHSAT", ph.clHSAT);
+				i.putExtra("opHSUN", ph.opHSUN);
+				i.putExtra("clHSUN", ph.clHSUN);
+				i.putExtra("lat", ph.lat);
+				i.putExtra("lon", ph.lon);
+				i.putExtra("distToPh", ph.distToPh);
 				startActivity(i);
 				
 				/*switch(pos) {
@@ -205,15 +221,15 @@ public class PharmaciesActivity extends Activity {
 		}	
 	}
 
-	public void onClickNext(View view) {
+	/*public void onClickNext(View view) {
 		startActivity(new Intent(this, MainActivity.class));
 		//finish();
-	}
+	}*/
 	
-	public void onClickBack(View view) {
+	/*public void onClickBack(View view) {
 		startActivity(new Intent(this, DrugsActivity.class));
 		//finish();
-	}
+	}*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
