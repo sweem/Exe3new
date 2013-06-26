@@ -22,10 +22,42 @@
 		android:textSize="22dp"
 		android:textColor="#FFFFFF"
 		android:padding="10dp"
-		android:background="#336699"
-		android:text="Apoteksdetaljer" />
+		android:background="#336699" />
 	</LinearLayout>
 	
+    <TextView
+        android:id="@+id/txtHeaderHWD"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:text="Öppettider" />
+	
+ 	<RelativeLayout 
+	    android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+    <TextView 
+        android:id="@+id/txtHeaderHWD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp" 
+        android:textSize="16dp"
+        android:text="Måndag-Fredag"/>
     
+    <TextView 
+        android:id="@+id/txtHWD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp" 
+        android:layout_toRightOf="@+id/txtHeaderHWD"
+        android:
+        android:textSize="16dp" />
+    
+	</RelativeLayout>
+    
+
     
 </LinearLayout>
