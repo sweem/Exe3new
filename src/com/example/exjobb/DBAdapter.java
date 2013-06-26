@@ -2,6 +2,8 @@ package com.example.exjobb;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import android.content.ContentValues;
@@ -223,14 +225,9 @@ public class DBAdapter {
     	int i = 0;
     	if (c.moveToFirst()) {
             do {
-            	//double distToPharmacy = getDistFrom()
             	Location locPh = new Location(loc);
-            	/*String msg = "Lat: " + locPh.getLatitude() + " and lon: " + locPh.getLongitude();
-            	Log.e("DBAdapters location", msg);*/
             	locPh.setLatitude(Double.parseDouble(c.getString(13)));
             	locPh.setLongitude(Double.parseDouble(c.getString(14)));
-            	/*String msg2 = "Pharmacy" + i + " has lat " + locPh.getLatitude() + " and lon " + locPh.getLongitude();
-            	Log.e("Pharmacies locations", msg2);*/
             	float dist = loc.distanceTo(locPh);
             	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), dist);
             	ph.setIcon();
@@ -239,12 +236,13 @@ public class DBAdapter {
             } while (c.moveToNext());
         }
     	
+    	Collections.sort(pharmacies, new OrderByDistance()); //Sort pharmacies by distance to pharmacy
+    	
     	return pharmacies;
     }
     
     public ArrayList<String> getAllPharmacyIdWithDrugId (String dID, int nbr) {
     	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, null);
-    	//String[] phids = new String[c.getCount()];
     	ArrayList<String> phids = new ArrayList<String>();
     	
     	int i = 0;
@@ -270,6 +268,19 @@ public class DBAdapter {
     	
     	return id;
     }
+    
+    /*public Pharmacy getPharmacyWithId(String id) {
+    	Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_ADDRESS, KEY_PCODE, KEY_PAREA, KEY_OPHWD, KEY_CLHWD, KEY_OPHSAT, KEY_CLHSAT, KEY_OPHSUN, KEY_CLHSUN, KEY_LAT, KEY_LON}, KEY_PID + "=?", new String[] {id}, null, null, null);
+    	Pharmacy ph = null;
+    	
+    	if(c.moveToFirst()) {
+    		do {
+    			ph = new Pharmacy(id, c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.geS)
+    		}
+    	}
+    	
+    	return ph;
+    }*/
     
     public String getCurrentTime() {
     	Calendar cal = Calendar.getInstance();
@@ -303,7 +314,7 @@ public class DBAdapter {
     }
     
 	/* Haversine formula*/
-	private static double getDistFrom(double lat1, double lon1, double lat2, double lon2) {
+	/*private static double getDistFrom(double lat1, double lon1, double lat2, double lon2) {
 		double earthRad = 6371;
 		double dLat = Math.toRadians(lat2-lat1);
 		double dLon = Math.toRadians(lon2-lon1);
@@ -316,7 +327,7 @@ public class DBAdapter {
 		double retDist = earthRad * c;  
 		
 		return retDist;
-	}
+	}*/
 	
 	private double geoPointToDouble(String point) {
 		double dPoint = Double.parseDouble(point);
@@ -341,5 +352,4 @@ public class DBAdapter {
         args.put(KEY_EMAIL, email);
         return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }*/
-
 }
