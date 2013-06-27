@@ -29,62 +29,82 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10px"
-        android:text="Namn på läkemedel" />
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Namn på läkemedel"
+        android:textSize="16sp" />
     
     <AutoCompleteTextView 
         android:id="@+id/txtDrugs"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:textSize="16sp"
         android:hint="Sök läkemedel" />
     
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:text="Typ" 
-        android:paddingTop="10px"/>
+        android:textSize="16sp" />
     
     <Spinner 
         android:id="@+id/spiType"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:drawSelectorOnTop="true" />
     
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:text="Styrka" 
-        android:paddingTop="10px"/>
+        android:textSize="16sp" />
     
     <Spinner 
         android:id="@+id/spiPot"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:drawSelectorOnTop="true" />
     
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:text="Förpackningsstorlek" 
-        android:paddingTop="10px"/>
+        android:textSize="16sp" />
     
     <Spinner 
         android:id="@+id/spiVol"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:drawSelectorOnTop="true" />
     
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:text="Antal" 
-        android:paddingTop="10px"/>
+        android:textSize="16sp" />
     
     <Spinner 
         android:id="@+id/spiNbr"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:drawSelectorOnTop="true" />
 
     <RelativeLayout

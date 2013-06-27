@@ -139,7 +139,7 @@ public class DrugsActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				db.open();
-				Toast.makeText(getBaseContext(), "CurrSelT is " + currSelT, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getBaseContext(), "CurrSelT is " + currSelT, Toast.LENGTH_SHORT).show();
 				if(currSelT != -1 || typAdapter.getCount() == 1) {
 					//Toast.makeText(getBaseContext(), "CurrSelT is " + currSelT, Toast.LENGTH_SHORT).show();
 					int index = arg0.getSelectedItemPosition();
@@ -172,7 +172,7 @@ public class DrugsActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				db.open();
-				Toast.makeText(getBaseContext(), "CurrSelS is " + currSelS, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getBaseContext(), "CurrSelS is " + currSelS, Toast.LENGTH_SHORT).show();
 				if(currSelS != -1 || strAdapter.getCount() == 1) {
 					//Toast.makeText(getBaseContext(), "CurrSelS != -1", Toast.LENGTH_SHORT).show();
 					int index = arg0.getSelectedItemPosition();
@@ -201,7 +201,7 @@ public class DrugsActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				db.open();
-				Toast.makeText(getBaseContext(), "CurrSelV is " + currSelV, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getBaseContext(), "CurrSelV is " + currSelV, Toast.LENGTH_SHORT).show();
 				if(currSelV != -1 || volAdapter.getCount() == 1) {
 					//Toast.makeText(getBaseContext(), "CurrSelV != -1", Toast.LENGTH_SHORT).show();
 					int index = arg0.getSelectedItemPosition();
@@ -278,8 +278,8 @@ public class DrugsActivity extends Activity {
 	
 	public void onClickNext(View view) {
 		Intent i = new Intent(this, PharmaciesActivity.class);
-		choosenDrugID = "9";
-		choosenNbr = 1;
+		//choosenDrugID = "9";
+		//choosenNbr = 1;
 		i.putExtra("drugID", choosenDrugID);
 		i.putExtra("nbrOfDrug", choosenNbr);
 		//startActivity(new Intent(this, PharmaciesActivity.class));
