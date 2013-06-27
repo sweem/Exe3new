@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
 		lstView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-				Toast.makeText(getBaseContext(), "Has pos " + pos, Toast.LENGTH_LONG).show();
+				//Toast.makeText(getBaseContext(), "Has pos " + pos, Toast.LENGTH_LONG).show();
 				
 				switch(pos) {
 				case 1: startActivity(new Intent(MainActivity.this, DrugsActivity.class));
