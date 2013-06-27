@@ -66,7 +66,7 @@ public class Pharmacy {
 		distToPh = dist;
 	}
 	
-	public String getOpeningHours() {
+	public String getOpeningHoursToday() {
 		StringBuffer sb = new StringBuffer();
 		Calendar cal = Calendar.getInstance();
 		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
@@ -86,6 +86,48 @@ public class Pharmacy {
 			sb.append("-");
 			sb.append(clHWD);
 		}
+		return sb.toString();
+	}
+	
+	public String getOpeningHoursWD() {
+		StringBuffer sb = new StringBuffer();
+		if(opHWD.equals("Closed") || clHWD.equals("Closed")) {
+			sb.append("Stängt");
+		}
+		else {
+			sb.append(opHWD);
+			sb.append("-");
+			sb.append(clHWD);
+		}
+		
+		return sb.toString();
+	}
+	
+	public String getOpeningHoursSAT() {
+		StringBuffer sb = new StringBuffer();
+		if(opHSAT.equals("Closed") || clHSAT.equals("Closed")) {
+			sb.append("Stängt");
+		}
+		else {
+			sb.append(opHSAT);
+			sb.append("-");
+			sb.append(clHSAT);
+		}
+		
+		return sb.toString();
+	}
+	
+	public String getOpeningHoursSUN() {
+		StringBuffer sb = new StringBuffer();
+		if(opHSUN.equals("Closed") && clHSUN.equals("Closed")) {
+			sb.append("Stängt");
+		}
+		else {
+			sb.append(opHSUN);
+			sb.append("-");
+			sb.append(clHSUN);
+		}
+		
 		return sb.toString();
 	}
 	
@@ -125,5 +167,21 @@ public class Pharmacy {
 	
 	public int getIcon() {
 		return iconId;
+	}
+	
+	public String getPhoneNbr() {
+		return pNbr;
+	}
+	
+	public String getAddress() {
+		return addr;
+	}
+	
+	public String getPostalAC() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(pCode);
+		sb.append(" ");
+		sb.append(pArea.toUpperCase());
+		return sb.toString();
 	}
 }
