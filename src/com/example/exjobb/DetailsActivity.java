@@ -12,18 +12,25 @@ public class DetailsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.details);
 		
-		TextView  tvHeader = (TextView) findViewById(R.id.txtHeader);
-		TextView  tvHWD = (TextView) findViewById(R.id.txtHWD);
-		//TextView  tvHSAT = (TextView) findViewById(R.id.txtHSAT);
-		///TextView  tvHSUN = (TextView) findViewById(R.id.txtHSUN);
+		TextView tvHeader = (TextView) findViewById(R.id.txtHeader);
+		TextView tvHWD = (TextView) findViewById(R.id.txtHWD);
+		TextView tvHSAT = (TextView) findViewById(R.id.txtHSAT);
+		TextView tvHSUN = (TextView) findViewById(R.id.txtHSUN);
+		TextView tvPN = (TextView) findViewById(R.id.txtPN);
+		TextView tvA = (TextView) findViewById(R.id.txtA);
+		TextView tvPCA = (TextView) findViewById(R.id.txtPCA);
 		
 		Bundle b = getIntent().getExtras();
 		Pharmacy ph = new Pharmacy(b.getString("id"), b.getString("chName"), b.getString("phName"), b.getString("addr"), b.getString("pCode"), b.getString("pArea"), b.getString("pNbr"), b.getString("opHWD"), b.getString("clHWD"), b.getString("opHSAT"), b.getString("clHSAT"), b.getString("opHSUN"), b.getString("clHSUN"), b.getString("lat"), b.getString("lon"), b.getFloat("distToPh"));
 		tvHeader.setText(ph.getPharmacyName());
-		tvHWD.setText(ph.opHWD + "-" + ph.clHWD);
-		//tvHSAT.setText("Lördag " + ph.opHSAT + "-" + ph.clHSAT);
-		//tvHSUN.setText("Söndag " + ph.opHSUN + "-" + ph.clHSUN);
+		tvHWD.setText(ph.getOpeningHoursWD());
+		tvHSAT.setText(ph.getOpeningHoursSAT());
+		tvHSUN.setText(ph.getOpeningHoursSUN());
+		tvPN.setText(ph.getPhoneNbr());
+		tvA.setText(ph.getAddress());
+		tvPCA.setText(ph.getPostalAC());
 	}
+
 
 	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -31,5 +38,5 @@ public class DetailsActivity extends Activity {
 		getMenuInflater().inflate(R.menu.details, menu);
 		return true;
 	}*/
-
+	
 }

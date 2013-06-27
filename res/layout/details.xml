@@ -26,12 +26,13 @@
 	</LinearLayout>
 	
     <TextView
-        android:id="@+id/txtHeaderHWD"
+        android:id="@+id/txtHeaderOH"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
+        android:layout_marginLeft="10dp"
         android:textStyle="bold"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:text="Öppettider" />
 	
  	<RelativeLayout 
@@ -39,25 +40,149 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 
-    <TextView 
-        android:id="@+id/txtHeaderHWD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp" 
-        android:textSize="16dp"
-        android:text="Måndag-Fredag"/>
-    
-    <TextView 
-        android:id="@+id/txtHWD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp" 
-        android:layout_toRightOf="@+id/txtHeaderHWD"
-        android:
-        android:textSize="16dp" />
-    
+	    <TextView 
+	        android:id="@+id/txtHeaderHWD"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="5dp" 
+	        android:layout_marginLeft="10dp"
+	        android:textSize="18dp"
+	        android:text="Måndag-Fredag"/>
+	    
+	    <TextView 
+	        android:id="@+id/txtHWD"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="5dp" 
+	        android:layout_toRightOf="@+id/txtHeaderHWD"
+	        android:gravity="right"
+	        android:layout_marginRight="10dp"
+	        android:textSize="18dp" />
+	    
+	    <TextView 
+	        android:id="@+id/txtHeaderHSAT"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="5dp" 
+	        android:layout_below="@+id/txtHeaderHWD"
+	        android:layout_marginLeft="10dp"
+	        android:textSize="18dp"
+	        android:text="Lördag"/>
+	    
+	    <TextView 
+	        android:id="@+id/txtHSAT"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="5dp" 
+	        android:layout_toRightOf="@+id/txtHSAT"
+	        android:layout_below="@+id/txtHWD"
+	        android:gravity="right"
+	        android:layout_marginRight="10dp"
+	        android:textSize="18dp" />
+	    
+	    <TextView 
+	        android:id="@+id/txtHeaderHSUN"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="5dp" 
+	        android:layout_below="@+id/txtHeaderHSAT"
+	        android:layout_marginLeft="10dp"
+	        android:textSize="18dp"
+	        android:text="Söndag"/>
+	    
+	    <TextView 
+	        android:id="@+id/txtHSUN"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="5dp" 
+	        android:layout_toRightOf="@+id/txtHSUN"
+	        android:layout_below="@+id/txtHSAT"
+	        android:gravity="right"
+	        android:layout_marginRight="10dp"
+	        android:textSize="18dp" />
 	</RelativeLayout>
     
+	<TextView
+        android:id="@+id/txtHeaderC"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:text="Kontaktuppgifter" />
+	
+	<RelativeLayout 
+	    android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
 
+	    <TextView 
+	        android:id="@+id/txtHeaderPN"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="5dp" 
+	        android:layout_marginLeft="10dp"
+	        android:textSize="18dp"
+	        android:text="Telefonnummer"/>
+	    
+	    <TextView 
+	        android:id="@+id/txtPN"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="5dp" 
+	        android:layout_toRightOf="@+id/txtHeaderHWD"
+	        android:gravity="right"
+	        android:layout_marginRight="10dp"
+	        android:textSize="18dp" />
+	</RelativeLayout>
     
+	<TextView
+        android:id="@+id/txtHeaderA"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:text="Adress" />
+	
+	<RelativeLayout 
+	    android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<TextView 
+	        android:id="@+id/txtA"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="5dp" 
+	        android:layout_marginLeft="10dp"
+	        android:textSize="18dp" />
+		
+		<TextView 
+	        android:id="@+id/txtPCA"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingTop="5dp" 
+	        android:layout_marginLeft="10dp"
+	        android:layout_below="@+id/txtA"
+	        android:textSize="18dp" />
+	</RelativeLayout>
+	
+	<RelativeLayout
+	    android:id="@+id/lBtn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+		<Button
+		    android:id="@+id/btnFindPH"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerHorizontal="true"
+		    android:layout_centerVertical="true"
+		    android:text="Hitta hit" />
+
+		</RelativeLayout>
+	
 </LinearLayout>
