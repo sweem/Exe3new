@@ -62,8 +62,8 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 		//holder.imgIcon.setImageResource(R.drawable.apotek_ikon);
 		holder.imgIcon.setImageResource(ph.getIcon());
 		holder.txtTitle.setText(ph.getPharmacyName());
-		holder.txtDist.setText(ph.getDistance() + "/" + ph.distToPh + " m.");
-		holder.txtOpen.setText(ph.getOpeningHours());
+		holder.txtDist.setText(ph.getDistance());
+		holder.txtOpen.setText(ph.getOpeningHoursToday());
 		return rowView;
 	}
 	
