@@ -77,7 +77,7 @@ public class PharmaciesActivity extends Activity {
         Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         //Toast.makeText(getBaseContext(), "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude(), Toast.LENGTH_LONG).show();
         final ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc);
-        Toast.makeText(getBaseContext(), "You've choosen " + nbrOfDrug + " of a drug with id " + choosenDrugID, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getBaseContext(), "You've choosen " + nbrOfDrug + " of a drug with id " + choosenDrugID, Toast.LENGTH_LONG).show();
         int dayInWeek = db.getCurrentDay();
         String day;
         
@@ -90,7 +90,7 @@ public class PharmaciesActivity extends Activity {
         else {
         	day = "Weekday";
         }
-        Toast.makeText(getBaseContext(), "It's " + day + " that is day in week " + dayInWeek + " and the time is " + db.getCurrentTime(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getBaseContext(), "It's " + day + " that is day in week " + dayInWeek + " and the time is " + db.getCurrentTime(), Toast.LENGTH_LONG).show();
         /*for(int i = 0; i < arr.size(); i++) {
         	Toast.makeText(getBaseContext(), "Pharmacy " + arr.get(i).id + " has drug in stock. ", Toast.LENGTH_LONG).show();
         }*/
@@ -117,7 +117,7 @@ public class PharmaciesActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 				//Toast.makeText(getBaseContext(), "Has pos " + pos, Toast.LENGTH_LONG).show();
-				Toast.makeText(getBaseContext(), "You clicked on a item with pos " + pos + ".", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getBaseContext(), "You clicked on a item with pos " + pos + ".", Toast.LENGTH_SHORT).show();
 				Pharmacy ph = arr.get(pos-1);
 				Intent i = new Intent(PharmaciesActivity.this, DetailsActivity.class);
 				i.putExtra("id", ph.id);
@@ -195,9 +195,9 @@ public class PharmaciesActivity extends Activity {
 				latitude = loc.getLatitude();
 				longitude = loc.getLongitude();
 				//Toast.makeText(getBaseContext(), "Location changed. Lat is now " + loc.getLatitude() + " and lon is " + loc.getLongitude() + ".", Toast.LENGTH_LONG).show();
-				String myLocation = "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude() + ".";
+				//String myLocation = "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude() + ".";
 				//p = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc.getLongitude() * 1E6));
-				Log.e("My current location", myLocation);
+				//Log.e("My current location", myLocation);
 			}
 			
 		}
@@ -231,11 +231,11 @@ public class PharmaciesActivity extends Activity {
 		//finish();
 	}*/
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.pharmacies, menu);
 		return true;
-	}
+	}*/
 
 }
