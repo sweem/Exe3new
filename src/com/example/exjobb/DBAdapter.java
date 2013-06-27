@@ -329,10 +329,10 @@ public class DBAdapter {
 		return retDist;
 	}*/
 	
-	private double geoPointToDouble(String point) {
+	/*private double geoPointToDouble(String point) {
 		double dPoint = Double.parseDouble(point);
 		return dPoint;
-	}
+	}*/
     
     /*//---retrieves a particular contact---
     public Cursor getDrug(long rowId) throws SQLException {
