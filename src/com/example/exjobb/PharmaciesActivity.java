@@ -36,6 +36,7 @@ public class PharmaciesActivity extends Activity {
 	LocationListener ll;
 	double latitude;
 	double longitude;
+	boolean phWithoutDr;
 	//double latA, lonA, latB, lonB;
 	
 	
@@ -50,8 +51,12 @@ public class PharmaciesActivity extends Activity {
 		lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
 		
 		Bundle b = getIntent().getExtras();
-		choosenDrugID = b.getString("drugID");
-		nbrOfDrug = b.getInt("nbrOfDrug");
+		phWithoutDr = b.getBoolean("PhWithoutDr");
+		if(phWithoutDr == false) {
+			//Log.e("PhWithoutDrug", "False");
+			choosenDrugID = b.getString("drugID");
+			nbrOfDrug = b.getInt("nbrOfDrug");
+		}		
 		
 		db = new DBAdapter(this);
         try {
@@ -74,9 +79,18 @@ public class PharmaciesActivity extends Activity {
         }
        
         db.open();
-        Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        final ArrayList<Pharmacy> arr;
+        final Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         //Toast.makeText(getBaseContext(), "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude(), Toast.LENGTH_LONG).show();
-        final ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc);
+        //final ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc, phWithoutDr);
+        if(phWithoutDr == false) {
+        	//Log.e("PhWithourDr time for sql", "false");
+        	arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc);
+        }
+        else {
+        	//Log.e("PhWithourDr time for sql", "true");
+        	arr = db.getAllPharmaciesWithoutDrugId(loc);
+        }
         //Toast.makeText(getBaseContext(), "You've choosen " + nbrOfDrug + " of a drug with id " + choosenDrugID, Toast.LENGTH_LONG).show();
         int dayInWeek = db.getCurrentDay();
         String day;
@@ -96,13 +110,6 @@ public class PharmaciesActivity extends Activity {
         }*/
         
         db.close();
-		
-		/*ArrayList<Choice> arrChoices = new ArrayList<Choice>();
-		for(int i = 0; i < arr.size(); i++) {
-	        arrChoices.add(new Choice(R.drawable.apotek_ikon, arr.get(i).phName, arr.get(i).getDistance(), arr.get(i).getOpeningHours()));
-		}
-		
-		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, arrChoices);*/
         
 		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, arr);
         lstView = (ListView) findViewById(R.id.lstView);
@@ -119,23 +126,13 @@ public class PharmaciesActivity extends Activity {
 				//Toast.makeText(getBaseContext(), "Has pos " + pos, Toast.LENGTH_LONG).show();
 				//Toast.makeText(getBaseContext(), "You clicked on a item with pos " + pos + ".", Toast.LENGTH_SHORT).show();
 				Pharmacy ph = arr.get(pos-1);
+		        longitude = loc.getLongitude();
+		        latitude = loc.getLatitude();
+		        //Log.e("Ph ID/Lat/Lon", id + "/" + latitude + "/" + longitude);
 				Intent i = new Intent(PharmaciesActivity.this, DetailsActivity.class);
 				i.putExtra("id", ph.id);
-				i.putExtra("chName", ph.chName);
-				i.putExtra("phName", ph.phName);
-				i.putExtra("addr", ph.addr);
-				i.putExtra("pCode", ph.pCode);
-				i.putExtra("pArea", ph.pArea);
-				i.putExtra("pNbr", ph.pNbr);
-				i.putExtra("opHWD", ph.opHWD);
-				i.putExtra("clHWD", ph.clHWD);
-				i.putExtra("opHSAT", ph.opHSAT);
-				i.putExtra("clHSAT", ph.clHSAT);
-				i.putExtra("opHSUN", ph.opHSUN);
-				i.putExtra("clHSUN", ph.clHSUN);
-				i.putExtra("lat", ph.lat);
-				i.putExtra("lon", ph.lon);
-				i.putExtra("distToPh", ph.distToPh);
+				i.putExtra("curLat", latitude);
+				i.putExtra("curLon", longitude);
 				startActivity(i);
 				
 				/*switch(pos) {
