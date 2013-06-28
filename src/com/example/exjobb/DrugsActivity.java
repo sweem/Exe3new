@@ -278,10 +278,11 @@ public class DrugsActivity extends Activity {
 	
 	public void onClickNext(View view) {
 		Intent i = new Intent(this, PharmaciesActivity.class);
-		//choosenDrugID = "9";
-		//choosenNbr = 1;
+		choosenDrugID = "9";
+		choosenNbr = 1;
 		i.putExtra("drugID", choosenDrugID);
 		i.putExtra("nbrOfDrug", choosenNbr);
+		i.putExtra("PhWithoutDr", false);
 		//startActivity(new Intent(this, PharmaciesActivity.class));
 		startActivity(i);
 		//finish();
