@@ -34,6 +34,7 @@ public class DBAdapter {
 	static final String KEY_ADDRESS = "address";
 	static final String KEY_PCODE = "postal_code";
 	static final String KEY_PAREA = "postal_area";
+	static final String KEY_PNBR = "phone_nbr";
 	static final String KEY_OPHWD = "opening_hours_wd";
 	static final String KEY_CLHWD = "closing_hours_wd";
 	static final String KEY_OPHSAT = "opening_hours_sat";
@@ -67,7 +68,7 @@ public class DBAdapter {
     
     static final String DATABASE_CREATE_PH =
     		"create table pharmacies (_id integer primary key autoincrement, "
-    		+ "chain_name text not null, pharmacy_name text not null, address text not null, postal_code text not null, postal_area text not null, opening_hours_wd text not null, closing_hours_wd not null, opening_hours_sat text not null, closing_hours_sat text not null, opening_hours_sun text not null, closing_hour_sun text not null, latitude text not null, longtitude text not null);";
+    		+ "chain_name text not null, pharmacy_name text not null, address text not null, postal_code text not null, postal_area text not null, phone_nbr text not null, opening_hours_wd text not null, closing_hours_wd not null, opening_hours_sat text not null, closing_hours_sat text not null, opening_hours_sun text not null, closing_hour_sun text not null, latitude text not null, longtitude text not null);";
     
     static final String DATABASE_CREATE_ST = 
     		"create table stock (drug_id integer not null, pharmacy_id integer not null, number text not null, price text not null, FOREGIN KEY(drug_id) REFERENCES drugs(_id), FOREGIN KEY(pharmacy_id) REFERENCES pharmacies(_id));";
@@ -238,7 +239,46 @@ public class DBAdapter {
     	
     	Collections.sort(pharmacies, new OrderByDistance()); //Sort pharmacies by distance to pharmacy
     	
-    	return pharmacies;
+    	return reduceArr(pharmacies);
+    }
+    
+    public ArrayList<Pharmacy> getAllPharmaciesWithoutDrugId(Location loc) {
+    	Cursor c;
+    	
+    	int curDay = getCurrentDay();
+    	String curTime = getCurrentTime();
+    	  	
+    	if(curDay == 1) { //Sunday
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_OPHSUN + "!=? and (" + KEY_OPHSUN + "<=? and " + KEY_CLHSUN + ">?)", new String[] {"Closed", curTime, curTime});
+    		/*if(c.getCount() == 0) //Pharmacy closed*/
+    	} else if(curDay == 7) { //Saturday
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_OPHSAT + "!=? and (" + KEY_OPHSAT + "<=? and " + KEY_CLHSAT + ">?)", new String[] {"Closed", curTime, curTime});
+    		/*if(c.getCount() == 0) //Pharmacy closed*/
+    	} else { //Weekday
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_OPHWD + "!=? and (" + KEY_OPHWD + "<=? and " + KEY_CLHWD + ">?)", new String[] {"Closed", curTime, curTime});
+    		/*if(c.getCount() == 0) //Pharmacy closed*/
+    	}
+    	
+    	ArrayList<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
+    	
+    	int i = 0;
+    	if (c.moveToFirst()) {
+            do {
+            	Location locPh = new Location(loc);
+            	locPh.setLatitude(Double.parseDouble(c.getString(13)));
+            	locPh.setLongitude(Double.parseDouble(c.getString(14)));
+            	float dist = loc.distanceTo(locPh);
+            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), dist);
+            	ph.setIcon();
+            	pharmacies.add(ph);
+            	i++;
+            } while (c.moveToNext());
+        }
+    	
+    	Collections.sort(pharmacies, new OrderByDistance()); //Sort pharmacies by distance to pharmacy
+    	
+    	return reduceArr(pharmacies);
+    	
     }
     
     public ArrayList<String> getAllPharmacyIdWithDrugId (String dID, int nbr) {
@@ -269,18 +309,19 @@ public class DBAdapter {
     	return id;
     }
     
-    /*public Pharmacy getPharmacyWithId(String id) {
-    	Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_ADDRESS, KEY_PCODE, KEY_PAREA, KEY_OPHWD, KEY_CLHWD, KEY_OPHSAT, KEY_CLHSAT, KEY_OPHSUN, KEY_CLHSUN, KEY_LAT, KEY_LON}, KEY_PID + "=?", new String[] {id}, null, null, null);
+    public Pharmacy getPharmacyWithId(String id) {
+    	Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_ADDRESS, KEY_PCODE, KEY_PAREA, KEY_PNBR, KEY_OPHWD, KEY_CLHWD, KEY_OPHSAT, KEY_CLHSAT, KEY_OPHSUN, KEY_CLHSUN, KEY_LAT, KEY_LON}, KEY_ROWID + "=?", new String[] {id}, null, null, null);
     	Pharmacy ph = null;
     	
     	if(c.moveToFirst()) {
     		do {
-    			ph = new Pharmacy(id, c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.geS)
-    		}
+    			ph = new Pharmacy(id, c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13));
+    		}while(c.moveToNext());
     	}
     	
     	return ph;
-    }*/
+    	//return c;
+    }
     
     public String getCurrentTime() {
     	Calendar cal = Calendar.getInstance();
@@ -309,8 +350,20 @@ public class DBAdapter {
     
     public int getCurrentDay() {
     	Calendar cal = Calendar.getInstance();
-        /*cal.set(Calendar.DAY_OF_WEEK, 4); //Change current day*/
+        cal.set(Calendar.DAY_OF_WEEK, 1); //Change current day*/
     	return cal.get(Calendar.DAY_OF_WEEK);
+    }
+    
+    private ArrayList<Pharmacy> reduceArr(ArrayList<Pharmacy> arr) { //Max 5 shown pharmacies in list
+    	if(arr.size()> 5) {
+	    	ArrayList<Pharmacy> tmp = new ArrayList<Pharmacy>();
+	    	for(int i = 0; i < 5; i++) {
+	    		tmp.add(arr.get(i));
+	    	}
+			return tmp;
+		}
+    	else
+    		return arr;
     }
     
 	/* Haversine formula*/
