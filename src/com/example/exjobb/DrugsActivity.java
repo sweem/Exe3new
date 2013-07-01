@@ -288,10 +288,10 @@ public class DrugsActivity extends Activity {
 		//finish();
 	}
 	
-	public void onClickBack(View view) {
+	/*public void onClickBack(View view) {
 		startActivity(new Intent(this, MainActivity.class));
 		//finish();
-	}
+	}*/
 	
 	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
