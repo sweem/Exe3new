@@ -19,7 +19,7 @@
 		android:layout_alignParentTop="true"
 		android:layout_alignParentBottom="true"
 		android:textStyle="bold"
-		android:textSize="22dp"
+		android:textSize="24sp"
 		android:textColor="#FFFFFF"
 		android:padding="10dp"
 		android:background="#336699"
@@ -115,24 +115,11 @@
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/btnBack"
-            android:layout_alignBottom="@+id/btnBack"
-            android:layout_alignParentRight="true"
+		    android:layout_centerHorizontal="true"
+		    android:layout_centerVertical="true"
             android:layout_marginRight="50dp"
-            android:text="Nästa" 
+            android:text="Sök" 
             android:onClick="onClickNext"/>
-
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="50dp"
-            android:text="Tillbaka"
-            android:onClick="onClickBack" />
-
     </RelativeLayout>
 
 </LinearLayout>
