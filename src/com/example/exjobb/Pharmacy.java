@@ -2,6 +2,9 @@ package com.example.exjobb;
 
 import java.util.Calendar;
 
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
+
 public class Pharmacy {
 	public String id;
 	public String chName;
@@ -9,6 +12,7 @@ public class Pharmacy {
 	public String addr;
 	public String pCode;
 	public String pArea;
+	public String wPage;
 	public String pNbr;
 	public String opHWD;
 	public String clHWD;
@@ -21,7 +25,7 @@ public class Pharmacy {
 	public float distToPh;
 	public int iconId;
 	
-	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude) {
+	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String webPage, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude) {
 		super();
 		this.id = rID;
 		this.chName = chainName;
@@ -29,6 +33,7 @@ public class Pharmacy {
 		this.addr = address;
 		this.pCode = postalCode;
 		this.pArea = postalArea;
+		this.wPage = webPage;
 		this.pNbr = phoneNbr;
 		this.opHWD = openingHoursWD;
 		this.clHWD = closingHoursWD;
@@ -40,7 +45,7 @@ public class Pharmacy {
 		this.lon = longitude;
 	}
 	
-	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude, float distToPharmacy) {
+	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String webPage, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude, float distToPharmacy) {
 		super();
 		this.id = rID;
 		this.chName = chainName;
@@ -48,6 +53,7 @@ public class Pharmacy {
 		this.addr = address;
 		this.pCode = postalCode;
 		this.pArea = postalArea;
+		this.wPage = webPage;
 		this.pNbr = phoneNbr;
 		this.opHWD = openingHoursWD;
 		this.clHWD = closingHoursWD;
@@ -89,6 +95,7 @@ public class Pharmacy {
 		StringBuffer sb = new StringBuffer();
 		Calendar cal = Calendar.getInstance();
 		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		//int dayOfWeek = 1; //Sunday today
 		
 		if(dayOfWeek == 1) {//Sunday
 			sb.append(opHSUN);
@@ -186,6 +193,10 @@ public class Pharmacy {
 	
 	public int getIcon() {
 		return iconId;
+	}
+	
+	public String getWebPage() {
+		return wPage;
 	}
 	
 	public String getPhoneNbr() {
