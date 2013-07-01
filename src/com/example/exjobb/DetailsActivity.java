@@ -12,16 +12,23 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DetailsActivity extends Activity {
 	DBAdapter db;
 	String id;
 	double curLat, curLon;
 	Pharmacy ph;
+	TextView tvPN;
+	int day;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +36,18 @@ public class DetailsActivity extends Activity {
 		setContentView(R.layout.details);
 		
 		TextView tvHeader = (TextView) findViewById(R.id.txtHeader);
+		TextView tvHeaderHWD = (TextView) findViewById(R.id.txtHeaderHWD); 
+		TextView tvHeaderHSAT = (TextView) findViewById(R.id.txtHeaderHSAT); 
+		TextView tvHeaderHSUN = (TextView) findViewById(R.id.txtHeaderHSUN); 
+		
 		TextView tvHWD = (TextView) findViewById(R.id.txtHWD);
 		TextView tvHSAT = (TextView) findViewById(R.id.txtHSAT);
 		TextView tvHSUN = (TextView) findViewById(R.id.txtHSUN);
-		TextView tvPN = (TextView) findViewById(R.id.txtPN);
+		tvPN = (TextView) findViewById(R.id.txtPN);
+			
 		TextView tvA = (TextView) findViewById(R.id.txtA);
 		TextView tvPCA = (TextView) findViewById(R.id.txtPCA);
+		TextView tvWP = (TextView) findViewById(R.id.txtWP);
 		
 		db = new DBAdapter(this);
         try {
@@ -57,6 +70,7 @@ public class DetailsActivity extends Activity {
         }
        
         db.open();
+        day = db.getCurrentDay();
         Bundle b = getIntent().getExtras();
         id = b.getString("id");
         curLat = b.getDouble("curLat");
@@ -71,11 +85,26 @@ public class DetailsActivity extends Activity {
 		tvHWD.setText(ph.getOpeningHoursWD());
 		tvHSAT.setText(ph.getOpeningHoursSAT());
 		tvHSUN.setText(ph.getOpeningHoursSUN());
+		
+		if(day == 1) { //Sunday
+			tvHeaderHSUN.setTypeface(null, Typeface.BOLD);
+			tvHSUN.setTypeface(null, Typeface.BOLD);
+		}
+		else if(day == 7) { //Saturday
+			tvHeaderHSAT.setTypeface(null, Typeface.BOLD);
+			tvHSAT.setTypeface(null, Typeface.BOLD);
+		}
+		else {
+			tvHeaderHWD.setTypeface(null, Typeface.BOLD);
+			tvHWD.setTypeface(null, Typeface.BOLD);
+		}
+		
 		tvPN.setText(ph.getPhoneNbr());
+		tvWP.setText(ph.getWebPage());
 		tvA.setText(ph.getAddress());
 		tvPCA.setText(ph.getPostalAC());
+		
 	}
-
 
 	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,6 +118,13 @@ public class DetailsActivity extends Activity {
 		startActivity(i);
 		//finish();
 	}
+	
+	/*public void onClickCall(View view) {
+		Intent i = new Intent(android.content.Intent.ACTION_CALL, Uri.parse("044228335"));
+		startActivity(i);
+		//startActivity(new Intent(this, MainActivity.class));
+		//finish();
+	}*/
 	
 	public void CopyDB(InputStream inputStream, 
 		    OutputStream outputStream) throws IOException {
