@@ -34,6 +34,7 @@ public class DBAdapter {
 	static final String KEY_ADDRESS = "address";
 	static final String KEY_PCODE = "postal_code";
 	static final String KEY_PAREA = "postal_area";
+	static final String KEY_WPAGE = "web_page";
 	static final String KEY_PNBR = "phone_nbr";
 	static final String KEY_OPHWD = "opening_hours_wd";
 	static final String KEY_CLHWD = "closing_hours_wd";
@@ -68,7 +69,7 @@ public class DBAdapter {
     
     static final String DATABASE_CREATE_PH =
     		"create table pharmacies (_id integer primary key autoincrement, "
-    		+ "chain_name text not null, pharmacy_name text not null, address text not null, postal_code text not null, postal_area text not null, phone_nbr text not null, opening_hours_wd text not null, closing_hours_wd not null, opening_hours_sat text not null, closing_hours_sat text not null, opening_hours_sun text not null, closing_hour_sun text not null, latitude text not null, longtitude text not null);";
+    		+ "chain_name text not null, pharmacy_name text not null, address text not null, postal_code text not null, postal_area text not null, web_page text not null, phone_nbr text not null, opening_hours_wd text not null, closing_hours_wd not null, opening_hours_sat text not null, closing_hours_sat text not null, opening_hours_sun text not null, closing_hour_sun text not null, latitude text not null, longtitude text not null);";
     
     static final String DATABASE_CREATE_ST = 
     		"create table stock (drug_id integer not null, pharmacy_id integer not null, number text not null, price text not null, FOREGIN KEY(drug_id) REFERENCES drugs(_id), FOREGIN KEY(pharmacy_id) REFERENCES pharmacies(_id));";
@@ -227,10 +228,10 @@ public class DBAdapter {
     	if (c.moveToFirst()) {
             do {
             	Location locPh = new Location(loc);
-            	locPh.setLatitude(Double.parseDouble(c.getString(13)));
-            	locPh.setLongitude(Double.parseDouble(c.getString(14)));
+            	locPh.setLatitude(Double.parseDouble(c.getString(14)));
+            	locPh.setLongitude(Double.parseDouble(c.getString(15)));
             	float dist = loc.distanceTo(locPh);
-            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), dist);
+            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), c.getString(15), dist);
             	ph.setIcon();
             	pharmacies.add(ph);
             	i++;
@@ -265,10 +266,10 @@ public class DBAdapter {
     	if (c.moveToFirst()) {
             do {
             	Location locPh = new Location(loc);
-            	locPh.setLatitude(Double.parseDouble(c.getString(13)));
-            	locPh.setLongitude(Double.parseDouble(c.getString(14)));
+            	locPh.setLatitude(Double.parseDouble(c.getString(14)));
+            	locPh.setLongitude(Double.parseDouble(c.getString(15)));
             	float dist = loc.distanceTo(locPh);
-            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), dist);
+            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), c.getString(15), dist);
             	ph.setIcon();
             	pharmacies.add(ph);
             	i++;
@@ -310,12 +311,12 @@ public class DBAdapter {
     }
     
     public Pharmacy getPharmacyWithId(String id) {
-    	Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_ADDRESS, KEY_PCODE, KEY_PAREA, KEY_PNBR, KEY_OPHWD, KEY_CLHWD, KEY_OPHSAT, KEY_CLHSAT, KEY_OPHSUN, KEY_CLHSUN, KEY_LAT, KEY_LON}, KEY_ROWID + "=?", new String[] {id}, null, null, null);
+    	Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_ADDRESS, KEY_PCODE, KEY_PAREA, KEY_WPAGE, KEY_PNBR, KEY_OPHWD, KEY_CLHWD, KEY_OPHSAT, KEY_CLHSAT, KEY_OPHSUN, KEY_CLHSUN, KEY_LAT, KEY_LON}, KEY_ROWID + "=?", new String[] {id}, null, null, null);
     	Pharmacy ph = null;
     	
     	if(c.moveToFirst()) {
     		do {
-    			ph = new Pharmacy(id, c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13));
+    			ph = new Pharmacy(id, c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14));
     		}while(c.moveToNext());
     	}
     	
@@ -350,7 +351,7 @@ public class DBAdapter {
     
     public int getCurrentDay() {
     	Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_WEEK, 1); //Change current day*/
+        //cal.set(Calendar.DAY_OF_WEEK, 1); //Change current day*/
     	return cal.get(Calendar.DAY_OF_WEEK);
     }
     
@@ -365,44 +366,4 @@ public class DBAdapter {
     	else
     		return arr;
     }
-    
-	/* Haversine formula*/
-	/*private static double getDistFrom(double lat1, double lon1, double lat2, double lon2) {
-		double earthRad = 6371;
-		double dLat = Math.toRadians(lat2-lat1);
-		double dLon = Math.toRadians(lon2-lon1);
-		
-		double sindLat = Math.sin(dLat/2);
-		double sindLon = Math.sin(dLon/2);
-		
-		double a = Math.pow(sindLat, 2) + Math.pow(sindLon, 2) * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-		double retDist = earthRad * c;  
-		
-		return retDist;
-	}*/
-	
-	/*private double geoPointToDouble(String point) {
-		double dPoint = Double.parseDouble(point);
-		return dPoint;
-	}*/
-    
-    /*//---retrieves a particular contact---
-    public Cursor getDrug(long rowId) throws SQLException {
-        Cursor mCursor =
-                db.query(true, DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY}, KEY_ROWID + "=" + rowId, null,
-                null, null, null, null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
-    }*/
-    
-    //---updates a contact---
-    /*public boolean updateContact(long rowId, String name, String email) {
-        ContentValues args = new ContentValues();
-        args.put(KEY_NAME, name);
-        args.put(KEY_EMAIL, email);
-        return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
-    }*/
 }
