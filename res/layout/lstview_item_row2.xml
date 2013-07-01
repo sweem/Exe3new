@@ -23,8 +23,7 @@
         android:layout_toRightOf="@+id/imgIcon"
         android:textStyle="bold"
         android:text="Apotek hjärtat" 
-        android:textSize="20dp"
-        android:layout_marginTop="5dp" />
+        android:textSize="22sp" />
     
     <TextView 
         android:id="@+id/txtDist"
@@ -33,9 +32,8 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/imgIcon"
         android:layout_below="@+id/txtTitle"
-        android:textStyle="bold"
         android:text="1,60 km" 
-        android:textSize="15dp"
+        android:textSize="18sp"
         android:layout_marginTop="5dp" />
     
     <TextView 
@@ -46,9 +44,8 @@
         android:layout_toRightOf="@+id/txtDist"
         android:layout_below="@+id/txtTitle"
         android:gravity="right"
-        android:textStyle="bold"
         android:text="08:00-20:00" 
-        android:textSize="15dp"
+        android:textSize="18sp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp" 
         android:layout_marginRight="5dp" />
