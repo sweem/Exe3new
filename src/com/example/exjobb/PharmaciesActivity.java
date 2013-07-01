@@ -43,7 +43,7 @@ public class PharmaciesActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.pharmacies2);
+		setContentView(R.layout.pharmacies);
 		
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		ll = new MyLocationListener();
@@ -114,7 +114,7 @@ public class PharmaciesActivity extends Activity {
 		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, arr);
         lstView = (ListView) findViewById(R.id.lstView);
 		View header = (View) getLayoutInflater().inflate(R.layout.lstview_header_row2, null);
-		View footer = (View) getLayoutInflater().inflate(R.layout.lstview_footer_row, null);
+		//View footer = (View) getLayoutInflater().inflate(R.layout.lstview_footer_row, null);
 		
 		lstView.addHeaderView(header);
 		//lstView.addFooterView(footer);
@@ -152,9 +152,6 @@ public class PharmaciesActivity extends Activity {
 		
 	}
 	
-	/*public void onBackPressed() {
-		startActivity(new Intent(PharmaciesActivity.this, DrugsActivity.class));
-	}*/
 	
 	public void CopyDB(InputStream inputStream, 
 		    OutputStream outputStream) throws IOException {
@@ -167,22 +164,6 @@ public class PharmaciesActivity extends Activity {
 		        inputStream.close();
 		        outputStream.close();
 	}
-	
-	/* Haversine formula*/
-	/*private static double getDistFrom(double lat1, double lon1, double lat2, double lon2) {
-		double earthRad = 6371;
-		double dLat = Math.toRadians(lat2-lat1);
-		double dLon = Math.toRadians(lon2-lon1);
-		
-		double sindLat = Math.sin(dLat/2);
-		double sindLon = Math.sin(dLon/2);
-		
-		double a = Math.pow(sindLat, 2) + Math.pow(sindLon, 2) * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-		double retDist = earthRad * c;  
-		
-		return retDist;
-	}*/
 	
 	private class MyLocationListener implements LocationListener {
 
@@ -217,16 +198,6 @@ public class PharmaciesActivity extends Activity {
 			
 		}	
 	}
-
-	/*public void onClickNext(View view) {
-		startActivity(new Intent(this, MainActivity.class));
-		//finish();
-	}*/
-	
-	/*public void onClickBack(View view) {
-		startActivity(new Intent(this, DrugsActivity.class));
-		//finish();
-	}*/
 
 	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
