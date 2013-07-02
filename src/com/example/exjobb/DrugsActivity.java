@@ -31,12 +31,16 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class DrugsActivity extends Activity {
+public class DrugsActivity extends Activity implements OnItemSelectedListener {
 	ArrayList<String> drugs;
 	ArrayList<String> types;
 	ArrayList<String> strengths;
 	ArrayList<String> volumes;
 	ArrayList<Integer> nbr;
+	ArrayAdapter<String> typAdapter;
+	ArrayAdapter<String> strAdapter;
+	ArrayAdapter<String> volAdapter;
+	ArrayAdapter<Integer> nbrAdapter;
 	String choosenDru, choosenTyp, choosenStr, choosenVol;
 	int choosenNbr;
 	String choosenDrugID;
@@ -78,62 +82,86 @@ public class DrugsActivity extends Activity {
 		
 		types = new ArrayList<String>();
 		Spinner typSpinner = (Spinner) findViewById(R.id.spiType);
-		final ArrayAdapter<String> typAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
+		//final ArrayAdapter<String> typAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
+		typAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
+		//String[] types = getResources().getStringArray(R.array.type_array);
+		//final ArrayAdapter<String> typAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
 		typSpinner.setAdapter(typAdapter);
 		typAdapter.setNotifyOnChange(true);
-		currSelT = -1;
+		//currSelT = -1;
 		
 		strengths = new ArrayList<String>(); //getResources().getStringArray(R.array.potency_array);
 		Spinner strSpinner = (Spinner) findViewById(R.id.spiPot);
-		final ArrayAdapter<String> strAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strengths);
+		//final ArrayAdapter<String> strAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strengths);
+		strAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, strengths);
 		strSpinner.setAdapter(strAdapter);
 		strAdapter.setNotifyOnChange(true);
-		currSelS = -1;
+		//currSelS = -1;
 		
 		volumes = new ArrayList<String>(); //getResources().getStringArray(R.array.volumes_array);
 		Spinner volSpinner = (Spinner) findViewById(R.id.spiVol);
-		final ArrayAdapter<String> volAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, volumes);
+		//final ArrayAdapter<String> volAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, volumes);
+		volAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, volumes);
 		volSpinner.setAdapter(volAdapter);
 		volAdapter.setNotifyOnChange(true);
-		currSelV = -1;
+		//currSelV = -1;
 		
 		nbr = new ArrayList<Integer>(); //getResources().getStringArray(R.array.nbr_array);
 		Spinner nbrSpinner = (Spinner) findViewById(R.id.spiNbr);
-		final ArrayAdapter<Integer> nbrAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, nbr);
+		//final ArrayAdapter<Integer> nbrAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, nbr);
+		nbrAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, nbr);
 		nbrSpinner.setAdapter(nbrAdapter);
 		nbrAdapter.setNotifyOnChange(true);
-		currSelN = -1;
+		//currSelN = -1;
 	
 		druTV.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				db.open();
 				choosenDru = (String) arg0.getItemAtPosition(arg2);
 				types = db.getAllTypes(choosenDru);
+				typAdapter.clear();
+				strAdapter.clear();
+				volAdapter.clear();
+				nbrAdapter.clear();
+				typAdapter.addAll(types);		
+				
+				if(typAdapter.getCount() == 1) {
+					choosenTyp = types.get(0);
+					strengths = db.getAllStrengths(choosenDru, choosenTyp);
+					strAdapter.clear();
+					volAdapter.clear();
+					nbrAdapter.clear();
+					strAdapter.addAll(strengths);
+				}
 				
 				//if(typesA.getCount() > 0) {
 				//Toast.makeText(getBaseContext(), "TypesA has " + typesA.getCount() + " objects. Emptying typesA.", Toast.LENGTH_SHORT).show();
-				typAdapter.clear();
+				//typAdapter.clear();
 				//}
 				
 				//if(strengthsA.getCount() > 0) {
 				//Toast.makeText(getBaseContext(), "StrengthsA has " + strengthsA.getCount() + " objects. Emptying strengthsA.", Toast.LENGTH_SHORT).show();
-				strAdapter.clear();
+				//strAdapter.clear();
 				//}
 				
 				//Toast.makeText(getBaseContext(), "VolumesA has " + volumesA.getCount() + " objects. Emptying volumesA.", Toast.LENGTH_SHORT).show();
-				volAdapter.clear();
+				//volAdapter.clear();
 				
-				typAdapter.addAll(types);
+				//typAdapter.addAll(types);
 				
 				//Toast.makeText(getBaseContext(), "You've clicked item: " + choosenDrug, Toast.LENGTH_SHORT).show();
 				db.close();
 			}
 		});
+		
+		typSpinner.setOnItemSelectedListener(this);
+		strSpinner.setOnItemSelectedListener(this);
+		volSpinner.setOnItemSelectedListener(this);
+		nbrSpinner.setOnItemSelectedListener(this);
 
-		typSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		/*typSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -246,11 +274,77 @@ public class DrugsActivity extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
 			}
-		});
+		});*/
 		
 		db.close();
 	}
+	
 
+	@Override
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		db.open();
+		int spiId = arg0.getId();
+		int posObj = arg0.getSelectedItemPosition();
+		
+		switch(spiId) {
+			case R.id.spiType:	Toast.makeText(getBaseContext(), "You clicked on typeSpinner", Toast.LENGTH_SHORT).show();
+								choosenTyp = types.get(posObj);
+								strengths = db.getAllStrengths(choosenDru, choosenTyp);
+								strAdapter.clear();
+								volAdapter.clear();
+								nbrAdapter.clear();
+								strAdapter.addAll(strengths);
+								
+								if(strAdapter.getCount() == 1) {
+									choosenStr = strengths.get(0);
+									volumes = db.getAllSizes(choosenDru, choosenTyp, choosenStr);
+									volAdapter.clear();			
+									nbrAdapter.clear();
+									volAdapter.addAll(volumes);								
+								}
+								
+								break;
+			case R.id.spiPot: 	Toast.makeText(getBaseContext(), "You clicked on potencySpinner", Toast.LENGTH_SHORT).show();
+								choosenStr = strengths.get(posObj);
+								volumes = db.getAllSizes(choosenDru, choosenTyp, choosenStr);
+								volAdapter.clear();			
+								nbrAdapter.clear();
+								volAdapter.addAll(volumes);
+								
+								if(volAdapter.getCount() == 1) {
+									choosenVol = volumes.get(0);
+									nbr = fillArrayWithNbrs();
+									nbrAdapter.clear();
+									nbrAdapter.addAll(nbr);
+								}
+								break;
+			case R.id.spiVol: 	Toast.makeText(getBaseContext(), "You clicked on volumeSpinner", Toast.LENGTH_SHORT).show();
+								choosenVol = volumes.get(posObj);
+								nbr = fillArrayWithNbrs();
+								nbrAdapter.clear();
+								nbrAdapter.addAll(nbr);
+								
+								if(nbrAdapter.getCount() == 1) {
+									choosenNbr = nbr.get(0);
+									choosenDrugID = db.getDrugRowId(choosenDru, choosenTyp, choosenStr, choosenVol);
+								}
+								break;
+			case R.id.spiNbr: 	Toast.makeText(getBaseContext(), "You clicked on numberSpinner", Toast.LENGTH_SHORT).show();
+								choosenNbr = nbr.get(posObj);
+								choosenDrugID = db.getDrugRowId(choosenDru, choosenTyp, choosenStr, choosenVol);
+								break;
+		}
+		
+		//Toast.makeText(getBaseContext(), "You've selected id: " + spiId, Toast.LENGTH_SHORT).show();
+		db.close();
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
     protected ArrayList<Integer> fillArrayWithNbrs() {
 		ArrayList<Integer> tmp = new ArrayList<Integer>();
 		
