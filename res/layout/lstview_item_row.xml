@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" 
-    android:padding="10dp" >
+    android:padding="15dp" >
 
     <ImageView
         android:id="@+id/imgIcon"
@@ -12,9 +12,9 @@
         android:gravity="center_vertical"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="15dp"        
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginRight="5dp"        
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
     
     <TextView
         android:id="@+id/txtTitle"
@@ -25,7 +25,6 @@
         android:layout_alignParentBottom="true"
         android:textStyle="bold"
         android:textSize="22sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="5dp" />
 
 </LinearLayout>
