@@ -14,10 +14,12 @@
         <item>Ipren</item>
     </string-array>
     <string-array name="type_array">
+        <item>Alla typer</item>
         <item>Tablett</item>
         <item>Kräm</item>
     </string-array>
     <string-array name="potency_array">
+        <item>Alla styrkor</item>
         <item>100 mg</item>
         <item>100 g</item>
     </string-array>
@@ -29,6 +31,7 @@
         <item>5</item>
     </string-array>
     <string-array name="volumes_array">
+        <item>Alla volymer</item>
         <item>10 st</item>
         <item>30 st</item>
         <item>100 st</item>
