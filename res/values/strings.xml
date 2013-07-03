@@ -40,4 +40,9 @@
     <string name="title_activity_dbadapter">DBAdapter</string>
     <string name="title_activity_pharmacies">PharmaciesActivity</string>
     <string name="title_activity_details">DetailsActivity</string>
+    <string name="title_activity_pharmacies_activity2">PharmaciesActivity2</string>
+    <string name="title_section1">Alla</string>
+    <string name="title_section2">Öppna</string>
+    <string name="title_section3">Section 3</string>
+
 </resources>
