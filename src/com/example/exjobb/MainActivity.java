@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
 						//finish();
 						break;
 				case 3: Intent i = new Intent(MainActivity.this, PharmaciesActivity2.class);
-						//i.putExtra("PhWithoutDr", true);
+						i.putExtra("PhWithoutDr", true);
 						startActivity(i);
 						break;
 				}
