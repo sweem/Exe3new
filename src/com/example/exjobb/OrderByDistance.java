@@ -3,7 +3,6 @@ package com.example.exjobb;
 import java.util.Comparator;
 
 public class OrderByDistance implements Comparator<Pharmacy> {
-
 	@Override
 	public int compare(Pharmacy lhs, Pharmacy rhs) {
 		int retVal = 0;
@@ -18,5 +17,4 @@ public class OrderByDistance implements Comparator<Pharmacy> {
 		}
 		return retVal;
 	}
-
 }
