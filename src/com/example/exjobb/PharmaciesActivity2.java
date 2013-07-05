@@ -1,14 +1,20 @@
 package com.example.exjobb;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Locale;
-
-
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,13 +28,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-public class PharmaciesActivity2 extends FragmentActivity implements
-		ActionBar.TabListener {
-
+public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.TabListener {
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -43,26 +45,11 @@ public class PharmaciesActivity2 extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	
-	/*Nytt*/
-	boolean phWithoutDr;
-	String choosenDrugID;
-	int nbrOfDrug;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pharmacies2);
-	    
-		Bundle b = getIntent().getExtras();
-		phWithoutDr = b.getBoolean("PhWithoutDr");
-		if(phWithoutDr == false) {
-			Log.e("PhWithoutDrug", "False");
-			choosenDrugID = b.getString("drugID");
-			nbrOfDrug = b.getInt("nbrOfDrug");
-		} else {
-			Log.e("PhWithoutDrug", "True");
-		}
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -117,19 +104,6 @@ public class PharmaciesActivity2 extends FragmentActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 	}
-
-	/*Ny*/
-	public void CopyDB(InputStream inputStream, 
-		    OutputStream outputStream) throws IOException {
-		        //---copy 1K bytes at a time---
-		        byte[] buffer = new byte[1024];
-		        int length;
-		        while ((length = inputStream.read(buffer)) > 0) {
-		            outputStream.write(buffer, 0, length);
-		        }
-		        inputStream.close();
-		        outputStream.close();
-	}
 	
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -167,8 +141,6 @@ public class PharmaciesActivity2 extends FragmentActivity implements
 				return getString(R.string.title_section1).toUpperCase(l);
 			case 1:
 				return getString(R.string.title_section2).toUpperCase(l);
-			//case 2:
-			//	return getString(R.string.title_section3).toUpperCase(l);
 			}
 			return null;
 		}
@@ -183,15 +155,18 @@ public class PharmaciesActivity2 extends FragmentActivity implements
 		 * The fragment argument representing the section number for this
 		 * fragment.
 		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
-		
-		/*Nytt*/
-		ArrayAdapter<String> adapterArr;
-		String[] presidents;
-		ListView lstView;
-		boolean phWithoutDr;
+		public static final String ARG_SECTION_NUMBER = "section_number";	
+		double dist;
+		private ListView lstView;
+		DBAdapter db;
 		String choosenDrugID;
 		int nbrOfDrug;
+		
+		LocationManager lm;
+		LocationListener ll;
+		double latitude;
+		double longitude;
+		boolean phWithoutDr;
 		
 		
 		public DummySectionFragment() {
@@ -206,39 +181,121 @@ public class PharmaciesActivity2 extends FragmentActivity implements
 		public void onActivityCreated (Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
 			
-			/*Bundle b = getActivity().getIntent().getExtras();
+			lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+			ll = new MyLocationListener();
+			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
+			
+			Bundle b = getActivity().getIntent().getExtras();
 			phWithoutDr = b.getBoolean("PhWithoutDr");
+			
 			if(phWithoutDr == false) {
-				Log.e("PhWithoutDrug in F", "False");
+				//Log.e("PhWithoutDrug in F", "False");
 				choosenDrugID = b.getString("drugID");
 				nbrOfDrug = b.getInt("nbrOfDrug");
-			} else {
+			} /*else {
 				Log.e("PhWithoutDrug in F", "True");
 			}*/
 			
-			String section = Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER));
+			db = new DBAdapter(getActivity());
+	        try {
+	            String destPath = "/data/data/" + getActivity().getPackageName() + "/databases";
+	            File f = new File(destPath);
+	            if (!f.exists()) {            	
+	            	f.mkdirs();
+	                f.createNewFile();
+	            	
+	            	//---copy the db from the assets folder into 
+	            	// the databases folder---
+	                CopyDB(getActivity().getAssets().open("mydb"),
+	                    new FileOutputStream(destPath + "/MyDB"));
+	            }
+	        } catch (FileNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	       
+	        db.open();
+			
+			final ArrayList<Pharmacy> arr;
+	        final Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+	                
+	        String section = Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER));
 			//Toast.makeText(getActivity(), "You are in section " + section, Toast.LENGTH_SHORT).show();
+	        
+	        if(phWithoutDr == false) {
+	        	Log.e("Without drugID", "False");
+	        	if(section.equals("1")) {
+	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc, false);
+	        	} else {
+	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc, true);
+	        	}
+	        }
+	        else {
+	        	Log.e("Without drugID", "True");
+	        	if(section.equals("1")) {
+	        		arr = db.getPharmaciesWithoutDrugId(loc, false);
+	        	} else
+	        		arr = db.getPharmaciesWithoutDrugId(loc, true);
+	        }
 			
-			switch(Integer.valueOf(section)) {
-				case 1: Toast.makeText(getActivity(), "You are in section " + section, Toast.LENGTH_SHORT).show();
-						presidents = new String[] {"A", "B", "C"};
-						break;
-				case 2: Toast.makeText(getActivity(), "You are in section " + section, Toast.LENGTH_SHORT).show();
-						presidents = new String[] {"D", "E", "F"};
-						break;
-			}
-			
-			adapterArr = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, presidents);
+			PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_row2, arr);
 			lstView = (ListView) getView().findViewById(R.id.lstView);
-			lstView.setAdapter(adapterArr);
+			lstView.setAdapter(adapter);
 			
 			lstView.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-					Toast.makeText(getActivity(), "You've selected " + presidents[arg2], Toast.LENGTH_SHORT).show();
-					Intent i = new Intent(getActivity(), MainActivity.class);
-					startActivity(i);				}
+					//Toast.makeText(getActivity(), "You clicked on a item with pos " + arg2 + ".", Toast.LENGTH_SHORT).show();
+					Pharmacy ph = arr.get(arg2);
+			        longitude = loc.getLongitude();
+			        latitude = loc.getLatitude();
+					Intent i = new Intent(getActivity(), DetailsActivity.class);
+					i.putExtra("id", ph.id);
+					i.putExtra("curLat", latitude);
+					i.putExtra("curLon", longitude);
+					startActivity(i);
+				}
 			});
 		}
+		
+		public void CopyDB(InputStream inputStream, OutputStream outputStream) throws IOException {
+			        //---copy 1K bytes at a time---
+			        byte[] buffer = new byte[1024];
+			        int length;
+			        while ((length = inputStream.read(buffer)) > 0) {
+			            outputStream.write(buffer, 0, length);
+			        }
+			        inputStream.close();
+			        outputStream.close();
+		}
+		
+		private class MyLocationListener implements LocationListener {
+			@Override
+			public void onLocationChanged(Location loc) {
+				if(loc != null) {
+					latitude = loc.getLatitude();
+					longitude = loc.getLongitude();
+				}
+			}
+
+			@Override
+			public void onProviderDisabled(String provider) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onProviderEnabled(String provider) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+				// TODO Auto-generated method stub
+			}	
+		}
 	}
+	
+	
 }
