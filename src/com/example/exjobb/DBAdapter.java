@@ -195,7 +195,7 @@ public class DBAdapter {
     	return sizes;
     }
     
-    public ArrayList<Pharmacy> getAllPharmaciesWithDrugId(String dID, int nbr, Location loc) {
+    public ArrayList<Pharmacy> getPharmaciesWithDrugId(String dID, int nbr, Location loc, boolean onlyOpenPh) {
     	Cursor c;
     	
     	int curDay = getCurrentDay();
@@ -211,15 +211,19 @@ public class DBAdapter {
     	queryIN.append(pIDs.get(pIDs.size()-1));
     	queryIN.append(")");
     	
-    	if(curDay == 1) { //Sunday
-    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSUN + "!=? and (" + KEY_OPHSUN + "<=? and " + KEY_CLHSUN + ">?)", new String[] {"Closed", curTime, curTime});
-    		/*if(c.getCount() == 0) //Pharmacy closed*/
-    	} else if(curDay == 7) { //Saturday
-    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSAT + "!=? and (" + KEY_OPHSAT + "<=? and " + KEY_CLHSAT + ">?)", new String[] {"Closed", curTime, curTime});
-    		/*if(c.getCount() == 0) //Pharmacy closed*/
-    	} else { //Weekday
-    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHWD + "!=? and (" + KEY_OPHWD + "<=? and " + KEY_CLHWD + ">?)", new String[] {"Closed", curTime, curTime});
-    		/*if(c.getCount() == 0) //Pharmacy closed*/
+    	if(onlyOpenPh == true) {
+	    	if(curDay == 1) { //Sunday
+	    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSUN + "!=? and (" + KEY_OPHSUN + "<=? and " + KEY_CLHSUN + ">?)", new String[] {"Closed", curTime, curTime});
+	    		/*if(c.getCount() == 0) //Pharmacy closed*/
+	    	} else if(curDay == 7) { //Saturday
+	    			c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHSAT + "!=? and (" + KEY_OPHSAT + "<=? and " + KEY_CLHSAT + ">?)", new String[] {"Closed", curTime, curTime});
+	    		/*if(c.getCount() == 0) //Pharmacy closed*/
+	    	} else { //Weekday
+	    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString() + " and " + KEY_OPHWD + "!=? and (" + KEY_OPHWD + "<=? and " + KEY_CLHWD + ">?)", new String[] {"Closed", curTime, curTime});
+	    		/*if(c.getCount() == 0) //Pharmacy closed*/
+	    	}
+    	} else {
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_ROWID + queryIN.toString(), null);
     	}
     	
     	ArrayList<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
@@ -243,21 +247,25 @@ public class DBAdapter {
     	return reduceArr(pharmacies);
     }
     
-    public ArrayList<Pharmacy> getAllPharmaciesWithoutDrugId(Location loc) {
+    public ArrayList<Pharmacy> getPharmaciesWithoutDrugId(Location loc, boolean onlyOpenPh) {
     	Cursor c;
     	
     	int curDay = getCurrentDay();
     	String curTime = getCurrentTime();
-    	  	
-    	if(curDay == 1) { //Sunday
-    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_OPHSUN + "!=? and (" + KEY_OPHSUN + "<=? and " + KEY_CLHSUN + ">?)", new String[] {"Closed", curTime, curTime});
-    		/*if(c.getCount() == 0) //Pharmacy closed*/
-    	} else if(curDay == 7) { //Saturday
-    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_OPHSAT + "!=? and (" + KEY_OPHSAT + "<=? and " + KEY_CLHSAT + ">?)", new String[] {"Closed", curTime, curTime});
-    		/*if(c.getCount() == 0) //Pharmacy closed*/
-    	} else { //Weekday
-    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_OPHWD + "!=? and (" + KEY_OPHWD + "<=? and " + KEY_CLHWD + ">?)", new String[] {"Closed", curTime, curTime});
-    		/*if(c.getCount() == 0) //Pharmacy closed*/
+    	
+    	if(onlyOpenPh == true) {//Only open pharmacies
+	    	if(curDay == 1) { //Sunday
+	    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_OPHSUN + "!=? and (" + KEY_OPHSUN + "<=? and " + KEY_CLHSUN + ">?)", new String[] {"Closed", curTime, curTime});
+	    		/*if(c.getCount() == 0) //Pharmacy closed*/
+	    	} else if(curDay == 7) { //Saturday
+	    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_OPHSAT + "!=? and (" + KEY_OPHSAT + "<=? and " + KEY_CLHSAT + ">?)", new String[] {"Closed", curTime, curTime});
+	    		/*if(c.getCount() == 0) //Pharmacy closed*/
+	    	} else { //Weekday
+	    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH + " where " + KEY_OPHWD + "!=? and (" + KEY_OPHWD + "<=? and " + KEY_CLHWD + ">?)", new String[] {"Closed", curTime, curTime});
+	    		/*if(c.getCount() == 0) //Pharmacy closed*/
+	    	}
+    	} else { //openOnly == true
+    		c = db.rawQuery("select * from " + DATABASE_TABLE_PH, null);
     	}
     	
     	ArrayList<Pharmacy> pharmacies = new ArrayList<Pharmacy>();
@@ -352,6 +360,7 @@ public class DBAdapter {
     public int getCurrentDay() {
     	Calendar cal = Calendar.getInstance();
         //cal.set(Calendar.DAY_OF_WEEK, 1); //Change current day*/
+    	Log.e("Curday in dbadapter", "" + Calendar.DAY_OF_WEEK);
     	return cal.get(Calendar.DAY_OF_WEEK);
     }
     
