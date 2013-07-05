@@ -92,27 +92,18 @@ public class Pharmacy {
 	}
 	
 	public String getOpeningHoursToday() {
-		StringBuffer sb = new StringBuffer();
 		Calendar cal = Calendar.getInstance();
 		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-		//int dayOfWeek = 1; //Sunday today
 		
 		if(dayOfWeek == 1) {//Sunday
-			sb.append(opHSUN);
-			sb.append("-");
-			sb.append(clHSUN);
+			return getOpeningHoursSUN();
 		}
 		else if(dayOfWeek == 7) {//Saturday
-			sb.append(opHSAT);
-			sb.append("-");
-			sb.append(clHSAT);
+			return getOpeningHoursSAT();
 		}
 		else {//Weekday
-			sb.append(opHWD);
-			sb.append("-");
-			sb.append(clHWD);
+			return getOpeningHoursWD();
 		}
-		return sb.toString();
 	}
 	
 	public String getOpeningHoursWD() {
