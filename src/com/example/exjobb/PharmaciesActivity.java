@@ -83,14 +83,16 @@ public class PharmaciesActivity extends Activity {
         final Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         //Toast.makeText(getBaseContext(), "Lat: " + loc.getLatitude() + " and lon: " + loc.getLongitude(), Toast.LENGTH_LONG).show();
         //final ArrayList<Pharmacy> arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc, phWithoutDr);
+        
         if(phWithoutDr == false) {
         	//Log.e("PhWithourDr time for sql", "false");
-        	arr = db.getAllPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc);
+        	arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc, true);
         }
         else {
         	//Log.e("PhWithourDr time for sql", "true");
-        	arr = db.getAllPharmaciesWithoutDrugId(loc);
+        	arr = db.getPharmaciesWithoutDrugId(loc, true);
         }
+        
         //Toast.makeText(getBaseContext(), "You've choosen " + nbrOfDrug + " of a drug with id " + choosenDrugID, Toast.LENGTH_LONG).show();
         int dayInWeek = db.getCurrentDay();
         String day;
