@@ -51,8 +51,7 @@ public class DetailsActivity extends Activity {
 		
 		db = new DBAdapter(this);
         try {
-            String destPath = "/data/data/" + getPackageName() +
-                "/databases";
+            String destPath = "/data/data/" + getPackageName() + "/databases";
             File f = new File(destPath);
             if (!f.exists()) {            	
             	f.mkdirs();
@@ -60,8 +59,7 @@ public class DetailsActivity extends Activity {
             	
             	//---copy the db from the assets folder into 
             	// the databases folder---
-                CopyDB(getBaseContext().getAssets().open("mydb"),
-                    new FileOutputStream(destPath + "/MyDB"));
+                CopyDB(getBaseContext().getAssets().open("mydb"), new FileOutputStream(destPath + "/MyDB"));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -71,12 +69,11 @@ public class DetailsActivity extends Activity {
        
         db.open();
         day = db.getCurrentDay();
+        Log.e("Curday in details", "" + day);
         Bundle b = getIntent().getExtras();
         id = b.getString("id");
         curLat = b.getDouble("curLat");
         curLon = b.getDouble("curLon");
-        /*String msg = id + "/" + curLat + "/" + curLon;
-        Log.e("ID/Lat/Lon", msg);*/
         
         ph = db.getPharmacyWithId(id);
         db.close();
@@ -118,13 +115,6 @@ public class DetailsActivity extends Activity {
 		startActivity(i);
 		//finish();
 	}
-	
-	/*public void onClickCall(View view) {
-		Intent i = new Intent(android.content.Intent.ACTION_CALL, Uri.parse("044228335"));
-		startActivity(i);
-		//startActivity(new Intent(this, MainActivity.class));
-		//finish();
-	}*/
 	
 	public void CopyDB(InputStream inputStream, 
 		    OutputStream outputStream) throws IOException {
