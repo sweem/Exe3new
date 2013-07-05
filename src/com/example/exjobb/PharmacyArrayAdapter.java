@@ -15,14 +15,6 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 	Context context;
 	int iconId;
 	ArrayList<Pharmacy> pharmacies;
-	//ArrayList<Choice> choices;
-	
-	/*public PharmacyArrayAdapter(Context context, int iconId, ArrayList<Choice> choices) {
-		super(context, iconId, choices);
-		this.context = context;
-		this.iconId = iconId;
-		this.choices = choices;
-	}*/
 	
 	public PharmacyArrayAdapter(Context context, int iconId, ArrayList<Pharmacy> pharmacies) {
 		super(context, iconId, pharmacies);
@@ -52,14 +44,7 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 			holder = (PharmacyChoiceHolder) rowView.getTag();
 		}
 		
-		//Choice choice = choices[pos];
-		//Choice choice = choices.get(pos);
 		Pharmacy ph = pharmacies.get(pos);
-		/*holder.imgIcon.setImageResource(choice.icon);
-		holder.txtTitle.setText(choice.title);
-		holder.txtDist.setText(choice.distance);
-		holder.txtOpen.setText(choice.hours);*/
-		//holder.imgIcon.setImageResource(R.drawable.apotek_ikon);
 		holder.imgIcon.setImageResource(ph.getIcon());
 		holder.txtTitle.setText(ph.getPharmacyName());
 		holder.txtDist.setText(ph.getDistance());
