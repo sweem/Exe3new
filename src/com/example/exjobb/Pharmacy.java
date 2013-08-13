@@ -24,6 +24,7 @@ public class Pharmacy {
 	public String lon;
 	public float distToPh;
 	public int iconId;
+	public String nbrOfDrug;
 	
 	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String webPage, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude) {
 		super();
@@ -43,6 +44,7 @@ public class Pharmacy {
 		this.clHSUN = closingHoursSUN;
 		this.lat = latitude;
 		this.lon = longitude;
+		nbrOfDrug = null;
 	}
 	
 	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String webPage, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude, float distToPharmacy) {
@@ -64,6 +66,47 @@ public class Pharmacy {
 		this.lat = latitude;
 		this.lon = longitude;
 		this.distToPh = distToPharmacy;
+		nbrOfDrug = null;
+	}
+	
+	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String webPage, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude, float distToPharmacy, String nbr) {
+		super();
+		this.id = rID;
+		this.chName = chainName;
+		this.phName = pharmacyName;
+		this.addr = address;
+		this.pCode = postalCode;
+		this.pArea = postalArea;
+		this.wPage = webPage;
+		this.pNbr = phoneNbr;
+		this.opHWD = openingHoursWD;
+		this.clHWD = closingHoursWD;
+		this.opHSAT = openingHoursSAT;
+		this.clHSAT = closingHoursSAT;
+		this.opHSUN = openingHoursSUN;
+		this.clHSUN = closingHoursSUN;
+		this.lat = latitude;
+		this.lon = longitude;
+		this.distToPh = distToPharmacy;
+		this.nbrOfDrug = nbr;
+	}
+	
+	public Pharmacy(String rID, String nbr) {
+		super();
+		this.id = rID;
+		this.nbrOfDrug = nbr;
+	}
+	
+	public String getNbrOfDrug() {
+		if(nbrOfDrug == null) {
+			return "";
+		}
+		else if(Integer.parseInt(nbrOfDrug) > 1) {
+			return nbrOfDrug + " st tillgängliga";
+		}
+		else {
+			return nbrOfDrug + " st tillgänglig";
+		}
 	}
 	
 	public String getDistance() {
