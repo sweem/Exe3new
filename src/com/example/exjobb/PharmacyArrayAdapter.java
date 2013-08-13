@@ -37,6 +37,7 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 			holder.txtTitle = (TextView) rowView.findViewById(R.id.txtTitle);
 			holder.txtDist = (TextView) rowView.findViewById(R.id.txtDist);
 			holder.txtOpen = (TextView) rowView.findViewById(R.id.txtOpen);
+			holder.txtStock = (TextView) rowView.findViewById(R.id.txtStock);
 					
 			rowView.setTag(holder);
 		}
@@ -49,6 +50,7 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 		holder.txtTitle.setText(ph.getPharmacyName());
 		holder.txtDist.setText(ph.getDistance());
 		holder.txtOpen.setText(ph.getOpeningHoursToday());
+		holder.txtStock.setText(ph.getNbrOfDrug());
 		return rowView;
 	}
 	
@@ -57,5 +59,6 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 		TextView txtTitle;
 		TextView txtDist;
 		TextView txtOpen;
+		TextView txtStock;
 	}
 }
