@@ -42,8 +42,8 @@ public final class R {
         public static final int varda_ikon=0x7f02000b;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f09002a;
-        public static final int action_settings=0x7f090029;
+        public static final int action_forgot_password=0x7f09002b;
+        public static final int action_settings=0x7f09002a;
         public static final int btnFindPH=0x7f090012;
         public static final int btnNext=0x7f090018;
         public static final int email=0x7f09001d;
@@ -55,7 +55,7 @@ public final class R {
         public static final int login_status=0x7f09001a;
         public static final int login_status_message=0x7f09001b;
         public static final int lstView=0x7f090019;
-        public static final int pager=0x7f090027;
+        public static final int pager=0x7f090028;
         public static final int password=0x7f09001e;
         public static final int personnbr=0x7f090021;
         public static final int sign_in_button=0x7f090020;
@@ -82,7 +82,8 @@ public final class R {
         public static final int txtOpen=0x7f090026;
         public static final int txtPCA=0x7f090010;
         public static final int txtPN=0x7f09000b;
-        public static final int txtSpi=0x7f090028;
+        public static final int txtSpi=0x7f090029;
+        public static final int txtStock=0x7f090027;
         public static final int txtTitle=0x7f090024;
         public static final int txtWP=0x7f09000d;
     }
