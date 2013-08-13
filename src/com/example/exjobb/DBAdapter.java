@@ -197,18 +197,24 @@ public class DBAdapter {
     
     public ArrayList<Pharmacy> getPharmaciesWithDrugId(String dID, int nbr, Location loc, boolean onlyOpenPh) {
     	Cursor c;
+    	Cursor cST;
     	
     	int curDay = getCurrentDay();
     	String curTime = getCurrentTime();
     	  	
-    	ArrayList<String> pIDs = getAllPharmacyIdWithDrugId(dID, nbr);
-    	/*if(pIDs.size() == 0) //Drug couldn't be found - Out of stock or too few items in stock */
+    	//ArrayList<String> pIDs = getAllPharmacyIdWithDrugId(dID, nbr);
+    	ArrayList<Pharmacy> pIDs = getAllPharmacyIdWithDrugId2(dID, nbr);
+    	/*if(pIDs.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
+    		pIDs = getAllPharmacyIdWithDrugId(dID, 1);
+    	}*/
     	StringBuffer queryIN = new StringBuffer(" in(");
     	for(int i = 0; i < pIDs.size()-1; i++) {
-    		queryIN.append(pIDs.get(i) + ",");
+    		//queryIN.append(pIDs.get(i) + ",");
+    		queryIN.append(pIDs.get(i).id + ",");
     	}
     	
-    	queryIN.append(pIDs.get(pIDs.size()-1));
+    	//queryIN.append(pIDs.get(pIDs.size()-1));
+    	queryIN.append(pIDs.get(pIDs.size()-1).id);
     	queryIN.append(")");
     	
     	if(onlyOpenPh == true) {
@@ -235,7 +241,7 @@ public class DBAdapter {
             	locPh.setLatitude(Double.parseDouble(c.getString(14)));
             	locPh.setLongitude(Double.parseDouble(c.getString(15)));
             	float dist = loc.distanceTo(locPh);
-            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), c.getString(15), dist);
+            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), c.getString(15), dist, pIDs.get(i).nbrOfDrug);
             	ph.setIcon();
             	pharmacies.add(ph);
             	i++;
@@ -298,6 +304,22 @@ public class DBAdapter {
     	if (c.moveToFirst()) {
             do {
             	phids.add(c.getString(0));
+            	i++;
+            } while (c.moveToNext());
+        }
+    	
+    	return phids;
+    }
+    
+    public ArrayList<Pharmacy> getAllPharmacyIdWithDrugId2 (String dID, int nbr) {
+    	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID, KEY_NBR}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, null);
+    	ArrayList<Pharmacy> phids = new ArrayList<Pharmacy>();
+    	
+    	int i = 0;
+    	if (c.moveToFirst()) {
+            do {
+            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1));
+            	phids.add(ph);
             	i++;
             } while (c.moveToNext());
         }
