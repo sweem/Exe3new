@@ -107,6 +107,7 @@ public class Pharmacy {
 		else {
 			return nbrOfDrug + " st tillgänglig";
 		}
+		//return "7 st tillgängliga";
 	}
 	
 	public String getDistance() {
