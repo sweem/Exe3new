@@ -47,6 +47,7 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 	String choosenDrugID;
 	DBAdapter db;
 	int currSelT, currSelS, currSelV, currSelN;
+	boolean drugOutOfStock;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -248,16 +249,42 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
     }
 	
 	public void onClickNext(View view) {
+		db.open();
 		Intent i = new Intent(this, PharmaciesActivity2.class);
 		/*choosenDrugID = "9"; //Which drug to search for
 		choosenNbr = 1;*/ //Nbr of search drug
 		i.putExtra("drugID", choosenDrugID);
 		i.putExtra("nbrOfDrug", choosenNbr);
 		i.putExtra("PhWithoutDr", false);
-		Log.e("drugID/nbrOfDrug", choosenDrugID + "/" + choosenNbr);
+		ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, choosenNbr); //Finds all pharmacyid and nbr of that drug with drugid and nbrOfDrug
+		
+		if(pids.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
+    		pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 1);
+    		if(pids.size() == 0) { //Drug out of stock
+    			Log.e("Drug out of stock. ", "" + pids.size());
+    			Fragment1 dialogFragment = Fragment1.newInstance("Läkemedel slut. Kontakta apotek.");
+    			dialogFragment.show(getFragmentManager(), "dialog");
+    			drugOutOfStock = true;
+    			
+    		 }
+    		else { //Too few items of drug in stock
+    			Log.e("Too few items in stock. ", "" + pids.size());
+    			Fragment1 dialogFragment = Fragment1.newInstance("För få läkemedel tillgängliga.");
+    			dialogFragment.show(getFragmentManager(), "dialog");
+        		drugOutOfStock = false;
+    		}
+    	}
+		else {
+			startActivity(i);
+		}
+		
+		//Log.e("drugID/nbrOfDrug", choosenDrugID + "/" + choosenNbr);
 		//startActivity(new Intent(this, PharmaciesActivity.class));
-		startActivity(i);
+		
+		/*startActivity(i);*/
+		
 		//finish();
+		db.close();
 	}
 	
 	/*@Override
@@ -266,5 +293,21 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		getMenuInflater().inflate(R.menu.drugs, menu);
 		return true;
 	}*/
-
+	
+	public void doPositiveClick() {
+		Log.d("DrugsActivity", "User clicks on OK");
+		Intent i = new Intent(this, PharmaciesActivity2.class);
+		if(drugOutOfStock == false) {
+			/*choosenDrugID = "9"; //Which drug to search for
+			choosenNbr = 1;*/ //Nbr of search drug
+			i.putExtra("drugID", choosenDrugID);
+			i.putExtra("nbrOfDrug", choosenNbr);
+			i.putExtra("PhWithoutDr", false);
+			startActivity(i);
+		}
+		else {
+			i.putExtra("PhWithoutDr", true);
+			startActivity(i);
+		}
+	}
 }
