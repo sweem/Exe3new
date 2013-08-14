@@ -195,7 +195,7 @@ public class DBAdapter {
     	return sizes;
     }
     
-    public ArrayList<Pharmacy> getPharmaciesWithDrugId(String dID, int nbr, Location loc, boolean onlyOpenPh) {
+    public ArrayList<Pharmacy> getPharmaciesWithDrugId(String dID, int nbr, ArrayList<Pharmacy> pIDs, Location loc, boolean onlyOpenPh) {
     	Cursor c;
     	Cursor cST;
     	
@@ -203,10 +203,15 @@ public class DBAdapter {
     	String curTime = getCurrentTime();
     	  	
     	//ArrayList<String> pIDs = getAllPharmacyIdWithDrugId(dID, nbr);
-    	ArrayList<Pharmacy> pIDs = getAllPharmacyIdWithDrugId2(dID, nbr);
-    	/*if(pIDs.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
-    		pIDs = getAllPharmacyIdWithDrugId(dID, 1);
-    	}*/
+    	/*ArrayList<Pharmacy> pIDs = getAllPharmacyIdWithDrugId2(dID, nbr);
+    	if(pIDs.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
+    		pIDs = getAllPharmacyIdWithDrugId2(dID, 1); //Too few items in stock
+    		/*if(pIDs.size() == 0) {
+    		 	return pIDs;
+    		 }
+    		*/ //Item out of stock
+    	//}
+    	
     	StringBuffer queryIN = new StringBuffer(" in(");
     	for(int i = 0; i < pIDs.size()-1; i++) {
     		//queryIN.append(pIDs.get(i) + ",");
@@ -296,7 +301,7 @@ public class DBAdapter {
     	
     }
     
-    public ArrayList<String> getAllPharmacyIdWithDrugId (String dID, int nbr) {
+    /*public ArrayList<String> getAllPharmacyIdWithDrugId (String dID, int nbr) {
     	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, null);
     	ArrayList<String> phids = new ArrayList<String>();
     	
@@ -309,7 +314,7 @@ public class DBAdapter {
         }
     	
     	return phids;
-    }
+    }*/
     
     public ArrayList<Pharmacy> getAllPharmacyIdWithDrugId2 (String dID, int nbr) {
     	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID, KEY_NBR}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, null);
@@ -323,6 +328,8 @@ public class DBAdapter {
             	i++;
             } while (c.moveToNext());
         }
+    	
+    	Collections.sort(phids, new OrderByPhID()); //Sort pharmacies by pharmacyid
     	
     	return phids;
     }
