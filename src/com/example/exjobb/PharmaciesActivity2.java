@@ -226,10 +226,20 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        
 	        if(phWithoutDr == false) {
 	        	Log.e("Without drugID", "False");
+	        	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
+	        	
+	        	if(pids.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
+	        		pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 1); //Too few items in stock
+	        		/*if(pIDs.size() == 0) {
+	        		 	return pIDs;
+	        		 }
+	        		*/ //Item out of stock
+	        	}
+	        	
 	        	if(section.equals("1")) {
-	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc, false);
+	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, false);
 	        	} else {
-	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc, true);
+	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true);
 	        	}
 	        }
 	        else {
