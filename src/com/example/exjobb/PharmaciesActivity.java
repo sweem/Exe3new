@@ -86,7 +86,8 @@ public class PharmaciesActivity extends Activity {
         
         if(phWithoutDr == false) {
         	//Log.e("PhWithourDr time for sql", "false");
-        	arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, loc, true);
+        	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
+        	arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true);
         }
         else {
         	//Log.e("PhWithourDr time for sql", "true");
