@@ -7,19 +7,22 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 public class Fragment1 extends DialogFragment {
-	static Fragment1 newInstance(String title) {
+	static Fragment1 newInstance(String title, String message) {
 		Fragment1 fragment = new Fragment1();
 		Bundle args = new Bundle();
 		args.putString("title", title);
+		args.putString("message", message);
 		fragment.setArguments(args);
 		return fragment;
 	}
 	
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		String title = getArguments().getString("title");
+		String message = getArguments().getString("message");
 		return new AlertDialog.Builder(getActivity())
 		.setIcon(R.drawable.ic_launcher)
 		.setTitle(title)
+		.setMessage(message)
 		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			
 			@Override
