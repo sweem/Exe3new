@@ -219,6 +219,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        db.open();
 			
 			final ArrayList<Pharmacy> arr;
+			PharmacyArrayAdapter adapter;
 	        final Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 	                
 	        String section = Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER));
@@ -230,10 +231,6 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        	
 	        	if(pids.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
 	        		pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 1); //Too few items in stock
-	        		/*if(pIDs.size() == 0) {
-	        		 	return pIDs;
-	        		 }
-	        		*/ //Item out of stock
 	        	}
 	        	
 	        	if(section.equals("1")) {
@@ -241,6 +238,8 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        	} else {
 	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true);
 	        	}
+	        	
+	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwd, arr);
 	        }
 	        else {
 	        	Log.e("Without drugID", "True");
@@ -248,9 +247,11 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        		arr = db.getPharmaciesWithoutDrugId(loc, false);
 	        	} else
 	        		arr = db.getPharmaciesWithoutDrugId(loc, true);
+	        	
+	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwod, arr);
 	        }
 			
-			PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_row2, arr);
+			//PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_row2, arr);
 			lstView = (ListView) getView().findViewById(R.id.lstView);
 			lstView.setAdapter(adapter);
 			
