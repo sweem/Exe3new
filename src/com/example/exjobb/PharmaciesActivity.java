@@ -114,7 +114,7 @@ public class PharmaciesActivity extends Activity {
         
         db.close();
         
-		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_row2, arr);
+		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_rowwd, arr);
         lstView = (ListView) findViewById(R.id.lstView);
 		View header = (View) getLayoutInflater().inflate(R.layout.lstview_header_row2, null);
 		//View footer = (View) getLayoutInflater().inflate(R.layout.lstview_footer_row, null);
