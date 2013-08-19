@@ -50,7 +50,8 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 		holder.txtTitle.setText(ph.getPharmacyName());
 		holder.txtDist.setText(ph.getDistance());
 		holder.txtOpen.setText(ph.getOpeningHoursToday());
-		holder.txtStock.setText(ph.getNbrOfDrug());
+		if(holder.txtStock != null)
+			holder.txtStock.setText(ph.getNbrOfDrug());
 		return rowView;
 	}
 	
