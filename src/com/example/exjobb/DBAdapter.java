@@ -176,6 +176,8 @@ public class DBAdapter {
     	
     	c.close();
     	
+    	Collections.sort(strengths, new OrderByStrength());
+    	
     	return strengths;
     }
     
@@ -191,6 +193,8 @@ public class DBAdapter {
             	i++;
             } while (c.moveToNext());
         }
+    	
+    	Collections.sort(sizes, new OrderBySize());
     	
     	return sizes;
     }
