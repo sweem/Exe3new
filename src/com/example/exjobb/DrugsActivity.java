@@ -262,14 +262,14 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
     		pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 1);
     		if(pids.size() == 0) { //Drug out of stock
     			Log.e("Drug out of stock. ", "" + pids.size());
-    			Fragment1 dialogFragment = Fragment1.newInstance("Läkemedel slut. Kontakta apotek.");
+    			Fragment1 dialogFragment = Fragment1.newInstance("Inga läkemedel tillgängliga", "Kontakta det närmaste apoteket för att beställa.");
     			dialogFragment.show(getFragmentManager(), "dialog");
     			drugOutOfStock = true;
     			
     		 }
     		else { //Too few items of drug in stock
     			Log.e("Too few items in stock. ", "" + pids.size());
-    			Fragment1 dialogFragment = Fragment1.newInstance("För få läkemedel tillgängliga.");
+    			Fragment1 dialogFragment = Fragment1.newInstance("Få läkemedel tillgängliga", "Kontakta ett apoteket för att beställa fler.");
     			dialogFragment.show(getFragmentManager(), "dialog");
         		drugOutOfStock = false;
     		}
