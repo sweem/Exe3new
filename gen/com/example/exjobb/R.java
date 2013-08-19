@@ -98,11 +98,12 @@ public final class R {
         public static final int lstview_header_row2=0x7f030007;
         public static final int lstview_header_row3=0x7f030008;
         public static final int lstview_item_row=0x7f030009;
-        public static final int lstview_item_row2=0x7f03000a;
-        public static final int main=0x7f03000b;
-        public static final int pharmacies=0x7f03000c;
-        public static final int pharmacies2=0x7f03000d;
-        public static final int spinner_item_row=0x7f03000e;
+        public static final int lstview_item_rowwd=0x7f03000a;
+        public static final int lstview_item_rowwod=0x7f03000b;
+        public static final int main=0x7f03000c;
+        public static final int pharmacies=0x7f03000d;
+        public static final int pharmacies2=0x7f03000e;
+        public static final int spinner_item_row=0x7f03000f;
     }
     public static final class menu {
         public static final int details=0x7f080000;
