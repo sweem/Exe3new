@@ -145,7 +145,7 @@ public class DBAdapter {
     }
     
     public ArrayList<String> getAllTypes(String drugName) {
-    	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_TYPE}, KEY_DNAME + "=?", new String[] {drugName}, KEY_TYPE, null, null);
+    	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_TYPE}, KEY_DNAME + "=?", new String[] {drugName}, KEY_TYPE, null, KEY_TYPE + " ASC");
     	ArrayList<String> types = new ArrayList<String>();
     	
     	int i = 0;
@@ -194,7 +194,7 @@ public class DBAdapter {
             } while (c.moveToNext());
         }
     	
-    	Collections.sort(sizes, new OrderBySize());
+    	//Collections.sort(sizes, new OrderBySize());
     	
     	return sizes;
     }
