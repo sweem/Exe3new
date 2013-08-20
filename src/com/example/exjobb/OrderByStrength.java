@@ -7,28 +7,42 @@ import android.util.Log;
 public class OrderByStrength implements Comparator<String> {//500 mg/30mg, 24 mg/ml ect is not included here.
 	@Override
 	public int compare(String lhs, String rhs) {
-		StringBuffer sbl = new StringBuffer(lhs);
-		StringBuffer sbr = new StringBuffer(rhs);
+		StringBuffer sbLhs = new StringBuffer(lhs);
+		StringBuffer sbRhs = new StringBuffer(rhs);
 		
-		int endl = sbl.indexOf(" mg");
-		int endr = sbr.indexOf(" mg");
+		int spaceLhs = sbLhs.indexOf(" ");
+		Log.e("spacelhs", Integer.toString(spaceLhs));
+		int spaceRhs = sbRhs.indexOf(" ");
+		Log.e("spacerhs", Integer.toString(spaceRhs));
 		
-		int tmpl = Integer.parseInt(sbl.substring(0, endl));
-		Log.e("tmpl", Integer.toString(tmpl));
-		int tmpr = Integer.parseInt(sbr.substring(0, endr));
-		Log.e("tmpr", Integer.toString(tmpr));
+		String unitLhs = sbLhs.substring(spaceLhs+1);
+		Log.e("unitlhs", unitLhs);
+		String unitRhs = sbRhs.substring(spaceRhs+1);
+		Log.e("unitrhs", unitRhs);
 		
-		int retVal = 0;
-		if(tmpl > tmpr) {
-			retVal = 1;
+		if(unitLhs.equals(unitRhs)) {
+			Log.e("units equal", "true");
+			int tmpLhs = Integer.parseInt(sbLhs.substring(0, spaceLhs));
+			Log.e("tmplhs", Integer.toString(tmpLhs));
+			int tmpRhs = Integer.parseInt(sbRhs.substring(0, spaceRhs));
+			Log.e("tmprhs", Integer.toString(tmpRhs));
+			
+			int retVal = 0;
+			if(tmpLhs > tmpRhs) {
+				retVal = 1;
+			}
+			else if(tmpLhs < tmpRhs) {
+				retVal = -1;
+			}
+			else if(tmpLhs == tmpRhs) {
+				retVal = 0;
+			}
+			
+			return retVal;
 		}
-		else if(tmpl < tmpr) {
-			retVal = -1;
+		else {
+			Log.e("units equal", "false");
+			return unitLhs.compareTo(unitRhs);
 		}
-		else if(tmpl == tmpr) {
-			retVal = 0;
-		}
-		
-		return retVal;
 	}
 }
