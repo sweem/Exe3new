@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +54,10 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drugs);
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setSubtitle("Hitta läkemedel");
+		actionBar.setTitle("Hitta din medicin");
 		
 		db = new DBAdapter(this);
         try {
@@ -287,12 +292,12 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		db.close();
 	}
 	
-	/*@Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.drugs, menu);
 		return true;
-	}*/
+	}
 	
 	public void doPositiveClick() {
 		Log.d("DrugsActivity", "User clicks on OK");
