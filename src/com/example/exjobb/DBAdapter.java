@@ -194,7 +194,7 @@ public class DBAdapter {
             } while (c.moveToNext());
         }
     	
-    	//Collections.sort(sizes, new OrderBySize());
+    	Collections.sort(sizes, new OrderBySize());
     	
     	return sizes;
     }
@@ -321,7 +321,7 @@ public class DBAdapter {
     }*/
     
     public ArrayList<Pharmacy> getAllPharmacyIdWithDrugId2 (String dID, int nbr) {
-    	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID, KEY_NBR}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, null);
+    	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID, KEY_NBR}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, KEY_PID + " ASC");
     	ArrayList<Pharmacy> phids = new ArrayList<Pharmacy>();
     	
     	int i = 0;
@@ -332,8 +332,6 @@ public class DBAdapter {
             	i++;
             } while (c.moveToNext());
         }
-    	
-    	Collections.sort(phids, new OrderByPhID()); //Sort pharmacies by pharmacyid
     	
     	return phids;
     }
