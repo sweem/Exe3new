@@ -11,21 +11,21 @@ public class OrderByStrength implements Comparator<String> {//500 mg/30mg, 24 mg
 		StringBuffer sbRhs = new StringBuffer(rhs);
 		
 		int spaceLhs = sbLhs.indexOf(" ");
-		Log.e("spacelhs", Integer.toString(spaceLhs));
+		//Log.e("spacelhs", Integer.toString(spaceLhs));
 		int spaceRhs = sbRhs.indexOf(" ");
-		Log.e("spacerhs", Integer.toString(spaceRhs));
+		//Log.e("spacerhs", Integer.toString(spaceRhs));
 		
 		String unitLhs = sbLhs.substring(spaceLhs+1);
-		Log.e("unitlhs", unitLhs);
+		//Log.e("unitlhs", unitLhs);
 		String unitRhs = sbRhs.substring(spaceRhs+1);
-		Log.e("unitrhs", unitRhs);
+		//Log.e("unitrhs", unitRhs);
 		
 		if(unitLhs.equals(unitRhs)) {
-			Log.e("units equal", "true");
+			//Log.e("units equal", "true");
 			int tmpLhs = Integer.parseInt(sbLhs.substring(0, spaceLhs));
-			Log.e("tmplhs", Integer.toString(tmpLhs));
+			//Log.e("tmplhs", Integer.toString(tmpLhs));
 			int tmpRhs = Integer.parseInt(sbRhs.substring(0, spaceRhs));
-			Log.e("tmprhs", Integer.toString(tmpRhs));
+			//Log.e("tmprhs", Integer.toString(tmpRhs));
 			
 			int retVal = 0;
 			if(tmpLhs > tmpRhs) {
@@ -41,7 +41,7 @@ public class OrderByStrength implements Comparator<String> {//500 mg/30mg, 24 mg
 			return retVal;
 		}
 		else {
-			Log.e("units equal", "false");
+			//Log.e("units equal", "false");
 			return unitLhs.compareTo(unitRhs);
 		}
 	}
