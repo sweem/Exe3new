@@ -11,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
@@ -35,6 +36,10 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
+		ActionBar actionBar = getActionBar();
+		//actionBar.setSubtitle("Undermeny");
+		actionBar.setTitle("Hitta din medicin");
+		
 		Choice choices[] = new Choice[] {
 				new Choice(R.drawable.tablett_ikon, "Hitta läkemedel"), 
 				new Choice(R.drawable.recept_ikon, "Mina recept"), 
@@ -43,10 +48,10 @@ public class MainActivity extends Activity {
 		ChoiceArrayAdapter adapter = new ChoiceArrayAdapter(this, R.layout.lstview_item_row, choices);
 		
 		lstView = (ListView) findViewById(R.id.lstView);
-		View header = (View) getLayoutInflater().inflate(R.layout.lstview_header_row, null);
-		View footer = (View) getLayoutInflater().inflate(R.layout.lstview_footer_row, null);
+		//View header = (View) getLayoutInflater().inflate(R.layout.lstview_header_row, null);
+		//View footer = (View) getLayoutInflater().inflate(R.layout.lstview_footer_row, null);
 		
-		lstView.addHeaderView(header);
+		//lstView.addHeaderView(header);
 		//lstView.addFooterView(footer);
 		lstView.setAdapter(adapter);
 		
@@ -56,13 +61,13 @@ public class MainActivity extends Activity {
 				//Toast.makeText(getBaseContext(), "Has pos " + pos, Toast.LENGTH_LONG).show();
 				
 				switch(pos) {
-				case 1: startActivity(new Intent(MainActivity.this, DrugsActivity.class));
+				case 0: startActivity(new Intent(MainActivity.this, DrugsActivity.class));
 						//finish();
 						break;
-				case 2: startActivity(new Intent(MainActivity.this, LoginActivity.class));
+				case 1: startActivity(new Intent(MainActivity.this, LoginActivity.class));
 						//finish();
 						break;
-				case 3: Intent i = new Intent(MainActivity.this, PharmaciesActivity2.class);
+				case 2: Intent i = new Intent(MainActivity.this, PharmaciesActivity2.class);
 						i.putExtra("PhWithoutDr", true);
 						startActivity(i);
 						break;
@@ -74,12 +79,12 @@ public class MainActivity extends Activity {
 		//tv.setText("hehe");
 	}
 	
-	/*@Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
-	}*/
+	}
 	
 	/*public void onListItemClick (ListView parent, View v, int pos, long id) {
 		Choice item = (Choice) getListAdapter().getItem(pos);
