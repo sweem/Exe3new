@@ -3,6 +3,7 @@ package com.example.exjobb;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -51,8 +52,11 @@ public class LoginActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.login);
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setSubtitle("Logga in");
+		actionBar.setTitle("Hitta din medicin");
 
 		// Set up the login form.
 		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
