@@ -38,29 +38,7 @@
 
        	<RelativeLayout 
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
-            
-	        <LinearLayout 
-	            android:id="@+id/header"
-	    		android:orientation="horizontal"
-			    android:layout_width="fill_parent"
-			    android:layout_height="fill_parent" >
-	
-			    <TextView
-			        android:id="@+id/txtHeader"
-			        android:layout_width="fill_parent"
-			        android:layout_height="fill_parent"
-			        android:gravity="center_vertical"
-			        android:layout_alignParentTop="true"
-			        android:layout_alignParentBottom="true"
-			        android:textStyle="bold"
-			        android:textSize="24sp"
-			        android:textColor="#FFFFFF"
-			        android:padding="10dp"
-			        android:background="#336699"
-			        android:text="Hitta min medicin" />
-			</LinearLayout>
-	        
+            android:layout_height="fill_parent" >	        
 
 	        <LinearLayout
 	            style="@style/LoginFormContainer"
