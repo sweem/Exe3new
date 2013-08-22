@@ -9,6 +9,7 @@ import java.io.OutputStream;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -35,7 +36,8 @@ public class DetailsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.details);
 		
-		TextView tvHeader = (TextView) findViewById(R.id.txtHeader);
+		ActionBar actionBar = getActionBar();
+		
 		TextView tvHeaderHWD = (TextView) findViewById(R.id.txtHeaderHWD); 
 		TextView tvHeaderHSAT = (TextView) findViewById(R.id.txtHeaderHSAT); 
 		TextView tvHeaderHSUN = (TextView) findViewById(R.id.txtHeaderHSUN); 
@@ -78,7 +80,7 @@ public class DetailsActivity extends Activity {
         ph = db.getPharmacyWithId(id);
         db.close();
        
-		tvHeader.setText(ph.getPharmacyName());
+		actionBar.setTitle(ph.getPharmacyName());
 		tvHWD.setText(ph.getOpeningHoursWD());
 		tvHSAT.setText(ph.getOpeningHoursSAT());
 		tvHSUN.setText(ph.getOpeningHoursSUN());
@@ -103,12 +105,12 @@ public class DetailsActivity extends Activity {
 		
 	}
 
-	/*@Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.details, menu);
 		return true;
-	}*/
+	}
 	
 	public void onClickDirections(View view) {
 		Intent i = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + curLat + "," + curLon + "&daddr=" + ph.lat + "," + ph.lon));

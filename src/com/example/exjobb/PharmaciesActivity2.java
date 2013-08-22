@@ -53,6 +53,8 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
+		actionBar.setSubtitle("Funna apotek");
+		actionBar.setTitle("Hitta din medicin");
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// Create the adapter that will return a fragment for each of the three
@@ -183,8 +185,9 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			
 			lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 			ll = new MyLocationListener();
-			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
+			
+			//lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+			//lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
 			
 			Bundle b = getActivity().getIntent().getExtras();
 			phWithoutDr = b.getBoolean("PhWithoutDr");
@@ -230,7 +233,11 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
 	        	
 	        	if(pids.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
-	        		pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 1); //Too few items in stock
+	        		pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 1);
+	        		if(pids.size() == 0) { //Drug out of stock
+	        			Log.e("Drug out of stock. ", "" + pids.size());
+	        			pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 0);
+	        		 }
 	        	}
 	        	
 	        	if(section.equals("1")) {
@@ -251,6 +258,8 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwod, arr);
 	        }
 			
+	        db.close();
+	        
 			//PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_row2, arr);
 			lstView = (ListView) getView().findViewById(R.id.lstView);
 			lstView.setAdapter(adapter);
@@ -271,6 +280,19 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			});
 		}
 		
+		public void onResume() {
+			super.onResume();
+			
+			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+			lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
+		}
+		
+		public void onPause() {
+			super.onPause();
+			
+			lm.removeUpdates(ll);
+		}
+		
 		public void CopyDB(InputStream inputStream, OutputStream outputStream) throws IOException {
 			        //---copy 1K bytes at a time---
 			        byte[] buffer = new byte[1024];
@@ -287,7 +309,9 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			public void onLocationChanged(Location loc) {
 				if(loc != null) {
 					latitude = loc.getLatitude();
+					Log.e("Lat: ", Double.toString(latitude));
 					longitude = loc.getLongitude();
+					Log.e("Lon: ", Double.toString(longitude));
 				}
 			}
 

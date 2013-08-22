@@ -269,26 +269,18 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
     			Log.e("Drug out of stock. ", "" + pids.size());
     			Fragment1 dialogFragment = Fragment1.newInstance("Inga läkemedel tillgängliga", "Kontakta det närmaste apoteket för att beställa.");
     			dialogFragment.show(getFragmentManager(), "dialog");
-    			drugOutOfStock = true;
     			
     		 }
     		else { //Too few items of drug in stock
     			Log.e("Too few items in stock. ", "" + pids.size());
     			Fragment1 dialogFragment = Fragment1.newInstance("Få läkemedel tillgängliga", "Kontakta ett apoteket för att beställa fler.");
     			dialogFragment.show(getFragmentManager(), "dialog");
-        		drugOutOfStock = false;
     		}
     	}
 		else {
 			startActivity(i);
 		}
 		
-		//Log.e("drugID/nbrOfDrug", choosenDrugID + "/" + choosenNbr);
-		//startActivity(new Intent(this, PharmaciesActivity.class));
-		
-		/*startActivity(i);*/
-		
-		//finish();
 		db.close();
 	}
 	
@@ -302,17 +294,9 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 	public void doPositiveClick() {
 		Log.d("DrugsActivity", "User clicks on OK");
 		Intent i = new Intent(this, PharmaciesActivity2.class);
-		if(drugOutOfStock == false) {
-			/*choosenDrugID = "9"; //Which drug to search for
-			choosenNbr = 1;*/ //Nbr of search drug
-			i.putExtra("drugID", choosenDrugID);
-			i.putExtra("nbrOfDrug", choosenNbr);
-			i.putExtra("PhWithoutDr", false);
-			startActivity(i);
-		}
-		else {
-			i.putExtra("PhWithoutDr", true);
-			startActivity(i);
-		}
+		i.putExtra("drugID", choosenDrugID);
+		i.putExtra("nbrOfDrug", choosenNbr);
+		i.putExtra("PhWithoutDr", false);
+		startActivity(i);
 	}
 }

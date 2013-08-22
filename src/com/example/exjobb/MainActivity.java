@@ -48,11 +48,6 @@ public class MainActivity extends Activity {
 		ChoiceArrayAdapter adapter = new ChoiceArrayAdapter(this, R.layout.lstview_item_row, choices);
 		
 		lstView = (ListView) findViewById(R.id.lstView);
-		//View header = (View) getLayoutInflater().inflate(R.layout.lstview_header_row, null);
-		//View footer = (View) getLayoutInflater().inflate(R.layout.lstview_footer_row, null);
-		
-		//lstView.addHeaderView(header);
-		//lstView.addFooterView(footer);
 		lstView.setAdapter(adapter);
 		
 		lstView.setOnItemClickListener(new OnItemClickListener() {
