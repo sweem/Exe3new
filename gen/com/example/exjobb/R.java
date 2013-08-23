@@ -48,7 +48,7 @@ public final class R {
         public static final int btnNext=0x7f090016;
         public static final int email=0x7f09001c;
         public static final int header=0x7f09001b;
-        public static final int imgIcon=0x7f090020;
+        public static final int imgIcon=0x7f090021;
         public static final int lBtn=0x7f09000f;
         public static final int login=0x7f09001e;
         public static final int login_form=0x7f09001a;
@@ -80,7 +80,7 @@ public final class R {
         public static final int txtPCA=0x7f09000e;
         public static final int txtPN=0x7f090009;
         public static final int txtStock=0x7f090024;
-        public static final int txtTitle=0x7f090021;
+        public static final int txtTitle=0x7f090020;
         public static final int txtWP=0x7f09000b;
     }
     public static final class layout {
@@ -88,11 +88,14 @@ public final class R {
         public static final int drugs=0x7f030001;
         public static final int fragment_pharmacies2=0x7f030002;
         public static final int login=0x7f030003;
-        public static final int lstview_item_row=0x7f030004;
-        public static final int lstview_item_rowwd=0x7f030005;
-        public static final int lstview_item_rowwod=0x7f030006;
-        public static final int main=0x7f030007;
-        public static final int pharmacies2=0x7f030008;
+        public static final int lstview_header_row=0x7f030004;
+        public static final int lstview_header_row2=0x7f030005;
+        public static final int lstview_item_row=0x7f030006;
+        public static final int lstview_item_rowwd=0x7f030007;
+        public static final int lstview_item_rowwod=0x7f030008;
+        public static final int main=0x7f030009;
+        public static final int pharmacies=0x7f03000a;
+        public static final int pharmacies2=0x7f03000b;
     }
     public static final class menu {
         public static final int details=0x7f080000;
