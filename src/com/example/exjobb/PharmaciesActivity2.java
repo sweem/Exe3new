@@ -83,6 +83,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			// this tab is selected.
 			actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 		}
+		
 	}
 
 	@Override
@@ -252,8 +253,9 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        	Log.e("Without drugID", "True");
 	        	if(section.equals("1")) {
 	        		arr = db.getPharmaciesWithoutDrugId(loc, false);
-	        	} else
+	        	} else {
 	        		arr = db.getPharmaciesWithoutDrugId(loc, true);
+	        	}
 	        	
 	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwod, arr);
 	        }
@@ -331,6 +333,8 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			}	
 		}
 	}
-	
-	
+
+	public void doPositiveClick() {
+		Log.d("PharmacieActivity2", "User clicks on OK");
+	}
 }

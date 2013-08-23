@@ -255,30 +255,36 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 	
 	public void onClickNext(View view) {
 		db.open();
-		Intent i = new Intent(this, PharmaciesActivity2.class);
-		/*choosenDrugID = "9"; //Which drug to search for
-		choosenNbr = 1;*/ //Nbr of search drug
-		i.putExtra("drugID", choosenDrugID);
-		i.putExtra("nbrOfDrug", choosenNbr);
-		i.putExtra("PhWithoutDr", false);
-		ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, choosenNbr); //Finds all pharmacyid and nbr of that drug with drugid and nbrOfDrug
 		
-		if(pids.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
-    		pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 1);
-    		if(pids.size() == 0) { //Drug out of stock
-    			Log.e("Drug out of stock. ", "" + pids.size());
-    			Fragment1 dialogFragment = Fragment1.newInstance("Inga läkemedel tillgängliga", "Kontakta det närmaste apoteket för att beställa.");
-    			dialogFragment.show(getFragmentManager(), "dialog");
-    			
-    		 }
-    		else { //Too few items of drug in stock
-    			Log.e("Too few items in stock. ", "" + pids.size());
-    			Fragment1 dialogFragment = Fragment1.newInstance("Få läkemedel tillgängliga", "Kontakta ett apoteket för att beställa fler.");
-    			dialogFragment.show(getFragmentManager(), "dialog");
-    		}
-    	}
-		else {
-			startActivity(i);
+		if (choosenDrugID != null && choosenNbr > 0) {
+			Intent i = new Intent(this, PharmaciesActivity2.class);
+			/*choosenDrugID = "9"; //Which drug to search for
+			choosenNbr = 1;*/ //Nbr of search drug
+			i.putExtra("drugID", choosenDrugID);
+			i.putExtra("nbrOfDrug", choosenNbr);
+			i.putExtra("PhWithoutDr", false);
+			ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, choosenNbr); //Finds all pharmacyid and nbr of that drug with drugid and nbrOfDrug
+			
+			if(pids.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
+	    		pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 1);
+	    		if(pids.size() == 0) { //Drug out of stock
+	    			//Log.e("Drug out of stock. ", "" + pids.size());
+	    			Fragment1 dialogFragment = Fragment1.newInstance("Inga läkemedel tillgängliga", "Kontakta det närmaste apoteket för att beställa.");
+	    			dialogFragment.show(getFragmentManager(), "dialog");
+	    		 }
+	    		else { //Too few items of drug in stock
+	    			//Log.e("Too few items in stock. ", "" + pids.size());
+	    			Fragment1 dialogFragment = Fragment1.newInstance("Få läkemedel tillgängliga", "Kontakta ett apoteket för att beställa fler.");
+	    			dialogFragment.show(getFragmentManager(), "dialog");
+	    		}
+	    	}
+			else {
+				startActivity(i);
+			}
+		} else {
+			//Log.e("ChoosenDrugID ", "is null");
+			Fragment1 dialogFragment = Fragment1.newInstance("Välj läkemedel", "...");
+			dialogFragment.show(getFragmentManager(), "dialog");
 		}
 		
 		db.close();
@@ -292,11 +298,14 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 	}
 	
 	public void doPositiveClick() {
-		Log.d("DrugsActivity", "User clicks on OK");
-		Intent i = new Intent(this, PharmaciesActivity2.class);
-		i.putExtra("drugID", choosenDrugID);
-		i.putExtra("nbrOfDrug", choosenNbr);
-		i.putExtra("PhWithoutDr", false);
-		startActivity(i);
+		//Log.d("DrugsActivity", "User clicks on OK");
+		
+		if (choosenDrugID != null && choosenNbr > 0) {
+			Intent i = new Intent(this, PharmaciesActivity2.class);
+			i.putExtra("drugID", choosenDrugID);
+			i.putExtra("nbrOfDrug", choosenNbr);
+			i.putExtra("PhWithoutDr", false);
+			startActivity(i);
+		}
 	}
 }
