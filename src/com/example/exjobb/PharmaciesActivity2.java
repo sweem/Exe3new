@@ -83,7 +83,6 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			// this tab is selected.
 			actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 		}
-		
 	}
 
 	@Override
@@ -238,13 +237,28 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        		if(pids.size() == 0) { //Drug out of stock
 	        			Log.e("Drug out of stock. ", "" + pids.size());
 	        			pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 0);
+	        			
+	        			if(section.equals("1")) {
+		        			Fragment2 dialogFragment = Fragment2.newInstance("Inga läkemedel tillgängliga", "Kontakta ditt apotek för att beställa.");
+		        			dialogFragment.show(getActivity().getFragmentManager(), "dialog");
+	        			}
 	        		 }
+	        		else { //To few items of that drug in stock
+	        			if(section.equals("1")) {
+	        				Fragment2 dialogFragment = Fragment2.newInstance("Få läkemedel tillgängliga", "Kontakta ditt apotek för att beställa fler.");
+	        				dialogFragment.show(getActivity().getFragmentManager(), "dialog");
+	        			}
+	        		}
 	        	}
 	        	
 	        	if(section.equals("1")) {
 	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, false);
 	        	} else {
 	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true);
+	        		
+	        		/*if(arr.isEmpty()) {
+	        			
+	        		}*/
 	        	}
 	        	
 	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwd, arr);
@@ -255,6 +269,10 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        		arr = db.getPharmaciesWithoutDrugId(loc, false);
 	        	} else {
 	        		arr = db.getPharmaciesWithoutDrugId(loc, true);
+	        		
+	        		/*if(arr.isEmpty()) {
+	        			
+	        		}*/
 	        	}
 	        	
 	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwod, arr);
