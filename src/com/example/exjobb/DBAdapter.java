@@ -53,15 +53,10 @@ public class DBAdapter {
     static final String TAG = "DBAdapter";
 
     static final String DATABASE_NAME = "MyDB";
-    //static final String DATABASE_TABLE = "contacts";
     static final String DATABASE_TABLE_DR = "drugs";
     static final String DATABASE_TABLE_PH = "pharmacies"; 
     static final String DATABASE_TABLE_ST = "stock";
     static final int DATABASE_VERSION = 2;
-
-    /*static final String DATABASE_CREATE =
-        "create table contacts (_id integer primary key autoincrement, "
-        + "name text not null, email text not null);";*/
 
     static final String DATABASE_CREATE_DR =
     		"create table drugs (_id integer primary key autoincrement, "
@@ -104,7 +99,6 @@ public class DBAdapter {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
                     + newVersion + ", which will destroy all old data");
-            //db.execSQL("DROP TABLE IF EXISTS contacts");
             db.execSQL("DROP TABLE IF EXISTS drugs");
             db.execSQL("DROP TABLE IF EXISTS pharmacies");
             db.execSQL("DROP TABLE IF EXISTS stock");
@@ -365,10 +359,10 @@ public class DBAdapter {
     
     public String getCurrentTime() {
     	Calendar cal = Calendar.getInstance();
-    	/*cal.set(Calendar.HOUR_OF_DAY, 10); //Change current time
+    	cal.set(Calendar.HOUR_OF_DAY, 23); //Change current time
     	cal.set(Calendar.MINUTE, 0);
     	cal.set(Calendar.SECOND, 0);
-    	cal.set(Calendar.MILLISECOND, 0);*/
+    	cal.set(Calendar.MILLISECOND, 0);
     	
     	StringBuffer currentTime = new StringBuffer();
     	int hour = cal.get(Calendar.HOUR_OF_DAY);
