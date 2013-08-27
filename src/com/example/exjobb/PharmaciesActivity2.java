@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.TabListener {
 	/**
@@ -160,6 +161,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 		public static final String ARG_SECTION_NUMBER = "section_number";	
 		double dist;
 		private ListView lstView;
+		private TextView txtView;
 		DBAdapter db;
 		String choosenDrugID;
 		int nbrOfDrug;
@@ -168,7 +170,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 		LocationListener ll;
 		double latitude;
 		double longitude;
-		boolean phWithoutDr;
+		boolean phWithoutDr, noOpenPh;
 		
 		
 		public DummySectionFragment() {
@@ -176,7 +178,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_pharmacies2, container, false);
+			View rootView = inflater.inflate(R.layout.fragment_pharmacies22, container, false);
 			return rootView;
 		}
 		
@@ -185,6 +187,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			
 			lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 			ll = new MyLocationListener();
+			noOpenPh = false;
 			
 			//lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
 			//lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
@@ -226,16 +229,15 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        final Location loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 	                
 	        String section = Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER));
-			//Toast.makeText(getActivity(), "You are in section " + section, Toast.LENGTH_SHORT).show();
 	        
 	        if(phWithoutDr == false) {
-	        	Log.e("Without drugID", "False");
+	        	//Log.e("Without drugID", "False");
 	        	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
 	        	
 	        	if(pids.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
 	        		pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 1);
 	        		if(pids.size() == 0) { //Drug out of stock
-	        			Log.e("Drug out of stock. ", "" + pids.size());
+	        			//Log.e("Drug out of stock. ", "" + pids.size());
 	        			pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 0);
 	        			
 	        			if(section.equals("1")) {
@@ -256,23 +258,25 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        	} else {
 	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true);
 	        		
-	        		/*if(arr.isEmpty()) {
-	        			
-	        		}*/
+	        		if(arr.isEmpty() == true) {
+	        			//Log.e("Arr is empty", "True");
+	        			noOpenPh = true;
+	        		}
 	        	}
 	        	
 	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwd, arr);
 	        }
 	        else {
-	        	Log.e("Without drugID", "True");
+	        	Log.e("Without drugID/in sec", "True/" + section);
 	        	if(section.equals("1")) {
 	        		arr = db.getPharmaciesWithoutDrugId(loc, false);
 	        	} else {
 	        		arr = db.getPharmaciesWithoutDrugId(loc, true);
 	        		
-	        		/*if(arr.isEmpty()) {
-	        			
-	        		}*/
+	        		if(arr.isEmpty() == true) {
+	        			//Log.e("Arr is empty", "True");
+	        			noOpenPh = true;
+	        		}
 	        	}
 	        	
 	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwod, arr);
@@ -280,24 +284,31 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			
 	        db.close();
 	        
-			//PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_row2, arr);
-			lstView = (ListView) getView().findViewById(R.id.lstView);
-			lstView.setAdapter(adapter);
-			
-			lstView.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-					//Toast.makeText(getActivity(), "You clicked on a item with pos " + arg2 + ".", Toast.LENGTH_SHORT).show();
-					Pharmacy ph = arr.get(arg2);
-			        longitude = loc.getLongitude();
-			        latitude = loc.getLatitude();
-					Intent i = new Intent(getActivity(), DetailsActivity.class);
-					i.putExtra("id", ph.id);
-					i.putExtra("curLat", latitude);
-					i.putExtra("curLon", longitude);
-					startActivity(i);
-				}
-			});
+	        if(noOpenPh == true) {
+	        	Log.e("No open ph/in sec", "True/" + section);
+	        	txtView = (TextView) getView().findViewById(R.id.txtView);
+	        } else {
+	        	Log.e("No open ph/in sec", "False/" + section);
+				lstView = (ListView) getView().findViewById(R.id.lstView);
+	        	txtView = (TextView) getView().findViewById(R.id.txtView);
+	        	lstView.setEmptyView(txtView);
+				lstView.setAdapter(adapter);
+				
+				lstView.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+						//Toast.makeText(getActivity(), "You clicked on a item with pos " + arg2 + ".", Toast.LENGTH_SHORT).show();
+						Pharmacy ph = arr.get(arg2);
+				        longitude = loc.getLongitude();
+				        latitude = loc.getLatitude();
+						Intent i = new Intent(getActivity(), DetailsActivity.class);
+						i.putExtra("id", ph.id);
+						i.putExtra("curLat", latitude);
+						i.putExtra("curLon", longitude);
+						startActivity(i);
+					}
+				});
+	        }
 		}
 		
 		public void onResume() {
@@ -329,9 +340,9 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			public void onLocationChanged(Location loc) {
 				if(loc != null) {
 					latitude = loc.getLatitude();
-					Log.e("Lat: ", Double.toString(latitude));
+					//Log.e("Lat: ", Double.toString(latitude));
 					longitude = loc.getLongitude();
-					Log.e("Lon: ", Double.toString(longitude));
+					//Log.e("Lon: ", Double.toString(longitude));
 				}
 			}
 
