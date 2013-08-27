@@ -9,16 +9,20 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".PharmaciesActivity2$DummySectionFragment" >
-    
-    <ListView
-        android:id="@+id/lstView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-    
-    <TextView 
-        android:id="@+id/txtView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:text="Det finns inga öppna apotek" />
-   
+		
+	<ListView
+	    android:id="@+id/lstView"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:drawSelectorOnTop="false" />
+		
+	<TextView
+	    android:id="@+id/txtView"
+	    android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:text="Inga öppna apotek."
+		android:gravity="center"
+		android:textAppearance="?android:attr/textAppearanceMedium" />
+	      
 </FrameLayout>
+        
