@@ -354,15 +354,14 @@ public class DBAdapter {
     	}
     	
     	return ph;
-    	//return c;
     }
     
     public String getCurrentTime() {
     	Calendar cal = Calendar.getInstance();
-    	cal.set(Calendar.HOUR_OF_DAY, 23); //Change current time
+    	/*cal.set(Calendar.HOUR_OF_DAY, 20); //Change current time
     	cal.set(Calendar.MINUTE, 0);
     	cal.set(Calendar.SECOND, 0);
-    	cal.set(Calendar.MILLISECOND, 0);
+    	cal.set(Calendar.MILLISECOND, 0);*/
     	
     	StringBuffer currentTime = new StringBuffer();
     	int hour = cal.get(Calendar.HOUR_OF_DAY);
