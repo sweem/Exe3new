@@ -8,29 +8,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-import com.google.android.maps.GeoPoint;
-
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class DrugsActivity extends Activity implements OnItemSelectedListener {
 	ArrayList<String> drugs;
@@ -83,7 +75,7 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
         
         drugs = db.getAllDrugNames();
 		final ArrayAdapter<String> druAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drugs);
-		AutoCompleteTextView druTV = (AutoCompleteTextView) findViewById(R.id.txtDrugs);		
+		AutoCompleteTextView druTV = (AutoCompleteTextView) findViewById(R.id.txtDrugs);
 		druTV.setThreshold(2);
 		druTV.setAdapter(druAdapter);
 		
@@ -155,6 +147,33 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		strSpinner.setOnItemSelectedListener(this);
 		volSpinner.setOnItemSelectedListener(this);
 		nbrSpinner.setOnItemSelectedListener(this);		
+		
+		druTV.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				if(s.length() == 1 && choosenDru != null) {
+					Log.e("Empty atv", "True");
+					typAdapter.clear();
+					strAdapter.clear();
+					volAdapter.clear();
+					nbrAdapter.clear();
+				}
+			}
+		});
+		
 		db.close();
 	}
 	
