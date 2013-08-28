@@ -2,9 +2,6 @@ package com.example.exjobb;
 
 import java.util.Calendar;
 
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
-
 public class Pharmacy {
 	public String id;
 	public String chName;
