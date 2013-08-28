@@ -260,6 +260,8 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        		
 	        		if(arr.isEmpty() == true) {
 	        			//Log.e("Arr is empty", "True");
+	        			/*Fragment2 dialogFragment = Fragment2.newInstance("Inga öppna apotek", "Kontrollera apotekens öppettider.");
+        				dialogFragment.show(getActivity().getFragmentManager(), "dialog");*/
 	        			noOpenPh = true;
 	        		}
 	        	}
@@ -267,7 +269,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwd, arr);
 	        }
 	        else {
-	        	Log.e("Without drugID/in sec", "True/" + section);
+	        	//Log.e("Without drugID/in sec", "True/" + section);
 	        	if(section.equals("1")) {
 	        		arr = db.getPharmaciesWithoutDrugId(loc, false);
 	        	} else {
@@ -275,6 +277,8 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        		
 	        		if(arr.isEmpty() == true) {
 	        			//Log.e("Arr is empty", "True");
+	        			/*Fragment2 dialogFragment = Fragment2.newInstance("Inga öppna apotek", "Kontrollera apotekens öppettider.");
+        				dialogFragment.show(getActivity().getFragmentManager(), "dialog");*/
 	        			noOpenPh = true;
 	        		}
 	        	}
@@ -284,13 +288,17 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			
 	        db.close();
 	        
+        	txtView = (TextView) getView().findViewById(R.id.txtView);
+	        
 	        if(noOpenPh == true) {
-	        	Log.e("No open ph/in sec", "True/" + section);
-	        	txtView = (TextView) getView().findViewById(R.id.txtView);
+	        	//Log.e("No open ph/in sec", "True/" + section);
+    			Fragment2 dialogFragment = Fragment2.newInstance("Inga öppna apotek", "Kontrollera apotekens öppettider.");
+				dialogFragment.show(getActivity().getFragmentManager(), "dialog");
+	        	//txtView = (TextView) getView().findViewById(R.id.txtView);
 	        } else {
-	        	Log.e("No open ph/in sec", "False/" + section);
+	        	//Log.e("No open ph/in sec", "False/" + section);
 				lstView = (ListView) getView().findViewById(R.id.lstView);
-	        	txtView = (TextView) getView().findViewById(R.id.txtView);
+	        	//txtView = (TextView) getView().findViewById(R.id.txtView);
 	        	lstView.setEmptyView(txtView);
 				lstView.setAdapter(adapter);
 				
