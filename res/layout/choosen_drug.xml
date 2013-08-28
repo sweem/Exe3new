@@ -9,8 +9,94 @@
     tools:context=".ChoosenDrugActivity" >
 
     <TextView
+        android:id="@+id/txtDrugName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="Alvedon" 
+        android:textStyle="bold"
+        android:textSize="26sp" />
+    
+	<TextView
+        android:id="@+id/txtManuf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtDrugName"
+        android:text="GlaxoSmithKline Consumer Healthcare" 
+        android:textSize="12sp" />
+    
+    <TextView
+        android:id="@+id/txtTyPoSi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/txtManuf"
+        android:text="Brustablett 500 mg, 20 st" 
+        android:textSize="18sp" />
+    
+	<TextView
+        android:id="@+id/txtSubHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/txtTyPoSi"
+        android:text="Aktiv substans:" 
+        android:textStyle="bold"
+        android:textSize="18sp" />
+	
+	<TextView
+        android:id="@+id/txtSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtSubHeader"
+        android:text="Paracetamol" 
+        android:textSize="18sp" />
+	
+	<TextView
+	    android:id="@+id/txtPreOnly"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBaseline="@+id/txtSub"
+	    android:layout_alignBottom="@+id/txtSub"
+	    android:layout_alignRight="@+id/txtManuf"
+	    android:text="Receptfritt"
+	    android:textSize="18sp"
+	    android:textStyle="italic" />
+    
+ 	<TextView
+        android:id="@+id/txtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/txtPreOnly"
+        android:text="Förmånspris|Från pris: 200 kr" 
+        android:textSize="18sp" />
+ 	
+	<TextView
+        android:id="@+id/txtInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/txtPrice"
+        android:text="För mer info se bipacksedel." 
+        android:textSize="18sp" />
+    
+	<Button
+        android:id="@+id/btnFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Sök" 
+        android:onClick="onClickNext" />
+
+	<ImageView
+	    android:id="@+id/imageView1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/txtPrice"
+	    android:layout_centerHorizontal="true"
+	    android:layout_marginTop="92dp"
+	    android:src="@drawable/ic_launcher" />
+
 
 </RelativeLayout>
