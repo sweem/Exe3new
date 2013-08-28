@@ -358,7 +358,7 @@ public class DBAdapter {
     
     public String getCurrentTime() {
     	Calendar cal = Calendar.getInstance();
-    	/*cal.set(Calendar.HOUR_OF_DAY, 20); //Change current time
+    	/*cal.set(Calendar.HOUR_OF_DAY, 21); //Change current time
     	cal.set(Calendar.MINUTE, 0);
     	cal.set(Calendar.SECOND, 0);
     	cal.set(Calendar.MILLISECOND, 0);*/
@@ -378,13 +378,15 @@ public class DBAdapter {
     		currentTime.append("0");
     	currentTime.append(sec);
     	
+    	Log.e("Curtime", currentTime.toString());
+    	
 		return currentTime.toString();
     }
     
     public int getCurrentDay() {
     	Calendar cal = Calendar.getInstance();
         //cal.set(Calendar.DAY_OF_WEEK, 1); //Change current day*/
-    	Log.e("Curday in dbadapter", "" + Calendar.DAY_OF_WEEK);
+    	Log.e("Curday in dbadapter", "" + cal.get(Calendar.DAY_OF_WEEK));
     	return cal.get(Calendar.DAY_OF_WEEK);
     }
     
