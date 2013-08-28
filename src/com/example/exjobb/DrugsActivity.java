@@ -276,12 +276,13 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		db.open();
 		
 		if (choosenDrugID != null && choosenNbr > 0) {
-			Intent i = new Intent(this, PharmaciesActivity2.class);
+			//Intent i = new Intent(this, PharmaciesActivity2.class);
+			Intent i = new Intent(this, ChoosenDrugActivity.class);
 			/*choosenDrugID = "9"; //Which drug to search for
 			choosenNbr = 1;*/ //Nbr of search drug
 			i.putExtra("drugID", choosenDrugID);
 			i.putExtra("nbrOfDrug", choosenNbr);
-			i.putExtra("PhWithoutDr", false);
+			i.putExtra("phWithoutDr", false);
 			startActivity(i);
 		} else {
 			//Log.e("ChoosenDrugID ", "is null");
