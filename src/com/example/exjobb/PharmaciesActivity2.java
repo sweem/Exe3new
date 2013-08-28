@@ -193,7 +193,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			//lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
 			
 			Bundle b = getActivity().getIntent().getExtras();
-			phWithoutDr = b.getBoolean("PhWithoutDr");
+			phWithoutDr = b.getBoolean("phWithoutDr");
 			
 			if(phWithoutDr == false) {
 				//Log.e("PhWithoutDrug in F", "False");
