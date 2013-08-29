@@ -12,7 +12,6 @@
         android:id="@+id/txtDrugName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alvedon" 
         android:textStyle="bold"
         android:textSize="26sp" />
     
@@ -21,7 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtDrugName"
-        android:text="GlaxoSmithKline Consumer Healthcare" 
         android:textSize="12sp" />
     
     <TextView
@@ -30,7 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/txtManuf"
-        android:text="Brustablett 500 mg, 20 st" 
         android:textSize="18sp" />
     
 	<TextView
@@ -48,7 +45,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtSubHeader"
-        android:text="Paracetamol" 
         android:textSize="18sp" />
 	
 	<TextView
@@ -57,28 +53,28 @@
 	    android:layout_height="wrap_content"
 	    android:layout_alignBaseline="@+id/txtSub"
 	    android:layout_alignBottom="@+id/txtSub"
-	    android:layout_alignRight="@+id/txtManuf"
-	    android:text="Receptfritt"
+	    android:layout_alignParentRight="true"
 	    android:textSize="18sp"
 	    android:textStyle="italic" />
     
  	<TextView
-        android:id="@+id/txtPrice"
+        android:id="@+id/txtPriceHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/txtPreOnly"
-        android:text="Förmånspris|Från pris: 200 kr" 
-        android:textSize="18sp" />
+        android:text="Förmånspris med recept:" 
+        android:textSize="18sp"
+        android:textStyle="bold" />
  	
 	<TextView
         android:id="@+id/txtInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_below="@+id/txtPrice"
-        android:text="För mer info se bipacksedel." 
-        android:textSize="18sp" />
+        android:text="För mer information om läkemedlet se bipacksedel." 
+        android:textSize="15sp" />
     
 	<Button
         android:id="@+id/btnFind"
@@ -89,14 +85,21 @@
         android:text="Sök" 
         android:onClick="onClickNext" />
 
+	<TextView
+	    android:id="@+id/txtPrice"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@+id/txtPriceHeader"
+	    android:layout_below="@+id/txtPriceHeader"
+	    android:textSize="18sp" />
+
 	<ImageView
 	    android:id="@+id/imageView1"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_below="@+id/txtPrice"
-	    android:layout_centerHorizontal="true"
-	    android:layout_marginTop="92dp"
+	    android:layout_above="@+id/btnFind"
+	    android:layout_marginBottom="40dp"
+	    android:layout_toRightOf="@+id/txtSubHeader"
 	    android:src="@drawable/ic_launcher" />
-
 
 </RelativeLayout>
