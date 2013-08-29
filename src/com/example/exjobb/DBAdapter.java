@@ -121,9 +121,7 @@ public class DBAdapter {
     }
     
     public Cursor getDrug(String drugID) {
-    	//Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY, KEY_MANUFACTURER, KEY_SUBSTANCE, KEY_PACKAGING}, KEY_ROWID + "=?", new String[] {drugID}, null, null, null);
     	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY, KEY_MANUFACTURER, KEY_SUBSTANCE, KEY_PACKAGING}, KEY_ROWID + "=?", new String[] {drugID}, null, null, null);
-    	Log.e("Cs size", "" + c.getCount());
     	return c;
     }
     
