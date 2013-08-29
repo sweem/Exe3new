@@ -28,6 +28,9 @@ public class DBAdapter {
 	static final String KEY_SIZE = "size";
 	static final String KEY_PREFERENTIALPRICE = "preferential_price";
 	static final String KEY_PRESCRIPTIONONLY = "prescription_only";
+	static final String KEY_MANUFACTURER = "manufacturer";
+	static final String KEY_SUBSTANCE = "substance";
+	static final String KEY_PACKAGING = "packaging";
 	
 	static final String KEY_CHNAME = "chain_name";
 	static final String KEY_PHNAME = "pharmacy_name";
@@ -56,11 +59,11 @@ public class DBAdapter {
     static final String DATABASE_TABLE_DR = "drugs";
     static final String DATABASE_TABLE_PH = "pharmacies"; 
     static final String DATABASE_TABLE_ST = "stock";
-    static final int DATABASE_VERSION = 2;
+    static final int DATABASE_VERSION = 3;
 
     static final String DATABASE_CREATE_DR =
     		"create table drugs (_id integer primary key autoincrement, "
-    		+ "drug_name text not null, type text not null, potency text not null, size text not null, preferential_price text not null, prescription_only text not null);";
+    		+ "drug_name text not null, type text not null, potency text not null, size text not null, preferential_price text not null, prescription_only text not null, manufacturer text not null, substance text not null, packaging text not null);";
     
     static final String DATABASE_CREATE_PH =
     		"create table pharmacies (_id integer primary key autoincrement, "
@@ -116,7 +119,14 @@ public class DBAdapter {
     public void close() {
         DBHelper.close();
     }
-   
+    
+    public Cursor getDrug(String drugID) {
+    	//Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY, KEY_MANUFACTURER, KEY_SUBSTANCE, KEY_PACKAGING}, KEY_ROWID + "=?", new String[] {drugID}, null, null, null);
+    	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY, KEY_MANUFACTURER, KEY_SUBSTANCE, KEY_PACKAGING}, KEY_ROWID + "=?", new String[] {drugID}, null, null, null);
+    	Log.e("Cs size", "" + c.getCount());
+    	return c;
+    }
+    
     public Cursor getAllDrugs() {
         return db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY}, null, null, null, null, null);
     }
