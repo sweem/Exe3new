@@ -7,11 +7,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -22,7 +29,7 @@ public class ChoosenDrugActivity extends Activity {
 	Boolean phWithoutDr;
 	DBAdapter db;
 	Cursor drug;
-	String dName, typ, pot, siz, pref, pres, man, sub, pak;
+	String dName, typ, pot, siz, pref, pres, man, sub, pak, url;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,7 @@ public class ChoosenDrugActivity extends Activity {
 		TextView txtSub = (TextView) findViewById(R.id.txtSub);
 		TextView txtPrefPr = (TextView) findViewById(R.id.txtPrice);
 		TextView txtPres = (TextView) findViewById(R.id.txtPreOnly);
+		TextView txtInfo = (TextView) findViewById(R.id.txtInfo);
 		
 		Bundle b = getIntent().getExtras();
 		choosenDrugID = b.getString("drugID");
@@ -81,6 +89,7 @@ public class ChoosenDrugActivity extends Activity {
             	man = drug.getString(7);
             	sub = drug.getString(8);
             	pak = drug.getString(9);
+            	url = drug.getString(10);
             	i++;
             } while (drug.moveToNext());
         }
@@ -107,6 +116,24 @@ public class ChoosenDrugActivity extends Activity {
     	else {
     		txtPres.setText("Receptfritt");
     	}
+    	
+    	SpannableStringBuilder sb = new SpannableStringBuilder();
+    	String txt = "För mer information om läkemedlet se ";
+    	String link = "bipacksedeln";
+    	sb.append(txt);
+    	sb.append(link);
+    	ClickableSpan cs = new ClickableSpan() {
+
+			@Override
+			public void onClick(View arg0) {
+				Intent i = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
+				startActivity(i);
+			}
+    	};
+    	sb.setSpan(cs, sb.length()-link.length(), sb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    	sb.append(".");
+    	txtInfo.setText(sb);
+    	txtInfo.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	@Override
