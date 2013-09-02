@@ -31,6 +31,7 @@ public class DBAdapter {
 	static final String KEY_MANUFACTURER = "manufacturer";
 	static final String KEY_SUBSTANCE = "substance";
 	static final String KEY_PACKAGING = "packaging";
+	static final String KEY_LEAFLETURL = "leaflet_url";
 	
 	static final String KEY_CHNAME = "chain_name";
 	static final String KEY_PHNAME = "pharmacy_name";
@@ -59,11 +60,11 @@ public class DBAdapter {
     static final String DATABASE_TABLE_DR = "drugs";
     static final String DATABASE_TABLE_PH = "pharmacies"; 
     static final String DATABASE_TABLE_ST = "stock";
-    static final int DATABASE_VERSION = 3;
+    static final int DATABASE_VERSION = 4;
 
     static final String DATABASE_CREATE_DR =
     		"create table drugs (_id integer primary key autoincrement, "
-    		+ "drug_name text not null, type text not null, potency text not null, size text not null, preferential_price text not null, prescription_only text not null, manufacturer text not null, substance text not null, packaging text not null);";
+    		+ "drug_name text not null, type text not null, potency text not null, size text not null, preferential_price text not null, prescription_only text not null, manufacturer text not null, substance text not null, packaging text not null, leaflet_url text not null);";
     
     static final String DATABASE_CREATE_PH =
     		"create table pharmacies (_id integer primary key autoincrement, "
@@ -121,7 +122,7 @@ public class DBAdapter {
     }
     
     public Cursor getDrug(String drugID) {
-    	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY, KEY_MANUFACTURER, KEY_SUBSTANCE, KEY_PACKAGING}, KEY_ROWID + "=?", new String[] {drugID}, null, null, null);
+    	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY, KEY_MANUFACTURER, KEY_SUBSTANCE, KEY_PACKAGING, KEY_LEAFLETURL}, KEY_ROWID + "=?", new String[] {drugID}, null, null, null);
     	return c;
     }
     
