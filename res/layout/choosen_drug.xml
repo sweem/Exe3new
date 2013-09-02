@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="26sp" />
+        android:textSize="24sp" />
     
 	<TextView
         android:id="@+id/txtManuf"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/txtManuf"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
     
 	<TextView
         android:id="@+id/txtSubHeader"
@@ -38,14 +38,14 @@
         android:layout_below="@+id/txtTyPoSi"
         android:text="Aktiv substans:" 
         android:textStyle="bold"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 	
 	<TextView
         android:id="@+id/txtSub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtSubHeader"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 	
 	<TextView
 	    android:id="@+id/txtPreOnly"
@@ -54,7 +54,7 @@
 	    android:layout_alignBaseline="@+id/txtSub"
 	    android:layout_alignBottom="@+id/txtSub"
 	    android:layout_alignParentRight="true"
-	    android:textSize="18sp"
+	    android:textSize="16sp"
 	    android:textStyle="italic" />
     
  	<TextView
@@ -64,7 +64,7 @@
         android:layout_marginTop="15dp"
         android:layout_below="@+id/txtPreOnly"
         android:text="Förmånspris med recept:" 
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
  	
 	<TextView
@@ -73,12 +73,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_below="@+id/txtPrice"
-        android:text="För mer information om läkemedlet se bipacksedel." 
-        android:textSize="15sp" />
+        android:textSize="14sp" />
     
 	<Button
         android:id="@+id/btnFind"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -91,7 +90,7 @@
 	    android:layout_height="wrap_content"
 	    android:layout_alignLeft="@+id/txtPriceHeader"
 	    android:layout_below="@+id/txtPriceHeader"
-	    android:textSize="18sp" />
+	    android:textSize="16sp" />
 
 	<ImageView
 	    android:id="@+id/imageView1"
