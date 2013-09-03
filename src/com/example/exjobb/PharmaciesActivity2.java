@@ -231,7 +231,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        String section = Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER));
 	        
 	        if(phWithoutDr == false) {
-	        	//Log.e("Without drugID", "False");
+	        	//Log.e("Without drugID", "True");
 	        	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
 	        	
 	        	if(pids.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
@@ -241,13 +241,14 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        			pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 0);
 	        			
 	        			if(section.equals("1")) {
-		        			Fragment2 dialogFragment = Fragment2.newInstance("Inga läkemedel tillgängliga", "Kontakta ditt apotek för att beställa.");
+		        			Fragment2 dialogFragment = Fragment2.newInstance("Inga läkemedel tillgängliga", "Kontakta ett apotek för att beställa.");
 		        			dialogFragment.show(getActivity().getFragmentManager(), "dialog");
 	        			}
 	        		 }
 	        		else { //To few items of that drug in stock
+	        			//Log.e("Too few items in stock. ", "" + pids.size());
 	        			if(section.equals("1")) {
-	        				Fragment2 dialogFragment = Fragment2.newInstance("Få läkemedel tillgängliga", "Kontakta ditt apotek för att beställa fler.");
+	        				Fragment2 dialogFragment = Fragment2.newInstance("Få läkemedel tillgängliga", "Kontakta ett apotek för att beställa fler.");
 	        				dialogFragment.show(getActivity().getFragmentManager(), "dialog");
 	        			}
 	        		}
