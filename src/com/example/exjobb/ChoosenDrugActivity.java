@@ -25,7 +25,8 @@ import android.view.View;
 import android.widget.TextView;
 
 public class ChoosenDrugActivity extends Activity {
-	String choosenDrugID, choosenNbr;
+	String choosenDrugID;
+	int choosenNbr;
 	Boolean phWithoutDr;
 	DBAdapter db;
 	Cursor drug;
@@ -46,7 +47,9 @@ public class ChoosenDrugActivity extends Activity {
 		
 		Bundle b = getIntent().getExtras();
 		choosenDrugID = b.getString("drugID");
-		choosenNbr = b.getString("nbrOfDrug");
+		//Log.e("drugid", choosenDrugID);
+		choosenNbr = b.getInt("nbrOfDrug");
+		//Log.e("nbrofdrug", "" + choosenNbr);
 		phWithoutDr = b.getBoolean("PhWithoutDr");
 		
 		ActionBar actionBar = getActionBar();
@@ -148,7 +151,9 @@ public class ChoosenDrugActivity extends Activity {
 		/*choosenDrugID = "9"; //Which drug to search for
 		choosenNbr = 1;*/ //Nbr of search drug
 		i.putExtra("drugID", choosenDrugID);
+		Log.e("drugid", choosenDrugID);
 		i.putExtra("nbrOfDrug", choosenNbr);
+		Log.e("nbrofdrug", "" + choosenNbr);
 		i.putExtra("phWithoutDr", false);
 		startActivity(i);
 		finish();
