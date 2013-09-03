@@ -133,6 +133,7 @@ public class Pharmacy {
 	
 	public String getOpeningHoursToday() {
 		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DAY_OF_WEEK, 1); //Change day of week
 		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 		
 		if(dayOfWeek == 1) {//Sunday
