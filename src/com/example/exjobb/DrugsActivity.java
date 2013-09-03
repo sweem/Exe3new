@@ -41,6 +41,7 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 	DBAdapter db;
 	int currSelT, currSelS, currSelV, currSelN;
 	boolean drugOutOfStock;
+	AutoCompleteTextView druTV;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
         
         drugs = db.getAllDrugNames();
 		final ArrayAdapter<String> druAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drugs);
-		AutoCompleteTextView druTV = (AutoCompleteTextView) findViewById(R.id.txtDrugs);
+		druTV = (AutoCompleteTextView) findViewById(R.id.txtDrugs);
 		druTV.setThreshold(2);
 		druTV.setAdapter(druAdapter);
 		
@@ -164,12 +165,24 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				if(s.length() == 1 && choosenDru != null) {
-					Log.e("Empty atv", "True");
+				/*if(s.length() == 1 && choosenDru != null) {
+					Log.e("Empty array", "True");
 					typAdapter.clear();
 					strAdapter.clear();
 					volAdapter.clear();
 					nbrAdapter.clear();
+					choosenDrugID = null;
+					choosenNbr = 0;
+				}*/
+				
+				if((count != before) && choosenDru != null) {
+					//Log.e("Drug doesn't exist", "True");
+					typAdapter.clear();
+					strAdapter.clear();
+					volAdapter.clear();
+					nbrAdapter.clear();
+					choosenDrugID = null;
+					choosenNbr = 0;
 				}
 			}
 		});
@@ -281,13 +294,21 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 			/*choosenDrugID = "9"; //Which drug to search for
 			choosenNbr = 1;*/ //Nbr of search drug
 			i.putExtra("drugID", choosenDrugID);
+			//Log.e("drugID", choosenDrugID);
 			i.putExtra("nbrOfDrug", choosenNbr);
+			//Log.e("nbrofdrug", "" + choosenNbr);
 			i.putExtra("phWithoutDr", false);
 			startActivity(i);
 		} else {
-			//Log.e("ChoosenDrugID ", "is null");
-			Fragment1 dialogFragment = Fragment1.newInstance("Välj läkemedel", "...");
-			dialogFragment.show(getFragmentManager(), "dialog");
+			if(druTV.length() == 0) { //AutoCompleteTextView is empty
+				//Log.e("druTv is empty", "true");
+				Fragment1 dialogFragment = Fragment1.newInstance("Välj läkemedel", "Inget läkemedel valt.");
+				dialogFragment.show(getFragmentManager(), "dialog");
+			} else { //Invalid drugName
+				//Log.e("druTv is empty", "false");
+				Fragment1 dialogFragment = Fragment1.newInstance("Välj läkemedel", "Valt läkemedel finns ej.");
+				dialogFragment.show(getFragmentManager(), "dialog");
+			}
 		}
 		
 		db.close();
