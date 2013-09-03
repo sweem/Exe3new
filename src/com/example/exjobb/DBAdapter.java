@@ -129,7 +129,7 @@ public class DBAdapter {
     public Cursor getAllDrugs() {
         return db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY}, null, null, null, null, null);
     }
-    
+        
     public ArrayList<String> getAllDrugNames() {
     	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_DNAME}, null, null, KEY_DNAME, null, null);
     	ArrayList<String> drugs = new ArrayList<String>();
@@ -367,10 +367,10 @@ public class DBAdapter {
     
     public String getCurrentTime() {
     	Calendar cal = Calendar.getInstance();
-    	/*cal.set(Calendar.HOUR_OF_DAY, 21); //Change current time
+    	cal.set(Calendar.HOUR_OF_DAY, 21); //Change current time
     	cal.set(Calendar.MINUTE, 0);
     	cal.set(Calendar.SECOND, 0);
-    	cal.set(Calendar.MILLISECOND, 0);*/
+    	cal.set(Calendar.MILLISECOND, 0);
     	
     	StringBuffer currentTime = new StringBuffer();
     	int hour = cal.get(Calendar.HOUR_OF_DAY);
@@ -394,7 +394,7 @@ public class DBAdapter {
     
     public int getCurrentDay() {
     	Calendar cal = Calendar.getInstance();
-        //cal.set(Calendar.DAY_OF_WEEK, 1); //Change current day*/
+        cal.set(Calendar.DAY_OF_WEEK, 1); //Change current day*/
     	Log.e("Curday in dbadapter", "" + cal.get(Calendar.DAY_OF_WEEK));
     	return cal.get(Calendar.DAY_OF_WEEK);
     }
