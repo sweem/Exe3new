@@ -139,12 +139,12 @@ public class ChoosenDrugActivity extends Activity {
     	txtInfo.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.choosen_drug, menu);
 		return true;
-	}
+	}*/
 
 	public void onClickNext(View view) {
 		Intent i = new Intent(this, PharmaciesActivity2.class);
