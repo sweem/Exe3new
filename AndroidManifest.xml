@@ -66,6 +66,10 @@
             android:name="com.example.exjobb.ChoosenDrugActivity"
             android:label="@string/title_activity_choosen_drug" >
         </activity>
+        <activity
+            android:name="com.example.exjobb.MainActivity2"
+            android:label="@string/title_activity_main_activity2" >
+        </activity>
     </application>
 
 </manifest>
