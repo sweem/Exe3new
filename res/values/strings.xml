@@ -45,5 +45,6 @@
     <string name="title_section2">Öppna</string>
     <string name="title_section3">Ta bort</string>
     <string name="title_activity_choosen_drug">ChoosenDrugActivity</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
 
 </resources>
