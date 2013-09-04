@@ -1,16 +1,48 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#FFFFFF" >
+    tools:context=".MainActivity2" >
 
-    <ListView
-        android:id="@+id/lstView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-</LinearLayout>
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:text="Hitta läkemedel"
+        android:drawableTop="@drawable/ic_launcher"
+        android:onClick="onClickDr"
+        style="?android:attr/borderlessButtonStyle" />
+    
+	<Button
+        android:id="@+id/btn2"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn1"
+        android:layout_below="@+id/btn1"
+        android:layout_marginTop="45dp"
+        android:text="Mina recept"
+        android:drawableTop="@drawable/ic_launcher"
+        android:onClick="onClickPr" 
+        style="?android:attr/borderlessButtonStyle" />
+	
+	<Button
+        android:id="@+id/btn3"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn2"
+        android:layout_below="@+id/btn2"
+        android:layout_marginTop="45dp"
+        android:text="Hitta apotek" 
+        android:drawableTop="@drawable/ic_launcher" 
+        android:onClick="onClickPh" 
+        style="?android:attr/borderlessButtonStyle" />
+
+</RelativeLayout>
