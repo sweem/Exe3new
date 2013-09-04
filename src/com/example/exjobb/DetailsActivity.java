@@ -105,12 +105,12 @@ public class DetailsActivity extends Activity {
 		
 	}
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.details, menu);
 		return true;
-	}
+	}*/
 	
 	public void onClickDirections(View view) {
 		Intent i = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + curLat + "," + curLon + "&daddr=" + ph.lat + "," + ph.lon));
