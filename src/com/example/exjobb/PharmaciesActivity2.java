@@ -86,12 +86,12 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 		}
 	}
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.pharmacies_activity2, menu);
 		return true;
-	}
+	}*/
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
