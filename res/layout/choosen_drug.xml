@@ -79,7 +79,6 @@
         android:id="@+id/btnFind"
         android:layout_width="100dp"
         android:layout_height="50dp"
-       	android:layout_marginBottom="25dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="Sök" 
@@ -94,12 +93,13 @@
 	    android:textSize="16sp" />
 
 	<ImageView
-	    android:id="@+id/imageView1"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
+	    android:id="@+id/imgDru"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
 	    android:layout_above="@+id/btnFind"
-	    android:layout_marginBottom="40dp"
-	    android:layout_toRightOf="@+id/txtSubHeader"
-	    android:src="@drawable/ic_launcher" />
+	    android:layout_marginTop="15dp"
+	    android:layout_marginBottom="15dp"
+	    android:layout_centerHorizontal="true"
+	    android:layout_below="@+id/txtInfo" />
 
 </RelativeLayout>
