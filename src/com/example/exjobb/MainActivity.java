@@ -20,12 +20,12 @@ public class MainActivity extends Activity {
 		//actionBar.setSubtitle("Undermeny");
 		actionBar.setTitle("Hitta din medicin");
 		
-		Button btn1 = (Button) findViewById(R.id.btn1);
+		/*Button btn1 = (Button) findViewById(R.id.btn1);
 		btn1.setBackgroundColor(Color.WHITE);
 		Button btn2 = (Button) findViewById(R.id.btn2);
 		btn2.setBackgroundColor(Color.WHITE);
 		Button btn3 = (Button) findViewById(R.id.btn3);
-		btn3.setBackgroundColor(Color.WHITE);
+		btn3.setBackgroundColor(Color.WHITE);*/
 		
 	}
 	
