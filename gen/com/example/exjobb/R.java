@@ -33,13 +33,30 @@ public final class R {
         public static final int apotekhjartat_ikon=0x7f020002;
         public static final int apoteksg_ikon=0x7f020003;
         public static final int curaa_ikon=0x7f020004;
-        public static final int ic_launcher=0x7f020005;
-        public static final int kronansd_ikon=0x7f020006;
-        public static final int lloydsa_ikon=0x7f020007;
-        public static final int medstop_ikon=0x7f020008;
-        public static final int recept_ikon=0x7f020009;
-        public static final int tablett_ikon=0x7f02000a;
-        public static final int varda_ikon=0x7f02000b;
+        public static final int dru1=0x7f020005;
+        public static final int dru10=0x7f020006;
+        public static final int dru11=0x7f020007;
+        public static final int dru12=0x7f020008;
+        public static final int dru13=0x7f020009;
+        public static final int dru16=0x7f02000a;
+        public static final int dru17=0x7f02000b;
+        public static final int dru18=0x7f02000c;
+        public static final int dru19=0x7f02000d;
+        public static final int dru2=0x7f02000e;
+        public static final int dru20=0x7f02000f;
+        public static final int dru21=0x7f020010;
+        public static final int dru23=0x7f020011;
+        public static final int dru24=0x7f020012;
+        public static final int dru6=0x7f020013;
+        public static final int dru8=0x7f020014;
+        public static final int dru9=0x7f020015;
+        public static final int ic_launcher=0x7f020016;
+        public static final int kronansd_ikon=0x7f020017;
+        public static final int lloydsa_ikon=0x7f020018;
+        public static final int medstop_ikon=0x7f020019;
+        public static final int recept_ikon=0x7f02001a;
+        public static final int tablett_ikon=0x7f02001b;
+        public static final int varda_ikon=0x7f02001c;
     }
     public static final class id {
         public static final int action_forgot_password=0x7f090036;
@@ -52,7 +69,7 @@ public final class R {
         public static final int btnNext=0x7f090021;
         public static final int email=0x7f090028;
         public static final int header=0x7f090027;
-        public static final int imageView1=0x7f09000a;
+        public static final int imgDru=0x7f09000a;
         public static final int imgIcon=0x7f09002d;
         public static final int lBtn=0x7f09001a;
         public static final int login=0x7f09002a;
