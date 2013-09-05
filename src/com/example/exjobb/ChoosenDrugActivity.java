@@ -22,6 +22,7 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ChoosenDrugActivity extends Activity {
@@ -44,6 +45,7 @@ public class ChoosenDrugActivity extends Activity {
 		TextView txtPrefPr = (TextView) findViewById(R.id.txtPrice);
 		TextView txtPres = (TextView) findViewById(R.id.txtPreOnly);
 		TextView txtInfo = (TextView) findViewById(R.id.txtInfo);
+		ImageView imgView = (ImageView) findViewById(R.id.imgDru);
 		
 		Bundle b = getIntent().getExtras();
 		choosenDrugID = b.getString("drugID");
@@ -121,7 +123,7 @@ public class ChoosenDrugActivity extends Activity {
     	}
     	
     	SpannableStringBuilder sb = new SpannableStringBuilder();
-    	String txt = "För mer information om läkemedlet se ";
+    	String txt = "För mer information se ";
     	String link = "bipacksedeln";
     	sb.append(txt);
     	sb.append(link);
@@ -137,6 +139,51 @@ public class ChoosenDrugActivity extends Activity {
     	sb.append(".");
     	txtInfo.setText(sb);
     	txtInfo.setMovementMethod(LinkMovementMethod.getInstance());
+    	
+    	switch(Integer.parseInt(choosenDrugID)) {
+    		case 1: imgView.setImageResource(R.drawable.dru1);
+    				break;
+    		case 2: imgView.setImageResource(R.drawable.dru2);
+    				break;
+    		//case 3 - No pic
+    		//case 4 - No pic
+    		//case 5 - No pic
+    		case 6: imgView.setImageResource(R.drawable.dru6);
+					break;
+			//case 7 - No pic
+    		case 8: imgView.setImageResource(R.drawable.dru8);
+    				break;
+    		case 9: imgView.setImageResource(R.drawable.dru9);
+					break;
+    		case 10: imgView.setImageResource(R.drawable.dru10);
+					break;
+    		case 11: imgView.setImageResource(R.drawable.dru11);
+    				break;
+    		case 12:  imgView.setImageResource(R.drawable.dru12);
+					break;
+    		case 13:  imgView.setImageResource(R.drawable.dru13);
+					break;
+			//case 14 - No pic
+			//case 15 - No pic 
+    		case 16: imgView.setImageResource(R.drawable.dru16);
+					break;
+    		case 17: imgView.setImageResource(R.drawable.dru17);
+					break;
+    		case 18: imgView.setImageResource(R.drawable.dru18);
+					break;
+    		case 19: imgView.setImageResource(R.drawable.dru19);
+					break;
+    		case 20: imgView.setImageResource(R.drawable.dru20);
+					break;
+    		case 21: imgView.setImageResource(R.drawable.dru21);
+					break;	
+			//case 22 - No pic
+       		case 23: imgView.setImageResource(R.drawable.dru23);
+    				break;	
+       		case 24: imgView.setImageResource(R.drawable.dru24);
+    				break;	
+    		default: imgView.setImageResource(R.drawable.ic_launcher);
+    	}
 	}
 
 	/*@Override
