@@ -1,6 +1,9 @@
 package com.example.exjobb;
 
 import java.util.Calendar;
+import java.util.Date;
+
+import android.util.Log;
 
 public class Pharmacy {
 	public String id;
@@ -131,25 +134,98 @@ public class Pharmacy {
 		distToPh = dist;
 	}
 	
-	public String getOpeningHoursToday() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.DAY_OF_WEEK, 1); //Change day of week
-		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+	public String getOpeningHoursToday(Time time) {  	
+		Calendar cur = time.getCal(); //Calendar.getInstance();
+		int curDay = time.getCurrentDay(); //cur.get(Calendar.DAY_OF_WEEK);
+		//Log.e("curDay in ph", "" + curDay);
 		
-		if(dayOfWeek == 1) {//Sunday
-			return getOpeningHoursSUN();
+		Calendar op = Calendar.getInstance();
+		op.set(Calendar.DAY_OF_WEEK, curDay);
+		op.set(Calendar.MINUTE, 0);
+	    op.set(Calendar.SECOND, 0);
+	    op.set(Calendar.MILLISECOND, 0);
+
+		Calendar cl = Calendar.getInstance();
+		cl.set(Calendar.DAY_OF_WEEK, curDay);
+	    cl.set(Calendar.MINUTE, 0);
+	    cl.set(Calendar.SECOND, 0);
+	    cl.set(Calendar.MILLISECOND, 0);
+		
+		StringBuffer sb, sbO, sbC;
+		int col;
+		
+		sb = new StringBuffer();
+		sbO = new StringBuffer();
+		sbC = new StringBuffer();
+		if(curDay == 1) {//Sunday
+			if(opHSUN.equals("Closed") && clHSUN.equals("Closed")) {
+				sb.append("Stängt");
+			} else {
+				sbO.append(opHSUN);
+				sbC.append(clHSUN);
+					
+				col = sbO.indexOf(":");
+				op.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sbO.substring(0, col)));	
+				col = sbO.indexOf(":");
+				cl.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sbC.substring(0, col)));
+				
+		    	if((cur.compareTo(op) >= 0) && (cur.compareTo(cl) < 0)) {//Show todays opening hours if open now
+		    		sb.append(opHSUN);
+		    		sb.append("-");
+		    		sb.append(clHSUN);	    			
+		    	}else { //Show closed
+		    		sb.append("Stängt");
+		    	}
+			}
 		}
-		else if(dayOfWeek == 7) {//Saturday
-			return getOpeningHoursSAT();
+		else if(curDay == 7) {//Saturday
+			if(opHSAT.equals("Closed") && clHSAT.equals("Closed")) {
+				sb.append("Stängt");
+			} else {
+				sbO.append(opHSAT);
+				sbC.append(clHSAT);
+					
+				col = sbO.indexOf(":");
+				op.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sbO.substring(0, col)));
+				col = sbO.indexOf(":");
+				cl.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sbC.substring(0, col)));
+				
+		    	if((cur.compareTo(op) >= 0) && (cur.compareTo(cl) < 0)) {//Show todays opening hours if open now
+		    		sb.append(opHSAT);
+		    		sb.append("-");
+		    		sb.append(clHSAT);	    			
+		    	}else { //Show closed
+		    		sb.append("Stängt");
+		    	}
+			}
 		}
 		else {//Weekday
-			return getOpeningHoursWD();
+			if(opHWD.equals("Closed") && clHWD.equals("Closed")) {
+				sb.append("Stängt");
+			} else {
+				sbO.append(opHWD);
+				sbC.append(clHWD);
+				
+				col = sbO.indexOf(":");
+		    	op.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sbO.substring(0, col)));
+				col = sbO.indexOf(":");
+		    	cl.set(Calendar.HOUR_OF_DAY, Integer.parseInt(sbC.substring(0, col)));
+		    	
+		    	if((cur.compareTo(op) >= 0) && (cur.compareTo(cl) < 0)) {//Show todays opening hours if open now
+		    		sb.append(opHWD);
+		    		sb.append("-");
+		    		sb.append(clHWD);	    			
+		    	}else { //Show closed
+		    		sb.append("Stängt");
+		    	}
+			}
 		}
+		return sb.toString();
 	}
 	
 	public String getOpeningHoursWD() {
 		StringBuffer sb = new StringBuffer();
-		if(opHWD.equals("Closed") || clHWD.equals("Closed")) {
+		if(opHWD.equals("Closed") && clHWD.equals("Closed")) {
 			sb.append("Stängt");
 		}
 		else {
@@ -157,13 +233,12 @@ public class Pharmacy {
 			sb.append("-");
 			sb.append(clHWD);
 		}
-		
 		return sb.toString();
 	}
 	
 	public String getOpeningHoursSAT() {
 		StringBuffer sb = new StringBuffer();
-		if(opHSAT.equals("Closed") || clHSAT.equals("Closed")) {
+		if(opHSAT.equals("Closed") && clHSAT.equals("Closed")) {
 			sb.append("Stängt");
 		}
 		else {
@@ -171,7 +246,6 @@ public class Pharmacy {
 			sb.append("-");
 			sb.append(clHSAT);
 		}
-		
 		return sb.toString();
 	}
 	
@@ -185,7 +259,6 @@ public class Pharmacy {
 			sb.append("-");
 			sb.append(clHSUN);
 		}
-		
 		return sb.toString();
 	}
 	
