@@ -29,7 +29,7 @@ public class DetailsActivity extends Activity {
 	double curLat, curLon;
 	Pharmacy ph;
 	TextView tvPN;
-	int day;
+	int curDay;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +70,13 @@ public class DetailsActivity extends Activity {
         }
        
         db.open();
-        day = db.getCurrentDay();
-        Log.e("Curday in details", "" + day);
+        //day = db.getCurrentDay();
         Bundle b = getIntent().getExtras();
         id = b.getString("id");
         curLat = b.getDouble("curLat");
         curLon = b.getDouble("curLon");
+        curDay = b.getInt("curDay");
+        Log.e("Curday in details", "" + curDay);
         
         ph = db.getPharmacyWithId(id);
         db.close();
@@ -85,11 +86,11 @@ public class DetailsActivity extends Activity {
 		tvHSAT.setText(ph.getOpeningHoursSAT());
 		tvHSUN.setText(ph.getOpeningHoursSUN());
 		
-		if(day == 1) { //Sunday
+		if(curDay == 1) { //Sunday
 			tvHeaderHSUN.setTypeface(null, Typeface.BOLD);
 			tvHSUN.setTypeface(null, Typeface.BOLD);
 		}
-		else if(day == 7) { //Saturday
+		else if(curDay == 7) { //Saturday
 			tvHeaderHSAT.setTypeface(null, Typeface.BOLD);
 			tvHSAT.setTypeface(null, Typeface.BOLD);
 		}
