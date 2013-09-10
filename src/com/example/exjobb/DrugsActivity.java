@@ -77,7 +77,7 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
         drugs = db.getAllDrugNames();
 		final ArrayAdapter<String> druAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, drugs);
 		druTV = (AutoCompleteTextView) findViewById(R.id.txtDrugs);
-		druTV.setThreshold(2);
+		druTV.setThreshold(1);
 		druTV.setAdapter(druAdapter);
 		
 		types = new ArrayList<String>();
@@ -302,7 +302,7 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		} else {
 			if(druTV.length() == 0) { //AutoCompleteTextView is empty
 				//Log.e("druTv is empty", "true");
-				Fragment1 dialogFragment = Fragment1.newInstance("Välj läkemedel", "Inget läkemedel valt.");
+				Fragment1 dialogFragment = Fragment1.newInstance("Välj läkemedel", "Inget valt läkemedel.");
 				dialogFragment.show(getFragmentManager(), "dialog");
 			} else { //Invalid drugName
 				//Log.e("druTv is empty", "false");
