@@ -129,8 +129,8 @@
 	        android:layout_below="@+id/txtPN"
 	        android:gravity="right"
 	        android:textSize="18sp" 
-	        android:autoLink="web"
-	        android:text="www.apotekhjartat.se" />
+	        android:autoLink="web" 
+	        android:clickable="true" />
 	</RelativeLayout>
     
 	<TextView
