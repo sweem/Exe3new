@@ -15,12 +15,14 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 	Context context;
 	int iconId;
 	ArrayList<Pharmacy> pharmacies;
+	Time time;
 	
-	public PharmacyArrayAdapter(Context context, int iconId, ArrayList<Pharmacy> pharmacies) {
+	public PharmacyArrayAdapter(Context context, int iconId, ArrayList<Pharmacy> pharmacies, Time time) {
 		super(context, iconId, pharmacies);
 		this.context = context;
 		this.iconId = iconId;
 		this.pharmacies = pharmacies;
+		this.time = time;
 	}
 	
 	@Override
@@ -49,7 +51,16 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 		holder.imgIcon.setImageResource(ph.getIcon());
 		holder.txtTitle.setText(ph.getPharmacyName());
 		holder.txtDist.setText(ph.getDistance());
-		holder.txtOpen.setText(ph.getOpeningHoursToday());
+
+		String opHour = ph.getOpeningHoursToday(time);
+		if(opHour.equals("Stängt")) {
+			holder.txtOpen.setTextColor(0xffff0000);
+		} else {
+			holder.txtOpen.setTextColor(0xff238e23);
+		}
+		holder.txtOpen.setText(opHour);
+		//holder.txtOpen.setText(ph.getOpeningHoursToday(time));
+		
 		if(holder.txtStock != null)
 			holder.txtStock.setText(ph.getNbrOfDrug());
 		return rowView;
