@@ -171,7 +171,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 		double latitude;
 		double longitude;
 		boolean phWithoutDr, noOpenPh;
-		
+		Time time;
 		
 		public DummySectionFragment() {
 		}
@@ -188,9 +188,8 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 			ll = new MyLocationListener();
 			noOpenPh = false;
-			
-			//lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
-			//lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, ll);
+			time = new Time();
+			//time = new Time(2, 9, 0, 0);
 			
 			Bundle b = getActivity().getIntent().getExtras();
 			phWithoutDr = b.getBoolean("phWithoutDr");
@@ -255,9 +254,9 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        	}
 	        	
 	        	if(section.equals("1")) {
-	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, false);
+	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, false, time);
 	        	} else {
-	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true);
+	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true, time);
 	        		
 	        		if(arr.isEmpty() == true) {
 	        			//Log.e("Arr is empty", "True");
@@ -267,14 +266,14 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        		}
 	        	}
 	        	
-	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwd, arr);
+	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwd, arr, time);
 	        }
 	        else {
 	        	//Log.e("Without drugID/in sec", "True/" + section);
 	        	if(section.equals("1")) {
-	        		arr = db.getPharmaciesWithoutDrugId(loc, false);
+	        		arr = db.getPharmaciesWithoutDrugId(loc, false, time);
 	        	} else {
-	        		arr = db.getPharmaciesWithoutDrugId(loc, true);
+	        		arr = db.getPharmaciesWithoutDrugId(loc, true, time);
 	        		
 	        		if(arr.isEmpty() == true) {
 	        			//Log.e("Arr is empty", "True");
@@ -284,7 +283,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        		}
 	        	}
 	        	
-	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwod, arr);
+	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwod, arr, time);
 	        }
 			
 	        db.close();
@@ -314,6 +313,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 						i.putExtra("id", ph.id);
 						i.putExtra("curLat", latitude);
 						i.putExtra("curLon", longitude);
+						i.putExtra("curDay", time.getCurrentDay());
 						startActivity(i);
 					}
 				});
