@@ -60,7 +60,7 @@ public class DBAdapter {
     static final String DATABASE_TABLE_DR = "drugs";
     static final String DATABASE_TABLE_PH = "pharmacies"; 
     static final String DATABASE_TABLE_ST = "stock";
-    static final int DATABASE_VERSION = 4;
+    static final int DATABASE_VERSION = 6;
 
     static final String DATABASE_CREATE_DR =
     		"create table drugs (_id integer primary key autoincrement, "
@@ -202,22 +202,13 @@ public class DBAdapter {
     	return sizes;
     }
     
-    public ArrayList<Pharmacy> getPharmaciesWithDrugId(String dID, int nbr, ArrayList<Pharmacy> pIDs, Location loc, boolean onlyOpenPh) {
+    public ArrayList<Pharmacy> getPharmaciesWithDrugId(String dID, int nbr, ArrayList<Pharmacy> pIDs, Location loc, boolean onlyOpenPh, Time time) {
     	Cursor c;
     	Cursor cST;
     	
-    	int curDay = getCurrentDay();
-    	String curTime = getCurrentTime();
-    	  	
-    	//ArrayList<String> pIDs = getAllPharmacyIdWithDrugId(dID, nbr);
-    	/*ArrayList<Pharmacy> pIDs = getAllPharmacyIdWithDrugId2(dID, nbr);
-    	if(pIDs.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
-    		pIDs = getAllPharmacyIdWithDrugId2(dID, 1); //Too few items in stock
-    		/*if(pIDs.size() == 0) {
-    		 	return pIDs;
-    		 }
-    		*/ //Item out of stock
-    	//}
+    	int curDay = time.getCurrentDay(); //getCurrentDay();
+    	String curTime = time.getCurrentTime(); //getCurrentTime();
+    	
     	
     	StringBuffer queryIN = new StringBuffer(" in(");
     	for(int i = 0; i < pIDs.size()-1; i++) {
@@ -265,11 +256,11 @@ public class DBAdapter {
     	return reduceArr(pharmacies);
     }
     
-    public ArrayList<Pharmacy> getPharmaciesWithoutDrugId(Location loc, boolean onlyOpenPh) {
+    public ArrayList<Pharmacy> getPharmaciesWithoutDrugId(Location loc, boolean onlyOpenPh, Time time) {
     	Cursor c;
     	
-    	int curDay = getCurrentDay();
-    	String curTime = getCurrentTime();
+    	int curDay = time.getCurrentDay(); //getCurrentDay();
+    	String curTime = time.getCurrentTime(); //getCurrentTime();
     	
     	if(onlyOpenPh == true) {//Only open pharmacies
 	    	if(curDay == 1) { //Sunday
@@ -307,21 +298,6 @@ public class DBAdapter {
     	return reduceArr(pharmacies);
     	
     }
-    
-    /*public ArrayList<String> getAllPharmacyIdWithDrugId (String dID, int nbr) {
-    	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, null);
-    	ArrayList<String> phids = new ArrayList<String>();
-    	
-    	int i = 0;
-    	if (c.moveToFirst()) {
-            do {
-            	phids.add(c.getString(0));
-            	i++;
-            } while (c.moveToNext());
-        }
-    	
-    	return phids;
-    }*/
     
     public ArrayList<Pharmacy> getAllPharmacyIdWithDrugId2 (String dID, int nbr) {
     	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID, KEY_NBR}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, KEY_PID + " ASC");
@@ -365,9 +341,9 @@ public class DBAdapter {
     	return ph;
     }
     
-    public String getCurrentTime() {
+    /*public String getCurrentTime() {
     	Calendar cal = Calendar.getInstance();
-    	cal.set(Calendar.HOUR_OF_DAY, 21); //Change current time
+    	/*cal.set(Calendar.HOUR_OF_DAY, 15); //Change current time
     	cal.set(Calendar.MINUTE, 0);
     	cal.set(Calendar.SECOND, 0);
     	cal.set(Calendar.MILLISECOND, 0);
@@ -394,10 +370,10 @@ public class DBAdapter {
     
     public int getCurrentDay() {
     	Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_WEEK, 1); //Change current day*/
+        //cal.set(Calendar.DAY_OF_WEEK, 1); //Change current day
     	Log.e("Curday in dbadapter", "" + cal.get(Calendar.DAY_OF_WEEK));
     	return cal.get(Calendar.DAY_OF_WEEK);
-    }
+    }*/
     
     private ArrayList<Pharmacy> reduceArr(ArrayList<Pharmacy> arr) { //Max 5 shown pharmacies in list
     	if(arr.size()> 5) {
