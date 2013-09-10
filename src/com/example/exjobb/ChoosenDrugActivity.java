@@ -104,7 +104,7 @@ public class ChoosenDrugActivity extends Activity {
     	
     	txtDrug.setText(dName);
     	txtMan.setText(man);
-    	txtPakTyPoSi.setText(typ + " " + pot + ", " + siz + ", " + pak);
+    	txtPakTyPoSi.setText(typ + " " + pot + ", " + siz + ", " + pak.toLowerCase());
     	
     	if(pref.equals("Nej")) {
     		txtPrefPr.setText("Ej förmån");
