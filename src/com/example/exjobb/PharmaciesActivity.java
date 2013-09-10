@@ -37,6 +37,7 @@ public class PharmaciesActivity extends Activity {
 	double latitude;
 	double longitude;
 	boolean phWithoutDr;
+	Time time;
 	//double latA, lonA, latB, lonB;
 	
 	
@@ -45,6 +46,7 @@ public class PharmaciesActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pharmacies);
 		
+		time = new Time();
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		ll = new MyLocationListener();
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
@@ -87,15 +89,15 @@ public class PharmaciesActivity extends Activity {
         if(phWithoutDr == false) {
         	//Log.e("PhWithourDr time for sql", "false");
         	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
-        	arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true);
+        	arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true, time);
         }
         else {
         	//Log.e("PhWithourDr time for sql", "true");
-        	arr = db.getPharmaciesWithoutDrugId(loc, true);
+        	arr = db.getPharmaciesWithoutDrugId(loc, true, time);
         }
         
         //Toast.makeText(getBaseContext(), "You've choosen " + nbrOfDrug + " of a drug with id " + choosenDrugID, Toast.LENGTH_LONG).show();
-        int dayInWeek = db.getCurrentDay();
+        int dayInWeek = time.getCurrentDay(); //db.getCurrentDay();
         String day;
         
         if (dayInWeek == 1) {
@@ -114,7 +116,7 @@ public class PharmaciesActivity extends Activity {
         
         db.close();
         
-		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_rowwd, arr);
+		PharmacyArrayAdapter adapter = new PharmacyArrayAdapter(this, R.layout.lstview_item_rowwd, arr, time);
         lstView = (ListView) findViewById(R.id.lstView);
 		View header = (View) getLayoutInflater().inflate(R.layout.lstview_header_row2, null);
 		//View footer = (View) getLayoutInflater().inflate(R.layout.lstview_footer_row, null);
