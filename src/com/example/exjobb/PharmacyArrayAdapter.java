@@ -1,6 +1,7 @@
 package com.example.exjobb;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,14 +16,16 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 	Context context;
 	int iconId;
 	ArrayList<Pharmacy> pharmacies;
-	Time time;
+	//Time time;
+	Calendar cal;
 	
-	public PharmacyArrayAdapter(Context context, int iconId, ArrayList<Pharmacy> pharmacies, Time time) {
+	public PharmacyArrayAdapter(Context context, int iconId, ArrayList<Pharmacy> pharmacies, Calendar cal) {
 		super(context, iconId, pharmacies);
 		this.context = context;
 		this.iconId = iconId;
 		this.pharmacies = pharmacies;
-		this.time = time;
+		//this.time = time;
+		this.cal = cal;
 	}
 	
 	@Override
@@ -52,7 +55,7 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 		holder.txtTitle.setText(ph.getPharmacyName());
 		holder.txtDist.setText(ph.getDistance());
 
-		String opHour = ph.getOpeningHoursToday(time);
+		String opHour = ph.getOpeningHoursToday(cal); //time
 		if(opHour.equals("Stängt")) {
 			holder.txtOpen.setTextColor(0xffff0000);
 		} else {
