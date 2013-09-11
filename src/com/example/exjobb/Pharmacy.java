@@ -134,9 +134,9 @@ public class Pharmacy {
 		distToPh = dist;
 	}
 	
-	public String getOpeningHoursToday(Time time) {  	
-		Calendar cur = time.getCal(); //Calendar.getInstance();
-		int curDay = time.getCurrentDay(); //cur.get(Calendar.DAY_OF_WEEK);
+	public String getOpeningHoursToday(Calendar cal) { //Time time	
+		Calendar cur = cal; //time.getCal(); //Calendar.getInstance();
+		int curDay = cal.get(Calendar.DAY_OF_WEEK); //time.getCurrentDay(); //cur.get(Calendar.DAY_OF_WEEK);
 		//Log.e("curDay in ph", "" + curDay);
 		
 		Calendar op = Calendar.getInstance();
