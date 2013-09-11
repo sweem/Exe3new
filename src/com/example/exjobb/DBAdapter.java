@@ -202,12 +202,12 @@ public class DBAdapter {
     	return sizes;
     }
     
-    public ArrayList<Pharmacy> getPharmaciesWithDrugId(String dID, int nbr, ArrayList<Pharmacy> pIDs, Location loc, boolean onlyOpenPh, Time time) {
+    public ArrayList<Pharmacy> getPharmaciesWithDrugId(String dID, int nbr, ArrayList<Pharmacy> pIDs, Location loc, boolean onlyOpenPh, Calendar cal) {
     	Cursor c;
-    	Cursor cST;
     	
-    	int curDay = time.getCurrentDay(); //getCurrentDay();
-    	String curTime = time.getCurrentTime(); //getCurrentTime();
+    	int curDay = cal.get(Calendar.DAY_OF_WEEK); //time.getCurrentDay(); //getCurrentDay();
+       	Log.e("Curday in dbAdapter", "" + curDay);
+    	String curTime = getCurrentTime(cal); //time.getCurrentTime(); //getCurrentTime();
     	
     	
     	StringBuffer queryIN = new StringBuffer(" in(");
@@ -256,11 +256,12 @@ public class DBAdapter {
     	return reduceArr(pharmacies);
     }
     
-    public ArrayList<Pharmacy> getPharmaciesWithoutDrugId(Location loc, boolean onlyOpenPh, Time time) {
+    public ArrayList<Pharmacy> getPharmaciesWithoutDrugId(Location loc, boolean onlyOpenPh, Calendar cal) {
     	Cursor c;
     	
-    	int curDay = time.getCurrentDay(); //getCurrentDay();
-    	String curTime = time.getCurrentTime(); //getCurrentTime();
+    	int curDay = cal.get(Calendar.DAY_OF_WEEK); //time.getCurrentDay(); //getCurrentDay();
+    	Log.e("Curday in dbAdapter", "" + curDay);
+    	String curTime = getCurrentTime(cal); //time.getCurrentTime(); //getCurrentTime();
     	
     	if(onlyOpenPh == true) {//Only open pharmacies
 	    	if(curDay == 1) { //Sunday
@@ -385,5 +386,26 @@ public class DBAdapter {
 		}
     	else
     		return arr;
+    }
+    
+    public String getCurrentTime(Calendar cal) {  	
+    	StringBuffer currentTime = new StringBuffer();
+    	int hour = cal.get(Calendar.HOUR_OF_DAY);
+    	int min = cal.get(Calendar.MINUTE);
+    	int sec = cal.get(Calendar.SECOND);
+    	
+    	if(hour <= 9)
+    		currentTime.append("0");
+    	currentTime.append(hour + ":");
+    	if(min <= 9)
+    		currentTime.append("0");
+    	currentTime.append(min + ":");
+    	if(sec <= 9)
+    		currentTime.append("0");
+    	currentTime.append(sec);
+    	
+    	Log.e("Curtime in dbAdapter", currentTime.toString());
+    	
+		return currentTime.toString();
     }
 }
