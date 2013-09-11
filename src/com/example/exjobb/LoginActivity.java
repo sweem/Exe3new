@@ -55,7 +55,7 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.login);
 		
 		ActionBar actionBar = getActionBar();
-		actionBar.setSubtitle("Logga in");
+		actionBar.setSubtitle("Mina vårdkontakter");
 		actionBar.setTitle("Hitta din medicin");
 
 		// Set up the login form.
