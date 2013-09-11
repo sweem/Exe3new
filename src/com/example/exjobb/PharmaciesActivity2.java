@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -171,7 +172,8 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 		double latitude;
 		double longitude;
 		boolean phWithoutDr, noOpenPh;
-		Time time;
+		//Time time;
+		Calendar cal;
 		
 		public DummySectionFragment() {
 		}
@@ -188,7 +190,16 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 			ll = new MyLocationListener();
 			noOpenPh = false;
-			time = new Time();
+			//time = new Time();
+			cal = Calendar.getInstance();
+			
+			/*cal.set(Calendar.DAY_OF_WEEK, 3); //Change current day
+	     	
+	    	cal.set(Calendar.HOUR_OF_DAY, 20); //Change current time
+	     	cal.set(Calendar.MINUTE, 0);
+	     	cal.set(Calendar.SECOND, 0);
+	     	cal.set(Calendar.MILLISECOND, 0);*/
+			
 			//time = new Time(2, 9, 0, 0);
 			
 			Bundle b = getActivity().getIntent().getExtras();
@@ -254,9 +265,9 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        	}
 	        	
 	        	if(section.equals("1")) {
-	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, false, time);
+	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, false, cal);
 	        	} else {
-	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true, time);
+	        		arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true, cal);
 	        		
 	        		if(arr.isEmpty() == true) {
 	        			//Log.e("Arr is empty", "True");
@@ -266,14 +277,14 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        		}
 	        	}
 	        	
-	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwd, arr, time);
+	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwd, arr, cal);
 	        }
 	        else {
 	        	//Log.e("Without drugID/in sec", "True/" + section);
 	        	if(section.equals("1")) {
-	        		arr = db.getPharmaciesWithoutDrugId(loc, false, time);
+	        		arr = db.getPharmaciesWithoutDrugId(loc, false, cal);
 	        	} else {
-	        		arr = db.getPharmaciesWithoutDrugId(loc, true, time);
+	        		arr = db.getPharmaciesWithoutDrugId(loc, true, cal);
 	        		
 	        		if(arr.isEmpty() == true) {
 	        			//Log.e("Arr is empty", "True");
@@ -283,7 +294,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        		}
 	        	}
 	        	
-	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwod, arr, time);
+	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwod, arr, cal);
 	        }
 			
 	        db.close();
@@ -313,7 +324,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 						i.putExtra("id", ph.id);
 						i.putExtra("curLat", latitude);
 						i.putExtra("curLon", longitude);
-						i.putExtra("curDay", time.getCurrentDay());
+						i.putExtra("curDay", cal.get(Calendar.DAY_OF_WEEK)); //time.getCurrentDay()
 						startActivity(i);
 					}
 				});
