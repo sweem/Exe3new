@@ -49,7 +49,7 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		setContentView(R.layout.drugs);
 		
 		ActionBar actionBar = getActionBar();
-		actionBar.setSubtitle("Hitta läkemedel");
+		actionBar.setSubtitle("Välj läkemedel");
 		actionBar.setTitle("Hitta din medicin");
 		
 		db = new DBAdapter(this);
