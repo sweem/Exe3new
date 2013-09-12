@@ -33,7 +33,7 @@
         android:textStyle="bold"
         android:drawableTop="@drawable/ic_launcher"
         android:onClick="onClickPr" 
-        style="?android:attr/borderlessButtonStyle" />
+        style="?android:attr/borderlessButtonStyle"/>
 	
 	<Button
         android:id="@+id/btn3"
