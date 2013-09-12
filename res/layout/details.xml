@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF" 
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -142,7 +143,7 @@
         android:textSize="22sp"
         android:text="Adress" />
 	
-	<RelativeLayout 
+<RelativeLayout 
 	    android:orientation="horizontal"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
@@ -152,7 +153,8 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 			android:layout_marginTop="5dp" 
-	        android:textSize="18sp" />
+	        android:textSize="18sp"
+	        android:text="Testing 1" />
 		
 		<TextView 
 	        android:id="@+id/txtPCA"
@@ -160,7 +162,9 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginTop="5dp" 
 	        android:layout_below="@+id/txtA"
-	        android:textSize="18sp" />
+	        android:textSize="18sp"
+	        android:text="TEST" />
+
 	</RelativeLayout>
 	
 	<RelativeLayout
