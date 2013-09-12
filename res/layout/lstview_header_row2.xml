@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
     android:padding="15dp" >
 
     <ImageView
