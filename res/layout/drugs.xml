@@ -20,7 +20,7 @@
         android:id="@+id/txtDrugs"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" 
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:hint="Sök läkemedel" />
     
     <TextView
@@ -34,7 +34,7 @@
         android:id="@+id/spiType"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:drawSelectorOnTop="true" />
     
     <TextView
@@ -48,7 +48,7 @@
         android:id="@+id/spiPot"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:drawSelectorOnTop="true" />
     
     <TextView
@@ -62,7 +62,7 @@
         android:id="@+id/spiVol"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:drawSelectorOnTop="true" />
     
     <TextView
@@ -76,7 +76,7 @@
         android:id="@+id/spiNbr"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:drawSelectorOnTop="true" />
 
     <RelativeLayout
