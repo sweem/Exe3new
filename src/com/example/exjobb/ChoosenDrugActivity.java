@@ -14,13 +14,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -182,7 +179,7 @@ public class ChoosenDrugActivity extends Activity {
     				break;	
        		case 24: imgView.setImageResource(R.drawable.dru24);
     				break;	
-    		default: imgView.setImageResource(R.drawable.ic_launcher);
+    		default: imgView.setImageResource(R.drawable.nopic);
     	}
 	}
 
