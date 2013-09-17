@@ -18,7 +18,7 @@
         android:layout_marginTop="45dp"
         android:text="Hitta läkemedel"
         android:textStyle="bold"
-        android:drawableTop="@drawable/ic_launcher"
+        android:drawableTop="@drawable/tablett_ikon"
         android:onClick="onClickDr"
         style="?android:attr/borderlessButtonStyle" />
     
@@ -31,7 +31,7 @@
         android:layout_marginTop="45dp"
         android:text="Mina recept"
         android:textStyle="bold"
-        android:drawableTop="@drawable/ic_launcher"
+        android:drawableTop="@drawable/recept_ikon"
         android:onClick="onClickPr" 
         style="?android:attr/borderlessButtonStyle"/>
 	
@@ -44,7 +44,7 @@
         android:layout_marginTop="45dp"
         android:text="Hitta apotek"
         android:textStyle="bold"
-        android:drawableTop="@drawable/ic_launcher" 
+        android:drawableTop="@drawable/apotek_ikon" 
         android:onClick="onClickPh" 
         style="?android:attr/borderlessButtonStyle" />
 
