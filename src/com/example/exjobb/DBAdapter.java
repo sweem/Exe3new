@@ -3,17 +3,12 @@ package com.example.exjobb;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
-import android.location.LocationManager;
 import android.util.Log;
 
 public class DBAdapter {
@@ -300,7 +295,7 @@ public class DBAdapter {
     	
     }
     
-    public ArrayList<Pharmacy> getAllPharmacyIdWithDrugId2 (String dID, int nbr) {
+    public ArrayList<Pharmacy> getAllPharmacyIdWithDrugId (String dID, int nbr) {
     	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID, KEY_NBR}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, KEY_PID + " ASC");
     	ArrayList<Pharmacy> phids = new ArrayList<Pharmacy>();
     	

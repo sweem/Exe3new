@@ -24,7 +24,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -193,9 +192,9 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			//time = new Time();
 			cal = Calendar.getInstance();
 			
-			/*cal.set(Calendar.DAY_OF_WEEK, 3); //Change current day
+			/*cal.set(Calendar.DAY_OF_WEEK, 3); //Change current day*/
 	     	
-	    	cal.set(Calendar.HOUR_OF_DAY, 20); //Change current time
+	    	/*cal.set(Calendar.HOUR_OF_DAY, 20); //Change current time
 	     	cal.set(Calendar.MINUTE, 0);
 	     	cal.set(Calendar.SECOND, 0);
 	     	cal.set(Calendar.MILLISECOND, 0);*/
@@ -241,14 +240,14 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        String section = Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER));
 	        
 	        if(phWithoutDr == false) {
-	        	//Log.e("Without drugID", "True");
-	        	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
+	        	//Log.e("Without drugID", "False");
+	        	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
 	        	
 	        	if(pids.size() == 0) { //Drug couldn't be found - Out of stock or too few items in stock
-	        		pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 1);
+	        		pids = db.getAllPharmacyIdWithDrugId(choosenDrugID, 1);
 	        		if(pids.size() == 0) { //Drug out of stock
 	        			//Log.e("Drug out of stock. ", "" + pids.size());
-	        			pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, 0);
+	        			pids = db.getAllPharmacyIdWithDrugId(choosenDrugID, 0);
 	        			
 	        			if(section.equals("1")) {
 		        			Fragment2 dialogFragment = Fragment2.newInstance("Inga läkemedel tillgängliga", "Kontakta ett apotek för att beställa.");
