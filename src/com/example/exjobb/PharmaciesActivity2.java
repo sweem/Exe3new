@@ -171,7 +171,6 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 		double latitude;
 		double longitude;
 		boolean phWithoutDr, noOpenPh;
-		//Time time;
 		Calendar cal;
 		
 		public DummySectionFragment() {
@@ -189,17 +188,14 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 			ll = new MyLocationListener();
 			noOpenPh = false;
-			//time = new Time();
 			cal = Calendar.getInstance();
 			
-			/*cal.set(Calendar.DAY_OF_WEEK, 3); //Change current day*/
+			cal.set(Calendar.DAY_OF_WEEK, 3); //Change current day
 	     	
-	    	/*cal.set(Calendar.HOUR_OF_DAY, 20); //Change current time
+	    	cal.set(Calendar.HOUR_OF_DAY, 9); //Change current time
 	     	cal.set(Calendar.MINUTE, 0);
 	     	cal.set(Calendar.SECOND, 0);
-	     	cal.set(Calendar.MILLISECOND, 0);*/
-			
-			//time = new Time(2, 9, 0, 0);
+	     	cal.set(Calendar.MILLISECOND, 0);
 			
 			Bundle b = getActivity().getIntent().getExtras();
 			phWithoutDr = b.getBoolean("phWithoutDr");
