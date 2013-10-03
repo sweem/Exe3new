@@ -2,8 +2,6 @@ package com.example.exjobb;
 
 import java.util.Comparator;
 
-import android.util.Log;
-
 public class OrderBySize implements Comparator<String> {//3 x 30 st is not included here
 	@Override
 	public int compare(String lhs, String rhs) {
