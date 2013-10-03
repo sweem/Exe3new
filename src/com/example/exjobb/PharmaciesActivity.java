@@ -16,13 +16,9 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class PharmaciesActivity extends Activity {
@@ -90,7 +86,7 @@ public class PharmaciesActivity extends Activity {
         
         if(phWithoutDr == false) {
         	//Log.e("PhWithourDr time for sql", "false");
-        	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId2(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
+        	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
         	arr = db.getPharmaciesWithDrugId(choosenDrugID, nbrOfDrug, pids, loc, true, cal); //time
         }
         else {
