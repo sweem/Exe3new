@@ -1,9 +1,6 @@
 package com.example.exjobb;
 
 import java.util.Calendar;
-import java.util.Date;
-
-import android.util.Log;
 
 public class Pharmacy {
 	public String id;
