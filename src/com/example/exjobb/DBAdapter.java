@@ -201,7 +201,7 @@ public class DBAdapter {
     	Cursor c;
     	
     	int curDay = cal.get(Calendar.DAY_OF_WEEK); //time.getCurrentDay(); //getCurrentDay();
-       	Log.e("Curday in dbAdapter", "" + curDay);
+       	//Log.e("Curday in dbAdapter", "" + curDay);
     	String curTime = getCurrentTime(cal); //time.getCurrentTime(); //getCurrentTime();
     	
     	
@@ -255,7 +255,7 @@ public class DBAdapter {
     	Cursor c;
     	
     	int curDay = cal.get(Calendar.DAY_OF_WEEK); //time.getCurrentDay(); //getCurrentDay();
-    	Log.e("Curday in dbAdapter", "" + curDay);
+    	//Log.e("Curday in dbAdapter", "" + curDay);
     	String curTime = getCurrentTime(cal); //time.getCurrentTime(); //getCurrentTime();
     	
     	if(onlyOpenPh == true) {//Only open pharmacies
@@ -399,7 +399,7 @@ public class DBAdapter {
     		currentTime.append("0");
     	currentTime.append(sec);
     	
-    	Log.e("Curtime in dbAdapter", currentTime.toString());
+    	//Log.e("Curtime in dbAdapter", currentTime.toString());
     	
 		return currentTime.toString();
     }
