@@ -11,6 +11,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.location.Location;
 import android.util.Log;
 
+/*
+* DBAdapter is a helper class to handle the database.
+*/
+
 public class DBAdapter {
     /*static final String KEY_ROWID = "_id";
     static final String KEY_NAME = "name";
@@ -73,6 +77,10 @@ public class DBAdapter {
     DatabaseHelper DBHelper;
     SQLiteDatabase db;
     
+    /*
+    * Constructor.
+    */
+    
     public DBAdapter(Context ctx) {
         this.context = ctx;
         DBHelper = new DatabaseHelper(context);
@@ -105,25 +113,41 @@ public class DBAdapter {
         }
     }
 
-    //---opens the database---
+    /*
+     * Opens the database.
+     */
     public DBAdapter open() throws SQLException {
         db = DBHelper.getWritableDatabase();
         return this;
     }
 
-    //---closes the database---
+    /*
+     * Closes the database.
+     */
     public void close() {
         DBHelper.close();
     }
+    
+    /*
+    * Retrieves a drug with a particular drugID.
+    */
     
     public Cursor getDrug(String drugID) {
     	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY, KEY_MANUFACTURER, KEY_SUBSTANCE, KEY_PACKAGING, KEY_LEAFLETURL}, KEY_ROWID + "=?", new String[] {drugID}, null, null, null);
     	return c;
     }
     
+    /*
+    * Retrives all drugs.
+    */
+    
     public Cursor getAllDrugs() {
         return db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID, KEY_DNAME, KEY_TYPE, KEY_POTENCY, KEY_SIZE, KEY_PREFERENTIALPRICE, KEY_PRESCRIPTIONONLY}, null, null, null, null, null);
     }
+    
+    /*
+    * Retrieves an ArrayList of strings for all drugnames.
+    */
         
     public ArrayList<String> getAllDrugNames() {
     	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_DNAME}, null, null, KEY_DNAME, null, null);
@@ -142,6 +166,10 @@ public class DBAdapter {
     	return drugs;
     }
     
+    /*
+    * Restrieves an Arraylist of strings for all types with a particular drug name.
+    */
+    
     public ArrayList<String> getAllTypes(String drugName) {
     	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_TYPE}, KEY_DNAME + "=?", new String[] {drugName}, KEY_TYPE, null, KEY_TYPE + " ASC");
     	ArrayList<String> types = new ArrayList<String>();
@@ -158,6 +186,10 @@ public class DBAdapter {
     	
     	return types;
     }
+    
+    /*
+    * Retrieves an ArrayList of strings for all strengths with a particular drug name and type.
+    */
     
     public ArrayList<String> getAllStrengths(String drugName, String type) {
     	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_POTENCY}, KEY_DNAME + "=? and " + KEY_TYPE + "=?", new String[] {drugName, type}, KEY_POTENCY, null, null);
@@ -179,6 +211,10 @@ public class DBAdapter {
     	return strengths;
     }
     
+    /*
+    * Retrieves an ArrayList of strings for all sizes with a particular drug name, type and potency. 
+    */
+    
     public ArrayList<String> getAllSizes(String drugName, String type, String potency) {
     	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_SIZE}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=?", new String[] {drugName, type, potency}, KEY_SIZE, null, null);
     	ArrayList<String> sizes = new ArrayList<String>();
@@ -196,6 +232,10 @@ public class DBAdapter {
     	
     	return sizes;
     }
+    
+    /*
+    * Retrives an ArrayList of pharmacies for all pharmacies with a particular drugID depending on number, location, open or closed and calendar.
+    */
     
     public ArrayList<Pharmacy> getPharmaciesWithDrugId(String dID, int nbr, ArrayList<Pharmacy> pIDs, Location loc, boolean onlyOpenPh, Calendar cal) {
     	Cursor c;
@@ -251,6 +291,10 @@ public class DBAdapter {
     	return reduceArr(pharmacies);
     }
     
+    /*
+    * Retrives an ArrayList of pharmacies for all pharmacies depending on location, open or closed and calendar.
+    */
+    
     public ArrayList<Pharmacy> getPharmaciesWithoutDrugId(Location loc, boolean onlyOpenPh, Calendar cal) {
     	Cursor c;
     	
@@ -295,6 +339,10 @@ public class DBAdapter {
     	
     }
     
+    /*
+    * Retrives an ArrayList of pharmacies for all pharmacyid's with a particular drug id and number.
+    */
+    
     public ArrayList<Pharmacy> getAllPharmacyIdWithDrugId (String dID, int nbr) {
     	Cursor c = db.query(DATABASE_TABLE_ST, new String[] {KEY_PID, KEY_NBR}, KEY_DID + "=? and " + KEY_NBR + ">= " + nbr, new String[] {dID}, null, null, KEY_PID + " ASC");
     	ArrayList<Pharmacy> phids = new ArrayList<Pharmacy>();
@@ -310,6 +358,10 @@ public class DBAdapter {
     	
     	return phids;
     }
+    
+    /*
+    * Get a drugID as string with drugname, type, potency and size. 
+    */
 
     public String getDrugRowId(String drugName, String type, String potency, String size) {
     	Cursor c = db.query(DATABASE_TABLE_DR, new String[] {KEY_ROWID}, KEY_DNAME + "=? and " + KEY_TYPE + "=? and " + KEY_POTENCY + "=? and " + KEY_SIZE + "=?", new String[] {drugName, type, potency, size}, null, null, null);
@@ -323,6 +375,10 @@ public class DBAdapter {
     	
     	return id;
     }
+    
+    /*
+    * Get a pharmacy with pharmacyid.
+    */
     
     public Pharmacy getPharmacyWithId(String id) {
     	Cursor c = db.query(DATABASE_TABLE_PH, new String[] {KEY_CHNAME, KEY_PHNAME, KEY_ADDRESS, KEY_PCODE, KEY_PAREA, KEY_WPAGE, KEY_PNBR, KEY_OPHWD, KEY_CLHWD, KEY_OPHSAT, KEY_CLHSAT, KEY_OPHSUN, KEY_CLHSUN, KEY_LAT, KEY_LON}, KEY_ROWID + "=?", new String[] {id}, null, null, null);
@@ -371,6 +427,10 @@ public class DBAdapter {
     	return cal.get(Calendar.DAY_OF_WEEK);
     }*/
     
+    /*
+     * Retrieves an reduced ArrayList of pharmacies to be showed in the listview.
+     */
+    
     private ArrayList<Pharmacy> reduceArr(ArrayList<Pharmacy> arr) { //Max 5 shown pharmacies in list
     	if(arr.size()> 5) {
 	    	ArrayList<Pharmacy> tmp = new ArrayList<Pharmacy>();
@@ -382,6 +442,10 @@ public class DBAdapter {
     	else
     		return arr;
     }
+    
+    /*
+     * Returns current time as a string with a calendar.
+     */
     
     public String getCurrentTime(Calendar cal) {  	
     	StringBuffer currentTime = new StringBuffer();
