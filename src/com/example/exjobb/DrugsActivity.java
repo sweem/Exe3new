@@ -22,6 +22,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 
+/*
+ * The DrugsActivity gets attributes about the selected drug from the database with
+ * the helper class DBADApter.
+ */
+
 public class DrugsActivity extends Activity implements OnItemSelectedListener {
 	ArrayList<String> drugs;
 	ArrayList<String> types;
@@ -162,17 +167,7 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				/*if(s.length() == 1 && choosenDru != null) {
-					Log.e("Empty array", "True");
-					typAdapter.clear();
-					strAdapter.clear();
-					volAdapter.clear();
-					nbrAdapter.clear();
-					choosenDrugID = null;
-					choosenNbr = 0;
-				}*/
-				
+					int count) {				
 				if((count != before) && choosenDru != null) {
 					//Log.e("Drug doesn't exist", "True");
 					typAdapter.clear();
@@ -188,7 +183,10 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		db.close();
 	}
 	
-
+	/*
+	 * Handles the selection events for the spinners when attribute is selected. Fills them with attributes and empties them when needed. 
+	 */
+	
 	@Override
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		db.open();
@@ -196,7 +194,7 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		int posObj = arg0.getSelectedItemPosition();
 		
 		switch(spiId) {
-			case R.id.spiType:	//Toast.makeText(getBaseContext(), "You clicked on typeSpinner", Toast.LENGTH_SHORT).show();
+			case R.id.spiType:	
 								choosenTyp = types.get(posObj);
 								strengths = db.getAllStrengths(choosenDru, choosenTyp);
 								strAdapter.clear();
@@ -256,6 +254,10 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		db.close();
 	}
 
+	/*
+	 * Handles the selection events for the spinners when selection disappears from the attribute. 
+	 */
+	
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
 		// TODO Auto-generated method stub
@@ -271,6 +273,10 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		return tmp;
 	}
 
+    /*
+     * Copy the database from the assets folder into the database folder.
+     */
+    
 	public void CopyDB(InputStream inputStream, 
     OutputStream outputStream) throws IOException {
         //---copy 1K bytes at a time---
@@ -283,27 +289,24 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
         outputStream.close();
     }
 	
+	/*
+	 * When the next button is clicked ChoosedDrugActivity with extra data is started if a drug has been choosen.
+	 */
+	
 	public void onClickNext(View view) {
 		db.open();
 		
 		if (choosenDrugID != null && choosenNbr > 0) {
-			//Intent i = new Intent(this, PharmaciesActivity2.class);
 			Intent i = new Intent(this, ChoosenDrugActivity.class);
-			/*choosenDrugID = "9"; //Which drug to search for
-			choosenNbr = 1;*/ //Nbr of search drug
 			i.putExtra("drugID", choosenDrugID);
-			//Log.e("drugID", choosenDrugID);
 			i.putExtra("nbrOfDrug", choosenNbr);
-			//Log.e("nbrofdrug", "" + choosenNbr);
 			i.putExtra("phWithoutDr", false);
 			startActivity(i);
 		} else {
 			if(druTV.length() == 0) { //AutoCompleteTextView is empty
-				//Log.e("druTv is empty", "true");
 				Fragment1 dialogFragment = Fragment1.newInstance("Välj läkemedel", "Inget valt läkemedel.");
 				dialogFragment.show(getFragmentManager(), "dialog");
 			} else { //Invalid drugName
-				//Log.e("druTv is empty", "false");
 				Fragment1 dialogFragment = Fragment1.newInstance("Välj läkemedel", "Valt läkemedel finns ej.");
 				dialogFragment.show(getFragmentManager(), "dialog");
 			}
@@ -312,12 +315,9 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		db.close();
 	}
 	
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.drugs, menu);
-		return true;
-	}*/
+	/*
+	 * Is performed when OK-button is clicked in the Fragment.
+	 */
 	
 	public void doPositiveClick() {
 		//Log.d("DrugsActivity", "User clicks on OK");
