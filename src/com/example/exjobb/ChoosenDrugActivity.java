@@ -22,6 +22,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/*
+ * Information about the drug is shown.
+ */
+
 public class ChoosenDrugActivity extends Activity {
 	String choosenDrugID;
 	int choosenNbr;
@@ -126,6 +130,10 @@ public class ChoosenDrugActivity extends Activity {
     	sb.append(link);
     	ClickableSpan cs = new ClickableSpan() {
 
+    		/*
+    		 * More information about the drug is shown.
+    		 */
+    		
 			@Override
 			public void onClick(View arg0) {
 				Intent i = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
@@ -183,17 +191,12 @@ public class ChoosenDrugActivity extends Activity {
     	}
 	}
 
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.choosen_drug, menu);
-		return true;
-	}*/
-
+	/*
+	 * When next button is clicked PharmaciesActivity2 is started with an intent. Extra data is passed with the intent.
+	 */
+	
 	public void onClickNext(View view) {
 		Intent i = new Intent(this, PharmaciesActivity2.class);
-		/*choosenDrugID = "9"; //Which drug to search for
-		choosenNbr = 1;*/ //Nbr of search drug
 		i.putExtra("drugID", choosenDrugID);
 		Log.e("drugid", choosenDrugID);
 		i.putExtra("nbrOfDrug", choosenNbr);
@@ -202,6 +205,10 @@ public class ChoosenDrugActivity extends Activity {
 		startActivity(i);
 		finish();
 	}
+	
+	/*
+	 * Copy the database from the assets folder into the database folder.
+	 */
 	
 	public void CopyDB(InputStream inputStream, OutputStream outputStream) throws IOException {
 		//---copy 1K bytes at a time---
