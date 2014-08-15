@@ -2,6 +2,10 @@ package com.example.exjobb;
 
 import java.util.Comparator;
 
+/*
+ * The drug strengthes are sorted here.
+ */
+
 public class OrderByStrength implements Comparator<String> {//500 mg/30mg, 24 mg/ml ect is not included here.
 	@Override
 	public int compare(String lhs, String rhs) {
