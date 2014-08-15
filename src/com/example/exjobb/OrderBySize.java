@@ -2,6 +2,10 @@ package com.example.exjobb;
 
 import java.util.Comparator;
 
+/*
+ * The drug sizes are sorted in order here.
+ */
+
 public class OrderBySize implements Comparator<String> {//3 x 30 st is not included here
 	@Override
 	public int compare(String lhs, String rhs) {
