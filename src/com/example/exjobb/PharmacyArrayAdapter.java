@@ -12,12 +12,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/*
+ * My own PharmacyArrayAdapter for my list of pharmacies to be displayed.
+ */
+
 public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 	Context context;
 	int iconId;
 	ArrayList<Pharmacy> pharmacies;
 	//Time time;
 	Calendar cal;
+	
+	/*
+	 * Constructor.
+	 */
 	
 	public PharmacyArrayAdapter(Context context, int iconId, ArrayList<Pharmacy> pharmacies, Calendar cal) {
 		super(context, iconId, pharmacies);
@@ -68,6 +76,10 @@ public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
 			holder.txtStock.setText(ph.getNbrOfDrug());
 		return rowView;
 	}
+	
+	/*
+	* PharmacyChoiceHolder is a static inner class that holds references to all inner views from a row.
+	*/
 	
 	static class PharmacyChoiceHolder {
 		ImageView imgIcon;
