@@ -6,6 +6,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 
+/*
+ * The MainActivity with three choices (buttons) - Hitta läkemedel, Mina recept and Hitta apotek.
+ */
+
 public class MainActivity extends Activity {
 	
 	@Override
@@ -14,32 +18,29 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 		
 		ActionBar actionBar = getActionBar();
-		//actionBar.setSubtitle("Undermeny");
 		actionBar.setTitle("Hitta din medicin");
-		
-		/*Button btn1 = (Button) findViewById(R.id.btn1);
-		btn1.setBackgroundColor(Color.WHITE);
-		Button btn2 = (Button) findViewById(R.id.btn2);
-		btn2.setBackgroundColor(Color.WHITE);
-		Button btn3 = (Button) findViewById(R.id.btn3);
-		btn3.setBackgroundColor(Color.WHITE);*/
 		
 	}
 	
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}*/
+	/*
+	 * When clicked DrugsActivity is started.
+	 */
 	
 	public void onClickDr(View view) {
 		startActivity(new Intent(MainActivity.this, DrugsActivity.class));
 	}
 	
+	/*
+	 * When clicked LoginActivity is started.
+	 */
+	
 	public void onClickPr(View view) {
 		startActivity(new Intent(MainActivity.this, LoginActivity.class));
 	}
+	
+	/*
+	 * When clicked PharmaciesActivity2 is started and data is passed with an intent.
+	 */
 	
 	public void onClickPh(View view) {
 		Intent i = new Intent(MainActivity.this, PharmaciesActivity2.class);
