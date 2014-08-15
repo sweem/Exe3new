@@ -16,6 +16,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+/*
+ * DetailsActivity shows details (like opening hours, contact information and address) about the selected pharmacy.
+ */
+
 public class DetailsActivity extends Activity {
 	DBAdapter db;
 	String id;
@@ -98,18 +102,19 @@ public class DetailsActivity extends Activity {
 		tvPCA.setText(ph.getPostalAC());
 	}
 
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.details, menu);
-		return true;
-	}*/
+	/*
+	 * If performed when the button is clicked. The GPS is started.
+	 */
 	
 	public void onClickDirections(View view) {
 		Intent i = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + curLat + "," + curLon + "&daddr=" + ph.lat + "," + ph.lon));
 		startActivity(i);
 		//finish();
 	}
+	
+    /*
+     * Copy the database from the assets folder into the database folder.
+     */
 	
 	public void CopyDB(InputStream inputStream, 
 		    OutputStream outputStream) throws IOException {
