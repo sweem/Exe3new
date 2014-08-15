@@ -6,6 +6,10 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+/*
+ * Displaying an activity as an dialog.
+ */
+
 public class Fragment1 extends DialogFragment {
 	static Fragment1 newInstance(String title, String message) {
 		Fragment1 fragment = new Fragment1();
@@ -16,6 +20,10 @@ public class Fragment1 extends DialogFragment {
 		return fragment;
 	}
 	
+	/*
+	 * Is performed when the showDialog() method is called.
+	 */
+	
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		String title = getArguments().getString("title");
 		String message = getArguments().getString("message");
@@ -25,20 +33,16 @@ public class Fragment1 extends DialogFragment {
 		.setMessage(message)
 		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			
+			/*
+			 * Is performed when the user clicks ok.
+			 */
+			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				((DrugsActivity) getActivity()).doPositiveClick();
 				
 			}
 		}).create();
-		/*.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				((DrugsActivity) getActivity()).doNegativeClick();
-				
-			}
-		}).create();*/
 	}
 }
 
