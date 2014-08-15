@@ -31,6 +31,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/*
+ * PharmaciesAcitivity2 shows pharmacies that are either just open (in the tab open) or some open and some closed (in the tab all).  
+ */
+
 public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.TabListener {
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -86,17 +90,12 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 		}
 	}
 
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.pharmacies_activity2, menu);
-		return true;
-	}*/
-
+	/*
+	 * When the given tab is selected, switch to the corresponding page in the ViewPager.
+	 */
+	
 	@Override
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
 		mViewPager.setCurrentItem(tab.getPosition());
 	}
 
@@ -150,8 +149,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	}
 
 	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
+	 * A fragment representing a section of the app, but that simply displays pharmacies.
 	 */
 	public static class DummySectionFragment extends Fragment {
 		/**
@@ -181,6 +179,12 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			View rootView = inflater.inflate(R.layout.fragment_pharmacies22, container, false);
 			return rootView;
 		}
+		
+		/*
+		 * Called when the activity's onCreate() method has been returned. Gets information from the database with the helper class
+		 * DBAdapter and fills the tabs with it depending on where is is called from (phWithoutDr) - directly from MainActivity or 
+		 * ChoosenDrugActivity, the users current position and day.
+		 */
 		
 		public void onActivityCreated (Bundle savedInstanceState) {
 			super.onActivityCreated(savedInstanceState);
@@ -235,7 +239,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	                
 	        String section = Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER));
 	        
-	        if(phWithoutDr == false) {
+	        if(phWithoutDr == false) { //Without drugID
 	        	//Log.e("Without drugID", "False");
 	        	ArrayList<Pharmacy> pids = db.getAllPharmacyIdWithDrugId(choosenDrugID, nbrOfDrug); //Finds all pharmacyid and nbr of drug with drugid
 	        	
@@ -274,7 +278,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 	        	
 	        	adapter = new PharmacyArrayAdapter(getActivity(), R.layout.lstview_item_rowwd, arr, cal);
 	        }
-	        else {
+	        else { //With drugID
 	        	//Log.e("Without drugID/in sec", "True/" + section);
 	        	if(section.equals("1")) {
 	        		arr = db.getPharmaciesWithoutDrugId(loc, false, cal);
@@ -339,6 +343,10 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			lm.removeUpdates(ll);
 		}
 		
+	    /*
+	     * Copy the database from the assets folder into the database folder.
+	     */
+		
 		public void CopyDB(InputStream inputStream, OutputStream outputStream) throws IOException {
 			        //---copy 1K bytes at a time---
 			        byte[] buffer = new byte[1024];
@@ -378,7 +386,11 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 		}
 	}
 
+	/*
+	 * Is performed when OK-button is clicked in the Fragment.
+	 */
+	
 	public void doPositiveClick() {
-		Log.d("PharmacieActivity2", "User clicks on OK");
+		//Log.d("PharmacieActivity2", "User clicks on OK");
 	}
 }
