@@ -2,6 +2,12 @@ package com.example.exjobb;
 
 import java.util.Calendar;
 
+/*
+ * The class Pharmacy contains information about every pharmacy such as id, name of chain, name of pharmacy, address, postal code, postal area, url, phonenumber, 
+ * opening hours on weekdays, closing hours on weekdays, opening hours on saturdays, closing hours on saturdays, opening hours on sundays, closing hours on sundays, 
+ * the pharmacy's latitude, the pharmacy's longitude, distance to pharmacy, icon id and number of drugs.
+ */
+
 public class Pharmacy {
 	public String id;
 	public String chName;
@@ -23,6 +29,10 @@ public class Pharmacy {
 	public int iconId;
 	public String nbrOfDrug;
 	
+	/*
+	 * Contructor.
+	 */
+	
 	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String webPage, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude) {
 		super();
 		this.id = rID;
@@ -43,6 +53,10 @@ public class Pharmacy {
 		this.lon = longitude;
 		nbrOfDrug = null;
 	}
+	
+	/*
+	 * Contructor.
+	 */
 	
 	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String webPage, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude, float distToPharmacy) {
 		super();
@@ -66,6 +80,10 @@ public class Pharmacy {
 		nbrOfDrug = null;
 	}
 	
+	/*
+	 * Contructor.
+	 */
+	
 	public Pharmacy(String rID, String chainName, String pharmacyName, String address, String postalCode, String postalArea, String webPage, String phoneNbr, String openingHoursWD, String closingHoursWD, String openingHoursSAT, String closingHoursSAT, String openingHoursSUN, String closingHoursSUN, String latitude, String longitude, float distToPharmacy, String nbr) {
 		super();
 		this.id = rID;
@@ -88,11 +106,19 @@ public class Pharmacy {
 		this.nbrOfDrug = nbr;
 	}
 	
+	/*
+	 * Contructor.
+	 */
+	
 	public Pharmacy(String rID, String nbr) {
 		super();
 		this.id = rID;
 		this.nbrOfDrug = nbr;
 	}
+	
+	/*
+	 * Gets number of drug.
+	 */
 	
 	public String getNbrOfDrug() {
 		if(nbrOfDrug == null) {
@@ -105,6 +131,10 @@ public class Pharmacy {
 			return nbrOfDrug + " st tillgänglig";
 		}
 	}
+	
+	/*
+	 * Gets distance to pharmacy.
+	 */
 	
 	public String getDistance() {
 		StringBuffer sb = new StringBuffer();
@@ -127,9 +157,17 @@ public class Pharmacy {
 		return sb.toString();
 	}
 	
+	/*
+	 * Set distance to pharmacy
+	 */
+	
 	public void setDistance(float dist) {
 		distToPh = dist;
 	}
+	
+	/*
+	 * Gets today's opening hours.
+	 */
 	
 	public String getOpeningHoursToday(Calendar cal) { //Time time	
 		Calendar cur = cal; //time.getCal(); //Calendar.getInstance();
@@ -220,6 +258,10 @@ public class Pharmacy {
 		return sb.toString();
 	}
 	
+	/*
+	 * Gets opening hours for weekdays.
+	 */
+	
 	public String getOpeningHoursWD() {
 		StringBuffer sb = new StringBuffer();
 		if(opHWD.equals("Closed") && clHWD.equals("Closed")) {
@@ -232,6 +274,10 @@ public class Pharmacy {
 		}
 		return sb.toString();
 	}
+	
+	/*
+	 * Gets opening hours for saturdays.
+	 */
 	
 	public String getOpeningHoursSAT() {
 		StringBuffer sb = new StringBuffer();
@@ -246,6 +292,10 @@ public class Pharmacy {
 		return sb.toString();
 	}
 	
+	/*
+	 * Gets opening hours for sundays.
+	 */
+	
 	public String getOpeningHoursSUN() {
 		StringBuffer sb = new StringBuffer();
 		if(opHSUN.equals("Closed") && clHSUN.equals("Closed")) {
@@ -259,9 +309,17 @@ public class Pharmacy {
 		return sb.toString();
 	}
 	
+	/*
+	 * Gets the pharmacys name.
+	 */
+	
 	public String getPharmacyName() {
 		return phName;
 	}
+	
+	/*
+	 * Set correct icon for pharmacy.
+	 */
 	
 	public void setIcon() {
 		if(chName.equals("Apoteket")) {
@@ -293,21 +351,41 @@ public class Pharmacy {
 		}
 	}
 	
+	/*
+	 * Gets icon.
+	 */
+	
 	public int getIcon() {
 		return iconId;
 	}
+	
+	/*
+	 * Gets url to webpage.
+	 */
 	
 	public String getWebPage() {
 		return wPage;
 	}
 	
+	/*
+	 * Gets phonenumber.
+	 */
+	
 	public String getPhoneNbr() {
 		return pNbr;
 	}
 	
+	/*
+	 * Gets address.
+	 */
+	
 	public String getAddress() {
 		return addr;
 	}
+	
+	/*
+	 * Gets postal address.
+	 */
 	
 	public String getPostalAC() {
 		StringBuffer sb = new StringBuffer();
