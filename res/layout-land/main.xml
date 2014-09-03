@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity2" >
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Hitta läkemedel"
+        android:textStyle="bold"
+        android:drawableTop="@drawable/tablett_ikon"
+        android:onClick="onClickDr"
+        style="?android:attr/borderlessButtonStyle" />
+    
+	<Button
+        android:id="@+id/btn2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn1"
+        android:layout_below="@+id/btn1"
+        android:layout_marginTop="5dp"
+        android:text="Mina recept"
+        android:textStyle="bold"
+        android:drawableTop="@drawable/recept_ikon"
+        android:onClick="onClickPr" 
+        style="?android:attr/borderlessButtonStyle"/>
+	
+	<Button
+        android:id="@+id/btn3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn2"
+        android:layout_below="@+id/btn2"
+        android:layout_marginTop="5dp"
+        android:text="Hitta apotek"
+        android:textStyle="bold"
+        android:drawableTop="@drawable/apotek_ikon" 
+        android:onClick="onClickPh" 
+        style="?android:attr/borderlessButtonStyle" />
+
+</RelativeLayout>

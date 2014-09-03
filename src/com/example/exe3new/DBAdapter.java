@@ -1,4 +1,4 @@
-package com.example.exjobb;
+package com.example.exe3new;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,63 +19,63 @@ public class DBAdapter {
     /*static final String KEY_ROWID = "_id";
     static final String KEY_NAME = "name";
     static final String KEY_EMAIL = "email";*/
-	static final String KEY_ROWID = "_id";
+	private static final String KEY_ROWID = "_id";
 	
-	static final String KEY_DNAME = "drug_name";
-	static final String KEY_TYPE = "type";
-	static final String KEY_POTENCY = "potency";
-	static final String KEY_SIZE = "size";
-	static final String KEY_PREFERENTIALPRICE = "preferential_price";
-	static final String KEY_PRESCRIPTIONONLY = "prescription_only";
-	static final String KEY_MANUFACTURER = "manufacturer";
-	static final String KEY_SUBSTANCE = "substance";
-	static final String KEY_PACKAGING = "packaging";
-	static final String KEY_LEAFLETURL = "leaflet_url";
+	private static final String KEY_DNAME = "drug_name";
+	private static final String KEY_TYPE = "type";
+	private static final String KEY_POTENCY = "potency";
+	private static final String KEY_SIZE = "size";
+	private static final String KEY_PREFERENTIALPRICE = "preferential_price";
+	private static final String KEY_PRESCRIPTIONONLY = "prescription_only";
+	private static final String KEY_MANUFACTURER = "manufacturer";
+	private static final String KEY_SUBSTANCE = "substance";
+	private static final String KEY_PACKAGING = "packaging";
+	private static final String KEY_LEAFLETURL = "leaflet_url";
 	
-	static final String KEY_CHNAME = "chain_name";
-	static final String KEY_PHNAME = "pharmacy_name";
-	static final String KEY_ADDRESS = "address";
-	static final String KEY_PCODE = "postal_code";
-	static final String KEY_PAREA = "postal_area";
-	static final String KEY_WPAGE = "web_page";
-	static final String KEY_PNBR = "phone_nbr";
-	static final String KEY_OPHWD = "opening_hours_wd";
-	static final String KEY_CLHWD = "closing_hours_wd";
-	static final String KEY_OPHSAT = "opening_hours_sat";
-	static final String KEY_CLHSAT = "closing_hours_sat";
-	static final String KEY_OPHSUN = "opening_hours_sun";
-	static final String KEY_CLHSUN = "closing_hours_sun";
-	static final String KEY_LAT = "latitude";
-	static final String KEY_LON = "longitude";
+	private static final String KEY_CHNAME = "chain_name";
+	private static final String KEY_PHNAME = "pharmacy_name";
+	private static final String KEY_ADDRESS = "address";
+	private static final String KEY_PCODE = "postal_code";
+	private static final String KEY_PAREA = "postal_area";
+	private static final String KEY_WPAGE = "web_page";
+	private static final String KEY_PNBR = "phone_nbr";
+	private static final String KEY_OPHWD = "opening_hours_wd";
+	private static final String KEY_CLHWD = "closing_hours_wd";
+	private static final String KEY_OPHSAT = "opening_hours_sat";
+	private static final String KEY_CLHSAT = "closing_hours_sat";
+	private static final String KEY_OPHSUN = "opening_hours_sun";
+	private static final String KEY_CLHSUN = "closing_hours_sun";
+	private static final String KEY_LAT = "latitude";
+	private static final String KEY_LON = "longitude";
 	
-	static final String KEY_DID = "drug_id";
-	static final String KEY_PID = "pharmacy_id";
-	static final String KEY_NBR = "number";
-	static final String KEY_PRICE = "price";
+	private static final String KEY_DID = "drug_id";
+	private static final String KEY_PID = "pharmacy_id";
+	private static final String KEY_NBR = "number";
+	private static final String KEY_PRICE = "price";
 	
-    static final String TAG = "DBAdapter";
+	private static final String TAG = "DBAdapter";
 
-    static final String DATABASE_NAME = "MyDB";
-    static final String DATABASE_TABLE_DR = "drugs";
-    static final String DATABASE_TABLE_PH = "pharmacies"; 
-    static final String DATABASE_TABLE_ST = "stock";
-    static final int DATABASE_VERSION = 6;
+	private static final String DATABASE_NAME = "MyDB";
+	private static final String DATABASE_TABLE_DR = "drugs";
+	private static final String DATABASE_TABLE_PH = "pharmacies"; 
+	private static final String DATABASE_TABLE_ST = "stock";
+	private static final int DATABASE_VERSION = 6;
 
-    static final String DATABASE_CREATE_DR =
+	private static final String DATABASE_CREATE_DR =
     		"create table drugs (_id integer primary key autoincrement, "
     		+ "drug_name text not null, type text not null, potency text not null, size text not null, preferential_price text not null, prescription_only text not null, manufacturer text not null, substance text not null, packaging text not null, leaflet_url text not null);";
     
-    static final String DATABASE_CREATE_PH =
+	private static final String DATABASE_CREATE_PH =
     		"create table pharmacies (_id integer primary key autoincrement, "
     		+ "chain_name text not null, pharmacy_name text not null, address text not null, postal_code text not null, postal_area text not null, web_page text not null, phone_nbr text not null, opening_hours_wd text not null, closing_hours_wd not null, opening_hours_sat text not null, closing_hours_sat text not null, opening_hours_sun text not null, closing_hour_sun text not null, latitude text not null, longtitude text not null);";
     
-    static final String DATABASE_CREATE_ST = 
+	private static final String DATABASE_CREATE_ST = 
     		"create table stock (drug_id integer not null, pharmacy_id integer not null, number text not null, price text not null, FOREGIN KEY(drug_id) REFERENCES drugs(_id), FOREGIN KEY(pharmacy_id) REFERENCES pharmacies(_id));";
     
-    final Context context;
+	private final Context context;
 
-    DatabaseHelper DBHelper;
-    SQLiteDatabase db;
+	private DatabaseHelper DBHelper;
+    private SQLiteDatabase db;
     
     /*
     * Constructor.
@@ -248,11 +248,11 @@ public class DBAdapter {
     	StringBuffer queryIN = new StringBuffer(" in(");
     	for(int i = 0; i < pIDs.size()-1; i++) {
     		//queryIN.append(pIDs.get(i) + ",");
-    		queryIN.append(pIDs.get(i).id + ",");
+    		queryIN.append(pIDs.get(i).getId() + ","); //pIDs.get(i).id
     	}
     	
     	//queryIN.append(pIDs.get(pIDs.size()-1));
-    	queryIN.append(pIDs.get(pIDs.size()-1).id);
+    	queryIN.append(pIDs.get(pIDs.size()-1).getId()); //pIDs.get(pIDs.size()-1).id
     	queryIN.append(")");
     	
     	if(onlyOpenPh == true) {
@@ -279,7 +279,7 @@ public class DBAdapter {
             	locPh.setLatitude(Double.parseDouble(c.getString(14)));
             	locPh.setLongitude(Double.parseDouble(c.getString(15)));
             	float dist = loc.distanceTo(locPh);
-            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), c.getString(15), dist, pIDs.get(i).nbrOfDrug);
+            	Pharmacy ph = new Pharmacy(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getString(8), c.getString(9), c.getString(10), c.getString(11), c.getString(12), c.getString(13), c.getString(14), c.getString(15), dist, pIDs.get(i).getNbrOfDrug2()); //pIDs.get(i).nbrOfDrug
             	ph.setIcon();
             	pharmacies.add(ph);
             	i++;

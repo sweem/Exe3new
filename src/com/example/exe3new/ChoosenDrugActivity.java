@@ -1,4 +1,4 @@
-package com.example.exjobb;
+package com.example.exe3new;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,12 +27,13 @@ import android.widget.TextView;
  */
 
 public class ChoosenDrugActivity extends Activity {
-	String choosenDrugID;
-	int choosenNbr;
-	Boolean phWithoutDr;
-	DBAdapter db;
-	Cursor drug;
-	String dName, typ, pot, siz, pref, pres, man, sub, pak, url;
+	private String choosenDrugID;
+	private int choosenNbr;
+	private Boolean phWithoutDr;
+	private DBAdapter db;
+	private Cursor drug;
+	private String dName, typ, pot, siz, pref, pres, man, sub, pak, url;
+	private CopyDB copyDB;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,24 +61,8 @@ public class ChoosenDrugActivity extends Activity {
 		actionBar.setTitle("Hitta din medicin");
 		
 		db = new DBAdapter(this);
-        try {
-            String destPath = "/data/data/" + getPackageName() +
-                "/databases";
-            File f = new File(destPath);
-            if (!f.exists()) {            	
-            	f.mkdirs();
-                f.createNewFile();
-            	
-            	//---copy the db from the assets folder into 
-            	// the databases folder---
-                CopyDB(getBaseContext().getAssets().open("mydb"),
-                    new FileOutputStream(destPath + "/MyDB"));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		copyDB = new CopyDB(getBaseContext().getAssets(), getPackageName());
+		copyDB.tryCopyDB();
        
         db.open();
 		drug = db.getDrug(choosenDrugID);
@@ -204,20 +189,5 @@ public class ChoosenDrugActivity extends Activity {
 		i.putExtra("phWithoutDr", false);
 		startActivity(i);
 		finish();
-	}
-	
-	/*
-	 * Copy the database from the assets folder into the database folder.
-	 */
-	
-	public void CopyDB(InputStream inputStream, OutputStream outputStream) throws IOException {
-		//---copy 1K bytes at a time---
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = inputStream.read(buffer)) > 0) {
-			outputStream.write(buffer, 0, length);
-		}
-		inputStream.close();
-		outputStream.close();
 	}
 }

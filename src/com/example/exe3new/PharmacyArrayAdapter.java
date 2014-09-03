@@ -1,4 +1,4 @@
-package com.example.exjobb;
+package com.example.exe3new;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,11 +17,11 @@ import android.widget.TextView;
  */
 
 public class PharmacyArrayAdapter extends ArrayAdapter<Pharmacy> {
-	Context context;
-	int iconId;
-	ArrayList<Pharmacy> pharmacies;
+	private Context context;
+	private int iconId;
+	private ArrayList<Pharmacy> pharmacies;
 	//Time time;
-	Calendar cal;
+	private Calendar cal;
 	
 	/*
 	 * Constructor.

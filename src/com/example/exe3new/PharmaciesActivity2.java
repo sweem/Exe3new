@@ -1,4 +1,4 @@
-package com.example.exjobb;
+package com.example.exe3new;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -157,19 +157,20 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 		 * fragment.
 		 */
 		public static final String ARG_SECTION_NUMBER = "section_number";	
-		double dist;
 		private ListView lstView;
 		private TextView txtView;
-		DBAdapter db;
-		String choosenDrugID;
-		int nbrOfDrug;
+		private DBAdapter db;
+		private String choosenDrugID;
+		private int nbrOfDrug;
 		
-		LocationManager lm;
-		LocationListener ll;
-		double latitude;
-		double longitude;
-		boolean phWithoutDr, noOpenPh;
-		Calendar cal;
+		private LocationManager lm;
+		private LocationListener ll;
+		private double latitude;
+		private double longitude;
+		private boolean phWithoutDr, noOpenPh;
+		private Calendar cal;
+		
+		private CopyDB copyDB;
 		
 		public DummySectionFragment() {
 		}
@@ -213,23 +214,8 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			}*/
 			
 			db = new DBAdapter(getActivity());
-	        try {
-	            String destPath = "/data/data/" + getActivity().getPackageName() + "/databases";
-	            File f = new File(destPath);
-	            if (!f.exists()) {            	
-	            	f.mkdirs();
-	                f.createNewFile();
-	            	
-	            	//---copy the db from the assets folder into 
-	            	// the databases folder---
-	                CopyDB(getActivity().getAssets().open("mydb"),
-	                    new FileOutputStream(destPath + "/MyDB"));
-	            }
-	        } catch (FileNotFoundException e) {
-	            e.printStackTrace();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
+			copyDB = new CopyDB(getActivity().getAssets(), getActivity().getPackageName());
+			copyDB.tryCopyDB();
 	       
 	        db.open();
 			
@@ -320,7 +306,7 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 				        longitude = loc.getLongitude();
 				        latitude = loc.getLatitude();
 						Intent i = new Intent(getActivity(), DetailsActivity.class);
-						i.putExtra("id", ph.id);
+						i.putExtra("id", ph.getId()); //ph.id
 						i.putExtra("curLat", latitude);
 						i.putExtra("curLon", longitude);
 						i.putExtra("curDay", cal.get(Calendar.DAY_OF_WEEK)); //time.getCurrentDay()
@@ -341,21 +327,6 @@ public class PharmaciesActivity2 extends FragmentActivity implements ActionBar.T
 			super.onPause();
 			
 			lm.removeUpdates(ll);
-		}
-		
-	    /*
-	     * Copy the database from the assets folder into the database folder.
-	     */
-		
-		public void CopyDB(InputStream inputStream, OutputStream outputStream) throws IOException {
-			        //---copy 1K bytes at a time---
-			        byte[] buffer = new byte[1024];
-			        int length;
-			        while ((length = inputStream.read(buffer)) > 0) {
-			            outputStream.write(buffer, 0, length);
-			        }
-			        inputStream.close();
-			        outputStream.close();
 		}
 		
 		private class MyLocationListener implements LocationListener {

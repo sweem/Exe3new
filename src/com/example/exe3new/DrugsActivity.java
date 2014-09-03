@@ -1,4 +1,4 @@
-package com.example.exjobb;
+package com.example.exe3new;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,23 +28,24 @@ import android.widget.Spinner;
  */
 
 public class DrugsActivity extends Activity implements OnItemSelectedListener {
-	ArrayList<String> drugs;
-	ArrayList<String> types;
-	ArrayList<String> strengths;
-	ArrayList<String> volumes;
-	ArrayList<Integer> nbr;
-	ArrayAdapter<String> typAdapter;
-	ArrayAdapter<String> strAdapter;
-	ArrayAdapter<String> volAdapter;
-	ArrayAdapter<Integer> nbrAdapter;
-	Spinner typSpinner, strSpinner, volSpinner, nbrSpinner;
-	String choosenDru, choosenTyp, choosenStr, choosenVol;
-	int choosenNbr;
-	String choosenDrugID;
-	DBAdapter db;
-	int currSelT, currSelS, currSelV, currSelN;
-	boolean drugOutOfStock;
-	AutoCompleteTextView druTV;
+	private ArrayList<String> drugs;
+	private ArrayList<String> types;
+	private ArrayList<String> strengths;
+	private ArrayList<String> volumes;
+	private ArrayList<Integer> nbr;
+	private ArrayAdapter<String> typAdapter;
+	private ArrayAdapter<String> strAdapter;
+	private ArrayAdapter<String> volAdapter;
+	private ArrayAdapter<Integer> nbrAdapter;
+	private Spinner typSpinner, strSpinner, volSpinner, nbrSpinner;
+	private String choosenDru, choosenTyp, choosenStr, choosenVol;
+	private int choosenNbr;
+	private String choosenDrugID;
+	private DBAdapter db;
+	private int currSelT, currSelS, currSelV, currSelN;
+	private boolean drugOutOfStock;
+	private AutoCompleteTextView druTV;
+	private CopyDB copyDB;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,24 +57,8 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		actionBar.setTitle("Hitta din medicin");
 		
 		db = new DBAdapter(this);
-        try {
-            String destPath = "/data/data/" + getPackageName() +
-                "/databases";
-            File f = new File(destPath);
-            if (!f.exists()) {            	
-            	f.mkdirs();
-                f.createNewFile();
-            	
-            	//---copy the db from the assets folder into 
-            	// the databases folder---
-                CopyDB(getBaseContext().getAssets().open("mydb"),
-                    new FileOutputStream(destPath + "/MyDB"));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		copyDB = new CopyDB(getBaseContext().getAssets(), getPackageName());
+		copyDB.tryCopyDB();
        
         db.open();
         
@@ -272,22 +257,6 @@ public class DrugsActivity extends Activity implements OnItemSelectedListener {
 		}
 		return tmp;
 	}
-
-    /*
-     * Copy the database from the assets folder into the database folder.
-     */
-    
-	public void CopyDB(InputStream inputStream, 
-    OutputStream outputStream) throws IOException {
-        //---copy 1K bytes at a time---
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = inputStream.read(buffer)) > 0) {
-            outputStream.write(buffer, 0, length);
-        }
-        inputStream.close();
-        outputStream.close();
-    }
 	
 	/*
 	 * When the next button is clicked ChoosedDrugActivity with extra data is started if a drug has been choosen.

@@ -1,4 +1,4 @@
-package com.example.exjobb;
+package com.example.exe3new;
 
 import java.util.Calendar;
 
@@ -9,25 +9,25 @@ import java.util.Calendar;
  */
 
 public class Pharmacy {
-	public String id;
-	public String chName;
-	public String phName;
-	public String addr;
-	public String pCode;
-	public String pArea;
-	public String wPage;
-	public String pNbr;
-	public String opHWD;
-	public String clHWD;
-	public String opHSAT;
-	public String clHSAT;
-	public String opHSUN;
-	public String clHSUN;
-	public String lat;
-	public String lon;
-	public float distToPh;
-	public int iconId;
-	public String nbrOfDrug;
+	private String id;
+	private String chName;
+	private String phName;
+	private String addr;
+	private String pCode;
+	private String pArea;
+	private String wPage;
+	private String pNbr;
+	private String opHWD;
+	private String clHWD;
+	private String opHSAT;
+	private String clHSAT;
+	private String opHSUN;
+	private String clHSUN;
+	private String lat;
+	private String lon;
+	private float distToPh;
+	private int iconId;
+	private String nbrOfDrug;
 	
 	/*
 	 * Contructor.
@@ -130,6 +130,14 @@ public class Pharmacy {
 		else {
 			return nbrOfDrug + " st tillgänglig";
 		}
+	}
+	
+	/*
+	 * Gets number of drug.
+	 */
+	
+	public String getNbrOfDrug2() {
+		return nbrOfDrug;
 	}
 	
 	/*
@@ -393,5 +401,37 @@ public class Pharmacy {
 		sb.append(" ");
 		sb.append(pArea.toUpperCase());
 		return sb.toString();
+	}
+	
+	/*
+	 * Gets id.
+	 */
+	
+	public String getId() {
+		return id;
+	}
+	
+	/*
+	 * Gets distance to pharmacy.
+	 */
+	
+	public float getDistToPh() {
+		return distToPh;
+	}
+	
+	/*
+	 * Gets longitude.
+	 */
+	
+	public String getLon() {
+		return lon;
+	}
+	
+	/*
+	 * Gets latitude.
+	 */
+	
+	public String getLat() {
+		return lat;
 	}
 }

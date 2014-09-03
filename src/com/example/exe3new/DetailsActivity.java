@@ -1,4 +1,4 @@
-package com.example.exjobb;
+package com.example.exe3new;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,12 +21,13 @@ import android.widget.TextView;
  */
 
 public class DetailsActivity extends Activity {
-	DBAdapter db;
-	String id;
-	double curLat, curLon;
-	Pharmacy ph;
-	TextView tvPN;
-	int curDay;
+	private DBAdapter db;
+	private String id;
+	private double curLat, curLon;
+	private Pharmacy ph;
+	private TextView tvPN;
+	private int curDay;
+	private CopyDB copyDB;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +50,8 @@ public class DetailsActivity extends Activity {
 		TextView tvWP = (TextView) findViewById(R.id.txtWP);
 		
 		db = new DBAdapter(this);
-        try {
-            String destPath = "/data/data/" + getPackageName() + "/databases";
-            File f = new File(destPath);
-            if (!f.exists()) {            	
-            	f.mkdirs();
-                f.createNewFile();
-            	
-            	//---copy the db from the assets folder into 
-            	// the databases folder---
-                CopyDB(getBaseContext().getAssets().open("mydb"), new FileOutputStream(destPath + "/MyDB"));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		copyDB = new CopyDB(getBaseContext().getAssets(), getPackageName());
+		copyDB.tryCopyDB();
        
         db.open();
         //day = db.getCurrentDay();
@@ -107,24 +94,8 @@ public class DetailsActivity extends Activity {
 	 */
 	
 	public void onClickDirections(View view) {
-		Intent i = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + curLat + "," + curLon + "&daddr=" + ph.lat + "," + ph.lon));
+		Intent i = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?saddr=" + curLat + "," + curLon + "&daddr=" + ph.getLat() + "," + ph.getLon())); //ph.lat + "," + ph.lon
 		startActivity(i);
 		//finish();
-	}
-	
-    /*
-     * Copy the database from the assets folder into the database folder.
-     */
-	
-	public void CopyDB(InputStream inputStream, 
-		    OutputStream outputStream) throws IOException {
-		        //---copy 1K bytes at a time---
-		        byte[] buffer = new byte[1024];
-		        int length;
-		        while ((length = inputStream.read(buffer)) > 0) {
-		            outputStream.write(buffer, 0, length);
-		        }
-		        inputStream.close();
-		        outputStream.close();
 	}
 }

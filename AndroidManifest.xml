@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.exjobb"
+    package="com.example.exe3new"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.exjobb.MainActivity"
+            android:name="com.example.exe3new.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.exjobb.LoginActivity"
+            android:name="com.example.exe3new.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
@@ -38,23 +38,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.exjobb.DrugsActivity"
+            android:name="com.example.exe3new.DrugsActivity"
             android:label="@string/title_activity_drugs" >
         </activity>
         <activity
-            android:name="com.example.exjobb.DBAdapter"
+            android:name="com.example.exe3new.DBAdapter"
             android:label="@string/title_activity_dbadapter" >
         </activity>
         <activity
-            android:name="com.example.exjobb.DetailsActivity"
+            android:name="com.example.exe3new.DetailsActivity"
             android:label="@string/title_activity_details" >
         </activity>
         <activity
-            android:name="com.example.exjobb.PharmaciesActivity2"
+            android:name="com.example.exe3new.PharmaciesActivity2"
             android:label="@string/title_activity_pharmacies_activity2" >
         </activity>
         <activity
-            android:name="com.example.exjobb.ChoosenDrugActivity"
+            android:name="com.example.exe3new.ChoosenDrugActivity"
             android:label="@string/title_activity_choosen_drug" >
         </activity>
     </application>
