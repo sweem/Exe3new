@@ -1,0 +1,117 @@
+<ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+    
+    <LinearLayout
+       	android:layout_width="match_parent"
+	    android:layout_height="match_parent" 
+	    android:background="#FFFFFF"
+		android:paddingBottom="@dimen/activity_vertical_margin"
+		android:paddingLeft="@dimen/activity_horizontal_margin"
+		android:paddingRight="@dimen/activity_horizontal_margin"
+		android:paddingTop="@dimen/activity_vertical_margin"
+		tools:context=".ChoosenDrugActivity" >
+    
+		<RelativeLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent" >
+		
+		    <TextView
+		        android:id="@+id/txtDrugName"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textStyle="bold"
+		        android:textSize="24sp" />
+		    
+			<TextView
+		        android:id="@+id/txtManuf"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/txtDrugName"
+		        android:textSize="12sp" />
+		    
+		    <TextView
+		        android:id="@+id/txtTyPoSi"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="10dp"
+		        android:layout_below="@+id/txtManuf"
+		        android:textSize="16sp" />
+		    
+			<TextView
+		        android:id="@+id/txtSubHeader"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="15dp"
+		        android:layout_below="@+id/txtTyPoSi"
+		        android:text="Aktiv substans:" 
+		        android:textStyle="bold"
+		        android:textSize="16sp" />
+			
+			<TextView
+		        android:id="@+id/txtSub"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/txtSubHeader"
+		        android:textSize="16sp" />
+			
+			<TextView
+			    android:id="@+id/txtPreOnly"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignBaseline="@+id/txtSub"
+		    android:layout_alignBottom="@+id/txtSub"
+			    android:layout_alignParentRight="true"
+			    android:textSize="16sp"
+			    android:textStyle="italic" />
+		    
+		 	<TextView
+		        android:id="@+id/txtPriceHeader"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="15dp"
+		        android:layout_below="@+id/txtPreOnly"
+		        android:text="Förmånspris med recept:" 
+		        android:textSize="16sp"
+		        android:textStyle="bold" />
+		 	
+			<TextView
+		        android:id="@+id/txtInfo"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="15dp"
+		        android:layout_below="@+id/txtPrice"
+		        android:textSize="14sp" />
+		    
+			<Button
+		        android:id="@+id/btnFind"
+		        android:layout_width="100dp"
+		        android:layout_height="50dp"
+		        android:layout_alignParentBottom="true"
+		        android:layout_centerHorizontal="true"
+		        android:text="Sök" 
+		        android:onClick="onClickNext" />
+		
+			<TextView
+			    android:id="@+id/txtPrice"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignLeft="@+id/txtPriceHeader"
+			    android:layout_below="@+id/txtPriceHeader"
+			    android:textSize="16sp" />
+		
+			<ImageView
+			    android:id="@+id/imgDru"
+		        android:layout_width="200dp"
+		        android:layout_height="200dp"
+			    android:layout_above="@+id/btnFind"
+			    android:layout_marginTop="15dp"
+			    android:layout_marginBottom="15dp"
+			    android:layout_centerHorizontal="true"
+			    android:layout_below="@+id/txtInfo" />
+		
+			</RelativeLayout>
+		</LinearLayout>
+</ScrollView>
